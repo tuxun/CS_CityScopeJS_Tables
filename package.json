@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/RELNO/CityScopeJS_Walk/issues"
   },
-  "homepage": "https://github.com/RELNO/CityScopeJS_Walk#readme"
+  "homepage": "https://github.com/RELNO/CityScopeJS_Walk#readme",
+  "dependencies": {
+    "three": "^0.94.0",
+    "three-orbitcontrols": "^2.1.2"
+  }
 }
