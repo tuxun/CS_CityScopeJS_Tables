@@ -1,0 +1,19 @@
+{
+  "name": "18_walkjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RELNO/CityScopeJS_Walk.git"
+  },
+  "author": "Ariel Noyman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RELNO/CityScopeJS_Walk/issues"
+  },
+  "homepage": "https://github.com/RELNO/CityScopeJS_Walk#readme"
+}
