@@ -55,20 +55,14 @@ export function threeInit() {
 
     /////////////// LIGHTS ///////////////////////
     //Create a PointLight and turn on shadows for the light
-    light = new THREE.PointLight("white", 1, 100);
+
+    var light = new THREE.PointLight(0xffffff, 20, 1000);
     light.position.set(10, 10, 10);
-    light.up = new THREE.Vector3(0, 1, 1);
-    light.lookAt(new THREE.Vector3(0, 0, 0));
-    light.castShadow = true; // default false
     scene.add(light);
-    //Set up shadow properties for the light
-    light.shadow.mapSize.width = 512; // default
-    light.shadow.mapSize.height = 512; // default
-    light.shadow.camera.near = 1; // default
-    light.shadow.camera.far = 500; // default
-    lightAmb = new THREE.AmbientLight("white", 1);
-    // Add the light to the scene
-    scene.add(lightAmb);
+
+    ////AXIS GRID HELPERS
+    let axes = new THREE.AxesHelper(100);
+    scene.add(axes);
 
     //make goemtry
     scene.add(makeGrid(5, 5));
