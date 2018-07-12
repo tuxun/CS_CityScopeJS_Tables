@@ -11,7 +11,8 @@ export function threeInit() {
   var scene;
   var renderer;
   var controls;
-  var gridX, gridY;
+  var gridX = 20;
+  var gridY = 20;
 
   ///////////////SETUP SCENE///////////////////////
   let threeDiv = document.createElement("div");
@@ -66,7 +67,7 @@ export function threeInit() {
     scene.add(axes);
 
     //make grid geom
-    (gridX = 10), (gridY = 20);
+
     let grid = makeGrid(gridX, gridY);
     scene.add(grid);
 
