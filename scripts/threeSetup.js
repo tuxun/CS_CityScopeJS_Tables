@@ -1,6 +1,6 @@
 import * as THREE from "THREE";
 import OrbitControls from "three-orbitcontrols";
-import { makeGrid } from "./threeGeom.js";
+import { makeGrid } from "./makeGrid.js";
 
 export function threeInit() {
   //three vars
@@ -46,7 +46,7 @@ export function threeInit() {
         1,
         10000
       );
-      camera.position.set(2, 2, 2);
+      camera.position.set(20, 20, 20);
     }
     //SUPER IMPORTANT: renderer.domElement solves DAT.GUI
     // issue with drop downmenu not reposniding
@@ -56,8 +56,8 @@ export function threeInit() {
     /////////////// LIGHTS ///////////////////////
     //Create a PointLight and turn on shadows for the light
 
-    var light = new THREE.PointLight(0xffffff, 20, 1000);
-    light.position.set(10, 10, 10);
+    var light = new THREE.PointLight(0xffffff, 1, 1000);
+    light.position.set(30, 30, 30);
     scene.add(light);
 
     ////AXIS GRID HELPERS
@@ -65,7 +65,7 @@ export function threeInit() {
     scene.add(axes);
 
     //make goemtry
-    scene.add(makeGrid(5, 5));
+    scene.add(makeGrid(30, 30));
   }
 
   //loop

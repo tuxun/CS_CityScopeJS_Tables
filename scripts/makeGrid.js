@@ -3,7 +3,7 @@ import * as THREE from "THREE";
 /////////////// GEOMETRY  ///////////////////////
 export function makeGrid(sizeX, sizeY) {
   // global holder for theme colors
-  var colors = [
+  var allCols = [
     "rgb(237, 80, 102)",
     "rgb(244, 130, 125)",
     "rgb(244, 185, 158)",
@@ -19,6 +19,13 @@ export function makeGrid(sizeX, sizeY) {
     "rgb(38, 60, 58)",
     "rgb(20, 24, 26)"
   ];
+  var colors = [
+    "rgb(237, 80, 102)",
+    "rgb(253, 202, 162)",
+    "rgb(163, 191, 162)",
+    "rgb(128, 173, 169)"
+  ];
+  var names = ["W", "L", "G", "P"];
 
   var cellSize = 1;
   var cellGap = 0.8;
@@ -28,26 +35,31 @@ export function makeGrid(sizeX, sizeY) {
   var material = null;
   //get center of model for camera
   var thisCol = null;
+  var thisName = null;
   for (var x = 0; x < sizeX; x++) {
     for (var y = 0; y < sizeY; y++) {
+      // color
+      thisCol = colors[Math.floor(Math.random() * colors.length)];
+      thisName = names[Math.floor(Math.random() * names.length)];
+
       geometry = new THREE.BoxBufferGeometry(
         cellSize * cellGap,
-        2,
+        1,
         cellSize * cellGap
       );
-      // color
-      thisCol = Math.floor(Math.random() * colors.length);
       //
       material = new THREE.MeshStandardMaterial({
         color: thisCol
       });
       //
       mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set(x * cellSize, 1, y * cellSize);
+      mesh.position.set(x * cellSize, 0.5, y * cellSize);
+      mesh.name = thisName;
       mesh.castShadow = true; //default is false
       mesh.receiveShadow = true; //default
       grid.add(mesh);
     }
   }
+
   return grid;
 }
