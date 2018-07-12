@@ -1,6 +1,9 @@
+// fixes Uncaught ReferenceError: regeneratorRuntime is not defined
+import "babel-polyfill";
 import * as THREE from "THREE";
 import OrbitControls from "three-orbitcontrols";
 import { makeGrid } from "./makeGrid.js";
+import * as GRID from "./searchNearest.js";
 
 export function threeInit() {
   //three vars
@@ -8,6 +11,7 @@ export function threeInit() {
   var scene;
   var renderer;
   var controls;
+  var gridX, gridY;
 
   ///////////////SETUP SCENE///////////////////////
   let threeDiv = document.createElement("div");
@@ -62,8 +66,15 @@ export function threeInit() {
     scene.add(axes);
 
     //make grid geom
-    let grid = makeGrid(30, 30);
+    (gridX = 10), (gridY = 20);
+    let grid = makeGrid(gridX, gridY);
     scene.add(grid);
+
+    document.body.addEventListener("keyup", function(e) {
+      if (e.keyCode === 65) {
+        GRID.searchNearest(grid, gridX, gridY);
+      }
+    });
   }
 
   //loop
