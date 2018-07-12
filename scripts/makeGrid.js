@@ -1,24 +1,10 @@
 import * as THREE from "THREE";
+import { SpriteText2D, textAlign } from "three-text2d";
 
 /////////////// GEOMETRY  ///////////////////////
 export function makeGrid(sizeX, sizeY) {
   // global holder for theme colors
-  var allCols = [
-    "rgb(237, 80, 102)",
-    "rgb(244, 130, 125)",
-    "rgb(244, 185, 158)",
-    "rgb(253, 202, 162)",
-    "rgb(246, 236, 212)",
-    "rgb(204, 217, 206)",
-    "rgb(165, 187, 185)",
-    "rgb(163, 191, 162)",
-    "rgb(128, 173, 169)",
-    "rgb(102, 138, 135)",
-    "rgb(64, 86, 84)",
-    "rgb(38, 60, 58)",
-    "rgb(38, 60, 58)",
-    "rgb(20, 24, 26)"
-  ];
+
   var colors = [
     "rgb(237, 80, 102)",
     "rgb(253, 202, 162)",
@@ -26,7 +12,7 @@ export function makeGrid(sizeX, sizeY) {
     "rgb(128, 173, 169)"
   ];
   var names = ["W", "L", "G", "P"];
-
+  let count = 0;
   var cellSize = 1;
   var cellGap = 0.8;
   var mesh = null;
@@ -57,7 +43,20 @@ export function makeGrid(sizeX, sizeY) {
       mesh.name = thisName;
       mesh.castShadow = true; //default is false
       mesh.receiveShadow = true; //default
+
+      let string = count.toString();
+      var text = new SpriteText2D(string.toString(), {
+        align: textAlign.center,
+        font: "50px arial",
+        fillStyle: thisCol,
+        antialias: true
+      });
+      text.scale.set(0.01, 0.01, 0.01);
+      text.position.y = mesh.position.y + 2;
+      mesh.add(text);
+
       grid.add(mesh);
+      count++;
     }
   }
 

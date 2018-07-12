@@ -7,8 +7,6 @@ export function threeInit() {
   var camera;
   var scene;
   var renderer;
-  var light;
-  var lightAmb;
   var controls;
 
   ///////////////SETUP SCENE///////////////////////
@@ -38,7 +36,6 @@ export function threeInit() {
     threeDiv.appendChild(renderer.domElement);
 
     /////////////// CAMERA ///////////////////////
-    //set up the camera
     if (camera === undefined) {
       camera = new THREE.PerspectiveCamera(
         70,
@@ -48,8 +45,8 @@ export function threeInit() {
       );
       camera.position.set(20, 20, 20);
     }
-    //SUPER IMPORTANT: renderer.domElement solves DAT.GUI
-    // issue with drop downmenu not reposniding
+    //IMPORTANT: renderer.domElement solves DAT.GUI
+    //issue with drop downmenu not reposniding
     controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 0, 0); //center of andorra models
 
@@ -64,8 +61,9 @@ export function threeInit() {
     let axes = new THREE.AxesHelper(100);
     scene.add(axes);
 
-    //make goemtry
-    scene.add(makeGrid(30, 30));
+    //make grid geom
+    let grid = makeGrid(30, 30);
+    scene.add(grid);
   }
 
   //loop
