@@ -18,4 +18,4 @@ var allCols = [
 ];
 
 //call threejs setup onload
-window.onload = threeSetup.threeInit;
+threeSetup.threeInit();
