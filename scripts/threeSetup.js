@@ -11,8 +11,8 @@ export function threeInit() {
   var scene;
   var renderer;
   var controls;
-  var gridX = 50;
-  var gridY = 50;
+  var gridX = 20;
+  var gridY = 20;
 
   ///////////////SETUP SCENE///////////////////////
   let threeDiv = document.createElement("div");
@@ -35,7 +35,7 @@ export function threeInit() {
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.setSize(600, 600);
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
     //put to div
     threeDiv.appendChild(renderer.domElement);

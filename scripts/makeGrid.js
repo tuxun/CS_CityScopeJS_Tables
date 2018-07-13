@@ -3,8 +3,6 @@ import { SpriteText2D, textAlign } from "three-text2d";
 
 /////////////// GEOMETRY  ///////////////////////
 export function makeGrid(sizeX, sizeY) {
-  // global holder for theme colors
-
   var names = ["W", "L", "G", "P"];
   var colors = [0xff4233, 0xf9ff33, 0x6aa84f, 0x3d85c6];
   var count = 0;
@@ -18,12 +16,21 @@ export function makeGrid(sizeX, sizeY) {
   var thisCol = null;
   var thisName = null;
   var randNum;
+  ///
+  var tmpCounterP = 0;
 
   for (var x = 0; x < sizeX; x++) {
     for (var y = 0; y < sizeY; y++) {
-      randNum = Math.floor(Math.random() * names.length);
+      if (tmpCounterP > Math.sqrt(sizeX * sizeY)) {
+        randNum = Math.floor(Math.random() * (names.length - 1));
+      } else {
+        randNum = Math.floor(Math.random() * names.length);
+      }
 
-      //color
+      if (randNum === 3) {
+        tmpCounterP++;
+      }
+
       thisName = names[randNum];
 
       geometry = new THREE.BoxBufferGeometry(
