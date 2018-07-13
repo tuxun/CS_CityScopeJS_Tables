@@ -11,8 +11,8 @@ export function threeInit() {
   var scene;
   var renderer;
   var controls;
-  var gridX = 20;
-  var gridY = 20;
+  var gridX = 50;
+  var gridY = 50;
 
   ///////////////SETUP SCENE///////////////////////
   let threeDiv = document.createElement("div");
@@ -57,10 +57,8 @@ export function threeInit() {
 
     /////////////// LIGHTS ///////////////////////
     //Create a PointLight and turn on shadows for the light
-
-    var light = new THREE.PointLight(0xffffff, 1, 1000);
-    light.position.set(30, 30, 30);
-    scene.add(light);
+    var ambLight = new THREE.AmbientLight(0xffffff, 2); // soft white light
+    scene.add(ambLight);
 
     ////AXIS GRID HELPERS
     let axes = new THREE.AxesHelper(100);

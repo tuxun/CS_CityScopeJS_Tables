@@ -1,82 +1,59 @@
 // https://medium.com/@lachlantweedie/animation-in-three-js-using-tween-js-with-examples-c598a19b1263
-
 import * as THREE from "THREE";
+import { tweenCol, tweenVector3 } from "./tween";
 var TWEEN = require("@tweenjs/tween.js");
 
 export function searchNearest(grid, x, y) {
-  console.log(x, y);
-
   var typeArr = [];
   for (let i = 0; i < grid.children.length; i++) {
     if (grid.children[i].name === "P") {
-      grid.children[i].material.color.set("red");
+      grid.children[i].material.color.set("white");
       //find cells around [WIP]
-      typeArr.push([
-        grid.children[i + x],
-        grid.children[i + y],
-        grid.children[i - x],
-        grid.children[i - y]
-      ]);
+      typeArr.push([grid.children[i + 1], grid.children[i - 1]]);
+    } else {
+      grid.children[i].material.color.set(0x000000);
     }
   }
-  paintNeighbor(typeArr);
+  vizNeigbhor(typeArr);
 }
 
-async function paintNeighbor(typeArr) {
+async function vizNeigbhor(typeArr) {
   for (let i = 0; i < typeArr.length; i++) {
     typeArr[i].forEach(e => {
-      if (e != null) {
-        /* How to use */
-        var target = new THREE.Color(0, 255, 0);
-        animCol(e.material.color, target, {
-          duration: 1000,
-          easing: TWEEN.Easing.Quadratic.InOut,
-          update: function(d) {
-            // console.log("Updating: " + d);
-          },
-          callback: function() {
-            // console.log("Completed");
-          }
-        });
+      if (e != null && e.name != "P") {
+        // cellPos(e);
+        cellColor(e);
       }
     });
   }
 }
+//color  for each cell
 
-// async function tweenThis(e) {
-//   var t1 = new TWEEN.Tween(e.material.color)
-//     .to({ r: 0, g: 255, b: 0 }, 5000)
-//     .easing(TWEEN.Easing.Quadratic.InOut)
-//     .start();
-// }
-
-/* Animates a Vector3 to the target */
-function animCol(colToAnim, targetCol, options) {
-  options = options || {};
-  // get targets from options or set to defaults
-  var to = targetCol || THREE.Color(),
-    easing = options.easing || TWEEN.Easing.Quadratic.In,
-    duration = options.duration || 2000;
-  // create the tween
-  var tweenVector3 = new TWEEN.Tween(colToAnim)
-    .to({ r: to.r, g: to.g, b: to.b }, duration)
-    .easing(easing)
-    .onUpdate(function(d) {
-      if (options.update) {
-        options.update(d);
-      }
-    })
-    .onComplete(function() {
-      if (options.callback) options.callback();
-    });
-  // start the tween
-  tweenVector3.start();
-  // return the tween in case we want to manipulate it later on
-  return tweenVector3;
+function cellColor(e) {
+  var target = new THREE.Color(0xa1ff00);
+  tweenCol(e.material.color, target, {
+    duration: Math.floor(Math.random() * 5000),
+    easing: TWEEN.Easing.Quadratic.InOut,
+    update: function(d) {
+      // console.log("Updating: " + d);
+    },
+    callback: function() {
+      // console.log("Completed");
+    }
+  });
 }
-
-function animate(time) {
-  requestAnimationFrame(animate);
-  TWEEN.update(time);
+//postion for each cell
+function cellPos(e) {
+  /* How to use */
+  var target = new THREE.Vector3(e.position.x, e.position.y + 1, e.position.z); // create on init
+  tweenVector3(e.position, target, {
+    duration: 5000,
+    easing: TWEEN.Easing.Quadratic.InOut,
+    update: function(d) {
+      // console.log("Updating: " + d);
+    },
+    callback: function() {
+      // console.log("Completed");
+    }
+  });
 }
-requestAnimationFrame(animate);
