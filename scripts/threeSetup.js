@@ -12,8 +12,7 @@ export function threeInit() {
   var renderer;
   var controls;
   /////////////////////////////////////
-  var thisType = "P";
-  var searchType = "L";
+
   var gridX = 20;
   var gridY = 20;
 
@@ -69,8 +68,22 @@ export function threeInit() {
   /////////////////////////////////////////////
   //interact for now
   document.body.addEventListener("keyup", function(e) {
-    if (e.keyCode === 65) {
-      GRID.searchNearest(thisType, searchType, grid, gridX, gridY);
+    switch (e.keyCode) {
+      //look for this keys
+      case 71:
+      case 76:
+      case 80:
+      case 87:
+        GRID.searchNearest(
+          String.fromCharCode(e.keyCode),
+          "P",
+          grid,
+          gridX,
+          gridY
+        );
+        break;
+      default:
+        break;
     }
   });
 
