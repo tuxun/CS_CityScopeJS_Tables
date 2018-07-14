@@ -4,7 +4,7 @@
   "description": "CityScopeJS Walkability API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "parcel index.html"
   },
   "repository": {
     "type": "git",

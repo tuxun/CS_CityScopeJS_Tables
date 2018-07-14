@@ -35,21 +35,24 @@ export function makeGrid(sizeX, sizeY) {
       mesh.position.set(x * cellSize, 0.05, y * cellSize);
       mesh.name = thisName;
       //make text over cell
-      let string = thisName + " " + count.toString();
-      var text = new SpriteText2D(string.toString(), {
-        align: textAlign.center,
-        font: "50px arial",
-        fillStyle: thisCol,
-        antialias: true
-      });
+      let text = textMaker(thisName, thisCol, count);
       text.scale.set(0.005, 0.005, 0.005);
       text.position.y = mesh.position.y + 0.5;
       mesh.add(text);
-
       grid.add(mesh);
       count++;
     }
   }
-
   return grid;
+}
+
+function textMaker(thisName, thisCol, count) {
+  let string = thisName + " " + count.toString();
+  var text = new SpriteText2D(string.toString(), {
+    align: textAlign.center,
+    font: "50px arial",
+    fillStyle: thisCol,
+    antialias: true
+  });
+  return text;
 }
