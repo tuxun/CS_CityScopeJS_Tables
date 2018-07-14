@@ -1,6 +1,6 @@
 // https://medium.com/@lachlantweedie/animation-in-three-js-using-tween-js-with-examples-c598a19b1263
 import * as THREE from "THREE";
-import { tweenCol, tweenVector3 } from "./tweenModules";
+import { tweenCol } from "./tweenModules";
 var TWEEN = require("@tweenjs/tween.js");
 
 export function searchNearest(thisType, searchType, grid, x, y) {
@@ -8,62 +8,54 @@ export function searchNearest(thisType, searchType, grid, x, y) {
 
   for (let i = 0; i < grid.children.length; i++) {
     if (grid.children[i].name === thisType) {
-      grid.children[i].material.color.set("white");
       //find cells around [WIP]
       typeArr.push([
+        // this brick
+        grid.children[i],
+        //bricks around
         grid.children[i + 1],
         grid.children[i - 1],
         grid.children[i + x],
         grid.children[i - x]
       ]);
     } else {
-      grid.children[i].material.color.set(0x000000);
+      grid.children[i].material.color.set(0x181818);
     }
   }
   vizNeigbhor(typeArr);
-
+  ////////////////////////////////////////
   async function vizNeigbhor(typeArr) {
     for (let i = 0; i < typeArr.length; i++) {
       let d = 0;
       typeArr[i].forEach(e => {
         if (e != null && e.name != thisType && e.name == searchType) {
           d++;
-          // cellPos(e);
           cellColor(e, 0xa1ff00, 5000);
+        } else if (e != null && e.name != thisType) {
         }
       });
-      // console.log(i + ")" + d / typeArr[i].length);
+      typeArr[i][0].children[0].text = i + "_" + d / typeArr[i].length;
+      cellColor(typeArr[i][0], remapToCol(d / typeArr[i].length), 5000);
     }
   }
 }
-
+////////////////////////////////////////
 //color  for each cell
+//https://sole.github.io/tween.js/examples/03_graphs.html
 function cellColor(obj, color, duration) {
   var target = new THREE.Color(color);
   tweenCol(obj.material.color, target, {
-    duration: Math.floor(Math.random() * duration),
-    easing: TWEEN.Easing.Quadratic.InOut,
-    update: function(d) {
-      // console.log("Updating: " + d);
-    },
-    callback: function() {
-      // console.log("Completed");
-    }
+    duration: rndInt(0, duration),
+    easing: TWEEN.Easing.Bounce.InOut
   });
 }
+////////////////////////////////////////
+function rndInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+////////////////////////////////////////
 
-//postion for each cell
-function cellPos(e) {
-  /* How to use */
-  var target = new THREE.Vector3(e.position.x, e.position.y + 1, e.position.z); // create on init
-  tweenVector3(e.position, target, {
-    duration: 5000,
-    easing: TWEEN.Easing.Quadratic.InOut,
-    update: function(d) {
-      // console.log("Updating: " + d);
-    },
-    callback: function() {
-      // console.log("Completed");
-    }
-  });
+function remapToCol(n) {
+  let i = 255 * n;
+  return "hsl(" + i + ",100%,50%)";
 }

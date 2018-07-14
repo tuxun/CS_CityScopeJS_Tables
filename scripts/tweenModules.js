@@ -1,7 +1,18 @@
+/*///////////////////////////////////////
+//postion Usage 
+function cellPos(e) {
+  var target = new THREE.Vector3(e.position.x, e.position.y + 1, e.position.z); // create on init
+  tweenVector3(e.position, target, {
+    duration: 5000,
+    easing: TWEEN.Easing.Quadratic.InOut
+  });
+}
+////////////////////////////////////////*/
+
 import * as THREE from "THREE";
 var TWEEN = require("@tweenjs/tween.js");
 
-/* Animates a Vector3 to the target */
+//Animates a Vector3 to the target
 export async function tweenCol(colToAnim, targetCol, options) {
   options = options || {};
   // get targets from options or set to defaults

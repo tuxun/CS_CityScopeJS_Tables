@@ -16,23 +16,11 @@ export function makeGrid(sizeX, sizeY) {
   var thisCol = null;
   var thisName = null;
   var randNum;
-  ///
-  var tmpCounterP = 0;
 
   for (var x = 0; x < sizeX; x++) {
     for (var y = 0; y < sizeY; y++) {
-      if (tmpCounterP > Math.sqrt(sizeX * sizeY)) {
-        randNum = Math.floor(Math.random() * (names.length - 1));
-      } else {
-        randNum = Math.floor(Math.random() * names.length);
-      }
-
-      if (randNum === 3) {
-        tmpCounterP++;
-      }
-
+      randNum = Math.floor(Math.random() * names.length);
       thisName = names[randNum];
-
       geometry = new THREE.BoxBufferGeometry(
         cellSize * cellGap,
         0.1,
