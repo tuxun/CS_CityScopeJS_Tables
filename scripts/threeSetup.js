@@ -11,6 +11,9 @@ export function threeInit() {
   var scene;
   var renderer;
   var controls;
+  /////////////////////////////////////
+  var thisType = "P";
+  var searchType = "L";
   var gridX = 20;
   var gridY = 20;
 
@@ -63,10 +66,11 @@ export function threeInit() {
   let grid = makeGrid(gridX, gridY);
   scene.add(grid);
 
+  /////////////////////////////////////////////
   //interact for now
   document.body.addEventListener("keyup", function(e) {
     if (e.keyCode === 65) {
-      GRID.searchNearest(grid, gridX, gridY);
+      GRID.searchNearest(thisType, searchType, grid, gridX, gridY);
     }
   });
 
