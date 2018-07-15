@@ -3,8 +3,8 @@ import { SpriteText2D, textAlign } from "three-text2d";
 
 /////////////// GEOMETRY  ///////////////////////
 export function makeGrid(sizeX, sizeY) {
-  var names = ["W", "L", "G", "P"];
-  var colors = [0xff4233, 0xf9ff33, 0x6aa84f, 0x3d85c6];
+  var names = ["P", "W", "L", "G"];
+  var colors = [0x3d85c6, 0xff4233, 0xf9ff33, 0x6aa84f];
   var count = 0;
   var cellSize = 1;
   var cellGap = 0.9;
@@ -23,16 +23,18 @@ export function makeGrid(sizeX, sizeY) {
       thisName = names[randNum];
       geometry = new THREE.BoxBufferGeometry(
         cellSize * cellGap,
-        0.1,
+        Math.sqrt(1 + randNum),
         cellSize * cellGap
       );
       //make material for each cell
-      material = new THREE.MeshStandardMaterial({
+      material = new THREE.MeshPhongMaterial({
         color: colors[randNum]
       });
       //make mesh for cell
       mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set(x * cellSize, 0.05, y * cellSize);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      mesh.position.set(x * cellSize, Math.sqrt(1 + randNum / 2), y * cellSize);
       mesh.name = thisName;
       //make text over cell
       let text = textMaker(thisName, thisCol, count);

@@ -8,6 +8,7 @@ export function searchNearest(thisType, searchType, grid, x, y) {
   for (let i = 0; i < grid.children.length; i++) {
     //draw all in black
     grid.children[i].material.color.set(0x181818);
+
     //check if grid cell is the type we look for
     if (grid.children[i].name === thisType) {
       let NeigbhorsArr = [];
@@ -19,10 +20,11 @@ export function searchNearest(thisType, searchType, grid, x, y) {
         grid.children[i + x],
         grid.children[i - x]
       );
-      let col = countNeigbhors(NeigbhorsArr, thisType, searchType);
+      let countRes = countNeigbhors(NeigbhorsArr, thisType, searchType);
       // text inner cell
       // typeArr[i][0].children[0].text += i + "_" + d / typeArr[i].length;
-      drawCell(grid.children[i], remapCol(col), 5000);
+      drawCell(grid.children[i], remapCol(countRes), 5000);
+      // grid.children[i].scale.set(1, countRes + 1, 1);
     }
   }
 }

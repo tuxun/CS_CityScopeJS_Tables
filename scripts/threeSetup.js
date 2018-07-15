@@ -44,21 +44,31 @@ export function threeInit() {
       1,
       10000
     );
-    camera.position.set(20, 20, 20);
   }
+  //set camera in accordance to grid
+  camera.position.set(gridX, 20, gridY);
+
   //IMPORTANT: renderer.domElement solves DAT.GUI
   //issue with drop downmenu not reposniding
   controls = new OrbitControls(camera, renderer.domElement);
-  controls.target.set(0, 0, 0); //center of andorra models
+  controls.target.set(gridX / 2, 0, gridY / 2);
 
   /////////////// LIGHTS ///////////////////////
   //Create a PointLight and turn on shadows for the light
-  var ambLight = new THREE.AmbientLight(0xffffff, 2); // soft white light
+  var ambLight = new THREE.AmbientLight(0xffffff, 0.25); // soft white light
   scene.add(ambLight);
+  // Spotlight for specific illumination
+  var spotLight = new THREE.SpotLight(0xfffffff);
+  spotLight.position.set(20, 20, 20);
+  spotLight.castShadow = true;
+  spotLight.shadow.bias = 0.0001;
+  spotLight.shadow.mapSize.width = 1024; // Shadow Quality
+  spotLight.shadow.mapSize.height = 1024; // Shadow Quality
+  scene.add(spotLight);
 
   ////AXIS GRID HELPERS
-  let axes = new THREE.AxesHelper(100);
-  scene.add(axes);
+  // let axes = new THREE.AxesHelper(100);
+  // scene.add(axes);
 
   //make grid geom
 
