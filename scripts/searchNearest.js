@@ -23,7 +23,7 @@ export function searchNearest(thisType, searchType, grid, x, y) {
       let countRes = countNeigbhors(NeigbhorsArr, thisType, searchType);
       // text inner cell
       // typeArr[i][0].children[0].text += i + "_" + d / typeArr[i].length;
-      drawCell(grid.children[i], remapCol(countRes), 5000);
+      drawCell(grid.children[i], remapCol(countRes), 2000);
       // grid.children[i].scale.set(1, countRes + 1, 1);
     }
   }

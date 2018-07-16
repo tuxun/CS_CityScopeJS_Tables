@@ -3,18 +3,13 @@ import "babel-polyfill";
 import * as THREE from "THREE";
 import OrbitControls from "three-orbitcontrols";
 import { makeGrid } from "./makeGrid.js";
-import * as GRID from "./searchNearest.js";
 
-export function threeInit() {
+export function threeInit(gridX, gridY) {
   //three vars
   var camera;
   var scene;
   var renderer;
   var controls;
-  /////////////////////////////////////
-
-  var gridX = 20;
-  var gridY = 20;
 
   ///////////////SETUP SCENE///////////////////////
   let threeDiv = document.createElement("div");
@@ -38,15 +33,28 @@ export function threeInit() {
 
   /////////////// CAMERA ///////////////////////
   if (camera === undefined) {
-    camera = new THREE.PerspectiveCamera(
-      70,
-      window.innerWidth / window.innerHeight,
+    // camera = new THREE.PerspectiveCamera(
+    //   70,
+    //   window.innerWidth / window.innerHeight,
+    //   1,
+    //   10000
+    // );
+    // camera.position.set(gridX, 20, gridY);
+    // controls.target.set(gridX / 2, 0, gridY / 2);
+
+    var frustumSize = 100;
+    var aspect = window.innerWidth / window.innerHeight;
+    camera = new THREE.OrthographicCamera(
+      (frustumSize * aspect) / -2,
+      (frustumSize * aspect) / 2,
+      frustumSize / 2,
+      frustumSize / -2,
       1,
-      10000
+      2000
     );
   }
   //set camera in accordance to grid
-  camera.position.set(gridX, 20, gridY);
+  camera.position.set(gridX / 2, 10, gridY / 2);
 
   //IMPORTANT: renderer.domElement solves DAT.GUI
   //issue with drop downmenu not reposniding
@@ -61,7 +69,7 @@ export function threeInit() {
   var spotLight = new THREE.SpotLight(0xfffffff);
   spotLight.position.set(20, 20, 20);
   spotLight.castShadow = true;
-  spotLight.shadow.bias = 0.0001;
+  spotLight.shadow.bias = 0.00000001;
   spotLight.shadow.mapSize.width = 1024; // Shadow Quality
   spotLight.shadow.mapSize.height = 1024; // Shadow Quality
   scene.add(spotLight);
@@ -74,28 +82,6 @@ export function threeInit() {
 
   let grid = makeGrid(gridX, gridY);
   scene.add(grid);
-
-  /////////////////////////////////////////////
-  //interact for now
-  document.body.addEventListener("keyup", function(e) {
-    switch (e.keyCode) {
-      //look for this keys
-      case 71:
-      case 76:
-      case 80:
-      case 87:
-        GRID.searchNearest(
-          String.fromCharCode(e.keyCode),
-          "P",
-          grid,
-          gridX,
-          gridY
-        );
-        break;
-      default:
-        break;
-    }
-  });
 
   //call loop when done
   animate();
@@ -110,4 +96,6 @@ export function threeInit() {
     controls.update();
     renderer.render(scene, camera);
   }
+
+  return grid;
 }
