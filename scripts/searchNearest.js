@@ -2,6 +2,7 @@
 import * as THREE from "THREE";
 import { tweenCol } from "./tweenModules";
 var TWEEN = require("@tweenjs/tween.js");
+import * as PEDS from "./peds";
 
 export function searchNearest(thisType, searchType, grid, x, y) {
   // go through all grid cells
@@ -23,8 +24,12 @@ export function searchNearest(thisType, searchType, grid, x, y) {
       let countRes = countNeigbhors(NeigbhorsArr, thisType, searchType);
       // text inner cell
       // typeArr[i][0].children[0].text += i + "_" + d / typeArr[i].length;
-      drawCell(grid.children[i], remapCol(countRes), 2000);
+      let color = remapCol(countRes);
+      drawCell(grid.children[i], color, 2000);
       // grid.children[i].scale.set(1, countRes + 1, 1);
+      //pedestrians per object
+      let peds = PEDS.makePeds(color);
+      grid.children[i].add(peds);
     }
   }
 }
