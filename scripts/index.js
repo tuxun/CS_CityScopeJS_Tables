@@ -46,7 +46,6 @@ Structure:
 
 import * as threeSetup from "./threeSetup";
 import * as GRID from "./searchNearest.js";
-import * as PEDS from "./peds.js";
 
 document.onload = init();
 

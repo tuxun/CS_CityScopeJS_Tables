@@ -96,6 +96,5 @@ export function threeInit(gridX, gridY) {
     controls.update();
     renderer.render(scene, camera);
   }
-
   return grid;
 }
