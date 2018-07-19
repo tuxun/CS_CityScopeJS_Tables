@@ -46,50 +46,55 @@ Structure:
 
 import * as threeSetup from "./threeSetup";
 import * as GRID from "./searchNearest.js";
+import * as PEDS from "./peds.js";
 
-var allCols = [
-  "rgb(237, 80, 102)",
-  "rgb(244, 130, 125)",
-  "rgb(244, 185, 158)",
-  "rgb(253, 202, 162)",
-  "rgb(246, 236, 212)",
-  "rgb(204, 217, 206)",
-  "rgb(165, 187, 185)",
-  "rgb(163, 191, 162)",
-  "rgb(128, 173, 169)",
-  "rgb(102, 138, 135)",
-  "rgb(64, 86, 84)",
-  "rgb(38, 60, 58)",
-  "rgb(38, 60, 58)",
-  "rgb(20, 24, 26)"
-];
+document.onload = init();
 
-/////////////////////////////////////
+function init() {
+  var allCols = [
+    "rgb(237, 80, 102)",
+    "rgb(244, 130, 125)",
+    "rgb(244, 185, 158)",
+    "rgb(253, 202, 162)",
+    "rgb(246, 236, 212)",
+    "rgb(204, 217, 206)",
+    "rgb(165, 187, 185)",
+    "rgb(163, 191, 162)",
+    "rgb(128, 173, 169)",
+    "rgb(102, 138, 135)",
+    "rgb(64, 86, 84)",
+    "rgb(38, 60, 58)",
+    "rgb(38, 60, 58)",
+    "rgb(20, 24, 26)"
+  ];
 
-var gridX = 20;
-var gridY = 20;
-var grid;
-//call threejs setup onload
-grid = threeSetup.threeInit(gridX, gridY);
+  /////////////////////////////////////
 
-/////////////////////////////////////////////
-//interact for now
-document.body.addEventListener("keyup", function(e) {
-  switch (e.keyCode) {
-    //look for this keys
-    case 71:
-    case 76:
-    case 80:
-    case 87:
-      GRID.searchNearest(
-        String.fromCharCode(e.keyCode),
-        "P",
-        grid,
-        gridX,
-        gridY
-      );
-      break;
-    default:
-      break;
-  }
-});
+  var gridX = 20;
+  var gridY = 20;
+  var grid;
+  //call threejs setup onload
+  grid = threeSetup.threeInit(gridX, gridY);
+
+  /////////////////////////////////////////////
+  //interact for now
+  document.body.addEventListener("keyup", function(e) {
+    switch (e.keyCode) {
+      //look for this keys
+      case 71:
+      case 76:
+      case 80:
+      case 87:
+        GRID.searchNearest(
+          String.fromCharCode(e.keyCode),
+          "P",
+          grid,
+          gridX,
+          gridY
+        );
+        break;
+      default:
+        break;
+    }
+  });
+}

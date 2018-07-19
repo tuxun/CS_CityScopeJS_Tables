@@ -20,7 +20,7 @@ export async function tweenCol(colToAnim, targetCol, options) {
     easing = options.easing || TWEEN.Easing.Quadratic.In,
     duration = options.duration || 2000;
   // create the tween
-  var tweenVector3 = new TWEEN.Tween(colToAnim)
+  var tweenColor = new TWEEN.Tween(colToAnim)
     .to({ r: to.r, g: to.g, b: to.b }, duration)
     .easing(easing)
     .onUpdate(function(d) {
@@ -32,9 +32,9 @@ export async function tweenCol(colToAnim, targetCol, options) {
       if (options.callback) options.callback();
     });
   // start the tween
-  tweenVector3.start();
+  tweenColor.start();
   // return the tween in case we want to manipulate it later on
-  return tweenVector3;
+  return tweenColor;
 }
 ////////////////////////////////////////////////////////////////////
 
@@ -64,8 +64,8 @@ export async function tweenVector3(vectorToAnimate, target, options) {
 }
 
 //Animation Loop method
-function animate(time) {
+function animate(t) {
   requestAnimationFrame(animate);
-  TWEEN.update(time);
+  TWEEN.update(t);
 }
-requestAnimationFrame(animate);
+animate();

@@ -20,6 +20,7 @@
     "@tweenjs/tween.js": "^17.2.0",
     "babel-polyfill": "^6.26.0",
     "three": "^0.94.0",
+    "three-gpu-particle-system": "^1.0.0",
     "three-orbitcontrols": "^2.1.2",
     "three-text2d": "^0.4.1"
   },
