@@ -24,11 +24,11 @@ export function searchNearest(thisType, searchType, grid, x, y) {
       let countRes = countNeigbhors(NeigbhorsArr, thisType, searchType);
       // text inner cell
       // typeArr[i][0].children[0].text += i + "_" + d / typeArr[i].length;
-      let color = remapCol(countRes);
-      drawCell(grid.children[i], color, 2000);
+      let finalCol = remapCol(countRes);
+      drawCell(grid.children[i], finalCol, 2000);
       // grid.children[i].scale.set(1, countRes + 1, 1);
       //pedestrians per object
-      let peds = PEDS.makePeds(color);
+      let peds = PEDS.makePeds(finalCol);
       grid.children[i].add(peds);
     }
   }
