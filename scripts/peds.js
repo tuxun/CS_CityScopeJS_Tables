@@ -1,3 +1,4 @@
+// https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry_drawcalls.html
 import * as THREE from "THREE";
 
 export function makePeds(color) {
