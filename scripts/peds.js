@@ -4,8 +4,8 @@ var TWEEN = require("@tweenjs/tween.js");
 import { tweenVector3 } from "./tweenModules";
 
 export function makePeds(color) {
-  var peds;
-  var particles = 1000;
+  var cellPeds;
+  var particles = 1;
   var geometry = new THREE.BufferGeometry();
   var positions = [];
   var colors = [];
@@ -31,20 +31,25 @@ export function makePeds(color) {
     size: 0.01,
     vertexColors: THREE.VertexColors
   });
-  peds = new THREE.Points(geometry, material);
+  cellPeds = new THREE.Points(geometry, material);
 
-  // let p = peds.geometry.attributes.position.array;
+  // console.log(p);
+  //https://stackoverflow.com/questions/17410761/how-to-quickly-update-a-large-buffergeometry/20422336#20422336
+  ///
+  //https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry_drawcalls.html
+  // let p = cellPeds.geometry.attributes.position.array;
 
-  // for (let i = 0; i < p.length - 3; i = i + 3) {
-  //   pedPos(p[i], p[i + 1], [p + 2]);
+  // for (let i = 0; i < p.length; i = i + 3) {
+  //   let loc = [p[i], p[i + 1], p[i + 2]];
+  //   pedPos(loc);
   // }
 
-  return peds;
+  return cellPeds;
 }
 
 //position Usage
-function pedPos(e) {
-  var target = new THREE.Vector3(e[0] + 10, e[1], e[2] + 10); // create on init
+async function pedPos(e) {
+  var target = [e[0] + rndInt(0, 5), e[1], e[2] + rndInt(0, 5)]; // create on init
   tweenVector3(e.position, target, {
     duration: rndInt(0, 2000),
     easing: TWEEN.Easing.Quadratic.InOut
