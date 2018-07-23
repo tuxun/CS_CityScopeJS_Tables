@@ -9,15 +9,16 @@ export function makePeds(color, NeigbhorsArr, countRes) {
   //ratio of particles to num of neighbors
   var particles = 100 * countRes + 10 / NeigbhorsArr.length;
 
-  //size of bounding box in THREE units
-  var n = 0.4,
-    n2 = n / 2; // particles spread in the cube
+  // //size of bounding box in THREE units
+  var n = 0.4;
+  // particles spread in the cube
+  var n2 = n / 2;
   for (var i = 0; i < particles; i++) {
     // positions
     var x = Math.random() * n - n2;
-    var y = Math.random() * n * 5;
+    // var y = Math.random() * n * 5;
     var z = Math.random() * n - n2;
-    positions.push(x, y, z);
+    positions.push(x, 2, z);
     // colors -WIP GET THIS IN RGB
     colors.push(color[0], color[1], color[2]);
   }
@@ -54,10 +55,10 @@ export function makePeds(color, NeigbhorsArr, countRes) {
       positions[i + 1] = 2;
 
       //set X
-      if (positions[i] <= NeigbhorsArr.length / 2) {
+      if (positions[i] <= NeigbhorsArr.length / 4) {
         positions[i] += Math.random() / 20;
       }
-      if (positions[i] >= 2) {
+      if (positions[i] >= NeigbhorsArr.length / 4) {
         positions[i] = 0;
       }
     }
