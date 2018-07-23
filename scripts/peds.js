@@ -1,7 +1,5 @@
 // https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry_drawcalls.html
 import * as THREE from "THREE";
-var TWEEN = require("@tweenjs/tween.js");
-import { tweenMoveObj } from "./tweenModules";
 
 export function makePeds(color, NeigbhorsArr, countRes) {
   var cellPeds;
@@ -9,12 +7,8 @@ export function makePeds(color, NeigbhorsArr, countRes) {
   var positions = [];
   var colors = [];
   //ratio of particles to num of neighbors
-  var particles = (100 * countRes) / NeigbhorsArr.length;
+  var particles = 100 * countRes + 10 / NeigbhorsArr.length;
 
-  //vars for anim
-  var posX = 0,
-    posY = 0,
-    posZ = 0;
   //size of bounding box in THREE units
   var n = 0.4,
     n2 = n / 2; // particles spread in the cube
@@ -56,38 +50,16 @@ export function makePeds(color, NeigbhorsArr, countRes) {
   ////////////////////////////////////////
   function updatePositions(positions) {
     for (let i = 0; i < positions.length; i = i + 3) {
-      positions[i] = posX;
-      positions[i + 1] = posY;
-      positions[i + 2] = posZ;
-      posX = Math.sin(Math.random() - 0.5);
-      posY = 2;
-      posZ = Math.sin(Math.random() - 0.5);
+      //set Y
+      positions[i + 1] = 2;
+
+      //set X
+      if (positions[i] <= NeigbhorsArr.length / 2) {
+        positions[i] += Math.random() / 20;
+      }
+      if (positions[i] >= 2) {
+        positions[i] = 0;
+      }
     }
   }
-}
-
-////////////////////////////////////////
-////////////////////////////////////////
-////////////////////////////////////////
-////////////////////////////////////////
-//http://jsfiddle.net/w67tzfhx/
-//https://threejs.org/docs/#manual/introduction/How-to-update-things
-
-// for (let i = 0; i < p.length; i = i + 3) {
-//   let loc = [p[i], p[i + 1], p[i + 2]];
-//   pedPos(loc);
-// }
-
-//position Usage
-async function pedPos(e) {
-  var target = [e[0] + rndInt(0, 5), e[1], e[2] + rndInt(0, 5)]; // create on init
-  tweenMoveObj(e.position, target, {
-    duration: rndInt(0, 2000),
-    easing: TWEEN.Easing.Quadratic.InOut
-  });
-}
-
-////////////////////////////////////////
-function rndInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
 }
