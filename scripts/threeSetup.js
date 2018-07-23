@@ -33,31 +33,31 @@ export function threeInit(gridX, gridY) {
 
   /////////////// CAMERA ///////////////////////
   if (camera === undefined) {
-    // camera = new THREE.PerspectiveCamera(
-    //   70,
-    //   window.innerWidth / window.innerHeight,
-    //   1,
-    //   10000
-    // );
-    // camera.position.set(gridX, 20, gridY);
-    // controls.target.set(gridX / 2, 0, gridY / 2);
-
-    var frustumSize = 100;
-    var aspect = window.innerWidth / window.innerHeight;
-    camera = new THREE.OrthographicCamera(
-      (frustumSize * aspect) / -2,
-      (frustumSize * aspect) / 2,
-      frustumSize / 2,
-      frustumSize / -2,
+    camera = new THREE.PerspectiveCamera(
+      70,
+      window.innerWidth / window.innerHeight,
       1,
-      2000
+      10000
     );
+    camera.position.set(gridX, 20, gridY);
+
+    ///////////////
+    // var frustumSize = 100;
+    // var aspect = window.innerWidth / window.innerHeight;
+    // camera = new THREE.OrthographicCamera(
+    //   (frustumSize * aspect) / -2,
+    //   (frustumSize * aspect) / 2,
+    //   frustumSize / 2,
+    //   frustumSize / -2,
+    //   1,
+    //   2000
+    // );
   }
   //set camera in accordance to grid
   camera.position.set(gridX / 2, 10, gridY / 2);
 
   //IMPORTANT: renderer.domElement solves DAT.GUI
-  //issue with drop downmenu not reposniding
+  //issue with drop down-menu not responding
   controls = new OrbitControls(camera, renderer.domElement);
   controls.target.set(gridX / 2, 0, gridY / 2);
 

@@ -3,18 +3,20 @@ import * as THREE from "THREE";
 var TWEEN = require("@tweenjs/tween.js");
 import { tweenMoveObj } from "./tweenModules";
 
-export function makePeds(color) {
+export function makePeds(color, NeigbhorsArr, countRes) {
   var cellPeds;
-  var particles = 1;
   var geometry = new THREE.BufferGeometry();
   var positions = [];
   var colors = [];
+  //ratio of particles to num of neighbors
+  var particles = (100 * countRes) / NeigbhorsArr.length;
+
   //vars for anim
   var posX = 0,
     posY = 0,
     posZ = 0;
   //size of bounding box in THREE units
-  var n = 0.5,
+  var n = 0.4,
     n2 = n / 2; // particles spread in the cube
   for (var i = 0; i < particles; i++) {
     // positions
@@ -32,36 +34,42 @@ export function makePeds(color) {
   geometry.addAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
   geometry.computeBoundingSphere();
   var material = new THREE.PointsMaterial({
-    size: 0.01,
+    size: 0.02,
     vertexColors: THREE.VertexColors
   });
 
   cellPeds = new THREE.Points(geometry, material);
-
-  function updatePositions() {
-    var positions = cellPeds.geometry.attributes.position.array;
-
-    positions[0] = posX;
-    positions[1] = posY;
-    positions[2] = posZ;
-
-    posX = Math.sin(Math.random() * 0.1);
-    posY = Math.sin(Math.random() * 0.1);
-    posZ = Math.sin(Math.random() * 0.1);
-  }
+  //grab the peds pos array
+  var posArr = cellPeds.geometry.attributes.position.array;
 
   // animate
   function animate() {
     requestAnimationFrame(animate);
-    updatePositions();
+    updatePositions(posArr);
     cellPeds.geometry.attributes.position.needsUpdate = true;
   }
   //call anim at start
   animate();
   //send back to scene
   return cellPeds;
+
+  ////////////////////////////////////////
+  function updatePositions(positions) {
+    for (let i = 0; i < positions.length; i = i + 3) {
+      positions[i] = posX;
+      positions[i + 1] = posY;
+      positions[i + 2] = posZ;
+      posX = Math.sin(Math.random() - 0.5);
+      posY = 2;
+      posZ = Math.sin(Math.random() - 0.5);
+    }
+  }
 }
 
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
 //http://jsfiddle.net/w67tzfhx/
 //https://threejs.org/docs/#manual/introduction/How-to-update-things
 

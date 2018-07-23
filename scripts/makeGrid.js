@@ -36,17 +36,19 @@ export function makeGrid(sizeX, sizeY) {
       mesh.receiveShadow = true;
       mesh.position.set(x * cellSize, Math.sqrt(1 + randNum / 2), y * cellSize);
       mesh.name = thisName;
-      //make text over cell
-      let text = textMaker(thisName, thisCol, count);
-      text.scale.set(0.005, 0.005, 0.005);
-      text.position.y = mesh.position.y + 0.5;
-      mesh.add(text);
       grid.add(mesh);
+      //make text over cell
+      // let text = textMaker(thisName, thisCol, count);
+      // text.scale.set(0.005, 0.005, 0.005);
+      // text.position.y = mesh.position.y + 0.5;
+      // mesh.add(text);
+      //
       count++;
     }
   }
   return grid;
 }
+/////////////// TEXT OVER  ///////////////////////
 
 function textMaker(thisName, thisCol, count) {
   let string = thisName + " " + count.toString();
