@@ -6,11 +6,12 @@ export function makePeds(color, NeigbhorsArr, countRes) {
   var geometry = new THREE.BufferGeometry();
   var positions = [];
   var colors = [];
+  var maxparticles = 100;
   //ratio of particles to num of neighbors
-  var particles = 100 * countRes + 10 / NeigbhorsArr.length;
+  var particles = maxparticles * countRes + 10 / NeigbhorsArr.length;
 
   // //size of bounding box in THREE units
-  var n = 0.4;
+  var n = 1;
   // particles spread in the cube
   var n2 = n / 2;
   for (var i = 0; i < particles; i++) {
@@ -29,7 +30,7 @@ export function makePeds(color, NeigbhorsArr, countRes) {
   geometry.addAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
   geometry.computeBoundingSphere();
   var material = new THREE.PointsMaterial({
-    size: 0.02,
+    size: 0.03,
     vertexColors: THREE.VertexColors
   });
 

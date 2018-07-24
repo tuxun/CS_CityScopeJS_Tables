@@ -3,7 +3,7 @@ import * as THREE from "THREE";
 import { tweenCol } from "./tweenModules";
 var TWEEN = require("@tweenjs/tween.js");
 import * as PEDS from "./peds";
-import { remapCol, hslToRgb } from "./colorModules";
+import { remapCol } from "./colorModules";
 
 export function searchNearest(thisType, searchType, grid, x, y) {
   // go through all grid cells
@@ -26,13 +26,21 @@ export function searchNearest(thisType, searchType, grid, x, y) {
       // text inner cell
       // typeArr[i][0].children[0].text += i + "_" + d / typeArr[i].length;
       //remap neighbors count to color on a scale of green to red
-      let cellCol = remapCol(countRes);
+      let cellCol =
+        "rgb(" +
+        remapCol(countRes)[0] +
+        "," +
+        remapCol(countRes)[1] +
+        "," +
+        remapCol(countRes)[2] +
+        ")";
+
       //recolor the cells
       drawCell(grid.children[i], cellCol, 2000);
       //hsl to rgb for PEDS coloring
-      let pedsCol = hslToRgb(countRes * 100, 1, 0.5);
+      // let pedsCol = hslToRgb(countRes * 100, 1, 0.5);
       //add pedestrians per grid object
-      let peds = PEDS.makePeds(pedsCol, NeigbhorsArr, countRes);
+      let peds = PEDS.makePeds(remapCol(countRes), NeigbhorsArr, countRes);
       grid.children[i].add(peds);
     }
   }
