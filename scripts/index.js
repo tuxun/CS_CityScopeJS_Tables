@@ -89,7 +89,8 @@ function init() {
           "P",
           grid,
           gridX,
-          gridY
+          gridY,
+          3000
         );
         break;
       default:

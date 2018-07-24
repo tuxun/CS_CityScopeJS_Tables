@@ -5,7 +5,7 @@ var TWEEN = require("@tweenjs/tween.js");
 import * as PEDS from "./peds";
 import { remapCol } from "./colorModules";
 
-export function searchNearest(thisType, searchType, grid, x, y) {
+export function searchNearest(thisType, searchType, grid, x, y, animDuration) {
   // go through all grid cells
   for (let i = 0; i < grid.children.length; i++) {
     //draw all in black
@@ -36,7 +36,7 @@ export function searchNearest(thisType, searchType, grid, x, y) {
         ")";
 
       //recolor the cells
-      drawCell(grid.children[i], cellCol, 2000);
+      drawCell(grid.children[i], cellCol, animDuration);
       //hsl to rgb for PEDS coloring
       // let pedsCol = hslToRgb(countRes * 100, 1, 0.5);
       //add pedestrians per grid object
