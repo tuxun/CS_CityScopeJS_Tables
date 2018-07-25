@@ -29,25 +29,24 @@ https://github.com/RELNO]
 
 */ ///////////////////////////////////////////////////////////////////////////
 
-/*
-Structure:
-
-+------------+     +------------+     +----------------+   +-------------+
-| index.js   +---> | interact   +---> + searchNearest  <---> TweenModules|
-+-----+------+     +------------+     +--------+-------+   +-------------+
-      |                                         ^
-      v                                         |
-+-----+------+    +-------------+               |
-|threeSetup  |--->|   makeGrid  |----------------
-+------------+    +-------------+
-*/
-
-/////////////////////////////////////////////////////////////////////////
-import * as threeSetup from "./threeSetup";
 import { stateManager } from "./stateManager";
 
 ////////////////////////////////////////
+//get cityIO method
+function getCityIO(tableName) {
+  console.log("trying to fetch..");
+  fetch(tableName)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(jsonData) {
+      console.log("got cityIO table at " + jsonData.meta.timestamp);
+      // start(jsonData);
+      stateManager(jsonData);
+    });
+}
 
+////////////////////////////////////////
 function init() {
   var tableName = "cityscopeJS";
   let cityIOtableURL =
@@ -55,32 +54,6 @@ function init() {
   //call server once at start, just to setup the grid
   getCityIO(cityIOtableURL);
 }
-////////////
-function start(cityIOdata) {
-  // var tableName = window.location.search.substring(1);
-  if (cityIOdata.header.spatial.ncols) {
-    var gridX = cityIOdata.header.spatial.ncols;
-    var gridY = cityIOdata.header.spatial.nrows;
-    //build threejs grid onload
-    var grid = threeSetup.threeInit(gridX, gridY);
-    stateManager(grid, gridX, gridY);
-  }
-}
+
 //start app
 init();
-
-////////////////////////////////////////
-//get cityIO method
-function getCityIO(tableName) {
-  console.log("trying to fetch..");
-
-  const cityIOjson = fetch(tableName)
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(jsonData) {
-      console.log("got cityIO table at " + jsonData.meta.timestamp);
-      start(jsonData);
-    });
-  return cityIOjson;
-}
