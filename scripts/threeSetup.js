@@ -33,25 +33,26 @@ export function threeInit(gridX, gridY) {
 
   /////////////// CAMERA ///////////////////////
   if (camera === undefined) {
-    camera = new THREE.PerspectiveCamera(
-      70,
-      window.innerWidth / window.innerHeight,
-      1,
-      10000
-    );
-    camera.position.set(gridX, 20, gridY);
-
-    ///////////////
-    // var frustumSize = 100;
-    // var aspect = window.innerWidth / window.innerHeight;
-    // camera = new THREE.OrthographicCamera(
-    //   (frustumSize * aspect) / -2,
-    //   (frustumSize * aspect) / 2,
-    //   frustumSize / 2,
-    //   frustumSize / -2,
+    // camera = new THREE.PerspectiveCamera(
+    //   70,
+    //   window.innerWidth / window.innerHeight,
     //   1,
-    //   2000
+    //   10000
     // );
+    // camera.position.set(gridX, 20, gridY);
+
+    /////////////
+    var frustumSize = 100;
+    var aspect = window.innerWidth / window.innerHeight;
+    var zoomFactor = 6;
+    camera = new THREE.OrthographicCamera(
+      (frustumSize * aspect) / -zoomFactor,
+      (frustumSize * aspect) / zoomFactor,
+      frustumSize / zoomFactor,
+      frustumSize / -zoomFactor,
+      0,
+      1000
+    );
   }
   //set camera in accordance to grid
   camera.position.set(gridX / 2, 10, gridY / 2);
@@ -66,10 +67,11 @@ export function threeInit(gridX, gridY) {
   var ambLight = new THREE.AmbientLight(0xffffff, 0.25); // soft white light
   scene.add(ambLight);
   // Spotlight for specific illumination
-  var spotLight = new THREE.SpotLight(0xfffffff);
-  spotLight.position.set(20, 20, 20);
+  var spotLight = new THREE.SpotLight(0xfffffff, 0.75);
+  spotLight.position.set(gridX, 30, gridY);
+
   spotLight.castShadow = true;
-  spotLight.shadow.bias = 0.00000001;
+  spotLight.shadow.bias = 0.0000001;
   spotLight.shadow.mapSize.width = 1024; // Shadow Quality
   spotLight.shadow.mapSize.height = 1024; // Shadow Quality
   scene.add(spotLight);

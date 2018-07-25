@@ -44,11 +44,33 @@ Structure:
 
 /////////////////////////////////////////////////////////////////////////
 import * as threeSetup from "./threeSetup";
-import * as GRID from "./searchNearest.js";
+import { stateManager } from "./stateManager";
 
 ////////////////////////////////////////
+
+function init() {
+  var tableName = "cityscopeJS";
+  let cityIOtableURL =
+    "https://cityio.media.mit.edu/api/table/" + tableName.toString();
+  //call server once at start, just to setup the grid
+  getCityIO(cityIOtableURL);
+}
+////////////
+function start(cityIOdata) {
+  // var tableName = window.location.search.substring(1);
+  if (cityIOdata.header.spatial.ncols) {
+    var gridX = cityIOdata.header.spatial.ncols;
+    var gridY = cityIOdata.header.spatial.nrows;
+    //build threejs grid onload
+    var grid = threeSetup.threeInit(gridX, gridY);
+    stateManager(grid, gridX, gridY);
+  }
+}
+//start app
+init();
+
 ////////////////////////////////////////
-////////////////////////////////////////
+//get cityIO method
 function getCityIO(tableName) {
   console.log("trying to fetch..");
 
@@ -62,50 +84,3 @@ function getCityIO(tableName) {
     });
   return cityIOjson;
 }
-////////////////////////////////////////
-////////////////////////////////////////
-////////////////////////////////////////
-
-function init() {
-  var tableName = "cityscopeJS";
-  let cityIOtableURL =
-    "https://cityio.media.mit.edu/api/table/" + tableName.toString();
-  getCityIO(cityIOtableURL);
-}
-////////////
-function start(cityIOdata) {
-  // var tableName = window.location.search.substring(1);
-
-  if (cityIOdata.header.spatial.ncols) {
-    //call server once at start, just to setup the grid
-    var gridX = cityIOdata.header.spatial.ncols;
-    var gridY = cityIOdata.header.spatial.nrows;
-    //build threejs grid onload
-    var grid = threeSetup.threeInit(gridX, gridY);
-  }
-
-  /////////////////////////////////////////////
-  //interaction
-  document.body.addEventListener("keyup", function(e) {
-    switch (e.keyCode) {
-      //look for this keys
-      case 71:
-      case 76:
-      case 80:
-      case 87:
-        GRID.searchNearest(
-          String.fromCharCode(e.keyCode),
-          "P",
-          grid,
-          gridX,
-          gridY,
-          3000
-        );
-        break;
-      default:
-        break;
-    }
-  });
-}
-
-init();
