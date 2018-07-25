@@ -8,8 +8,7 @@ export function makePeds(color, NeigbhorsArr, countRes) {
   var colors = [];
   var maxparticles = 100;
   //ratio of particles to num of neighbors
-  var particles = maxparticles * countRes + 10 / NeigbhorsArr.length;
-
+  var particles = (maxparticles * countRes) / NeigbhorsArr.length;
   // //size of bounding box in THREE units
   var n = 1;
   // particles spread in the cube
@@ -23,11 +22,17 @@ export function makePeds(color, NeigbhorsArr, countRes) {
     // colors -WIP GET THIS IN RGB
     colors.push(color[0], color[1], color[2]);
   }
-  geometry.addAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(positions, 3).setDynamic(true)
+
+  let posBuffer = new THREE.Float32BufferAttribute(positions, 3).setDynamic(
+    true
   );
-  geometry.addAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+
+  geometry.addAttribute("position", posBuffer);
+  geometry.addAttribute(
+    "color",
+    new THREE.Float32BufferAttribute(colors, 3).setDynamic(true)
+  );
+
   geometry.computeBoundingSphere();
   var material = new THREE.PointsMaterial({
     size: 0.03,
@@ -35,32 +40,51 @@ export function makePeds(color, NeigbhorsArr, countRes) {
   });
 
   cellPeds = new THREE.Points(geometry, material);
-  //grab the peds pos array
-  var posArr = cellPeds.geometry.attributes.position.array;
+  //grab the peds pos array for animation
+  var posArr = posBuffer.array;
 
   // animate
   function animate() {
     requestAnimationFrame(animate);
     updatePositions(posArr);
     cellPeds.geometry.attributes.position.needsUpdate = true;
+    cellPeds.geometry.attributes.color.needsUpdate = true;
   }
+
   //call anim at start
   animate();
   //send back to scene
   return cellPeds;
 
   ////////////////////////////////////////
-  function updatePositions(positions) {
-    for (let i = 0; i < positions.length; i = i + 3) {
-      //set Y
-      positions[i + 1] = 2;
+  function updatePositions() {
+    let index = 0;
+    //run through location array [x,y,z,x,y,z..]
+    //of all peds in this cell
 
-      //set X
-      if (positions[i] <= NeigbhorsArr.length / 4) {
-        positions[i] += Math.random() / 20;
+    for (let i = 0; i < posArr.length; i = i + 3) {
+      //set fix Y
+      posArr[i + 1] = 2;
+
+      //set X NeigbhorsArr.length / 4
+      if (posArr[i] >= 1 || posArr[i] <= -1) {
+        posArr[i] = 0;
+      } else if (posArr[i] < 1 || posArr[i] > -1) {
+        // posArr[i] += Math.random() / 20;
+        posArr[i] += Math.cos(index) * 0.01;
       }
-      if (positions[i] >= NeigbhorsArr.length / 4) {
-        positions[i] = 0;
+
+      //set Z
+      if (posArr[i + 2] >= 1 || posArr[i + 2] <= -1) {
+        posArr[i + 2] = 0;
+      } else if (posArr[i + 2] < 1 || posArr[i + 2] > -1) {
+        posArr[i + 2] += Math.sin(index) * 0.01;
+      }
+
+      if (index < countRes * 360) {
+        index++;
+      } else {
+        index = 0;
       }
     }
   }

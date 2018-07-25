@@ -37,12 +37,15 @@ export function makeGrid(sizeX, sizeY) {
       mesh.position.set(x * cellSize, Math.sqrt(1 + randNum / 2), y * cellSize);
       mesh.name = thisName;
       grid.add(mesh);
-      //make text over cell
-      // let text = textMaker(thisName, thisCol, count);
-      // text.scale.set(0.005, 0.005, 0.005);
-      // text.position.y = mesh.position.y + 0.5;
-      // mesh.add(text);
-      //
+
+      // make text over cell
+      let string = thisName + " " + count.toString();
+
+      let text = textMaker(string, thisCol);
+      text.scale.set(0.005, 0.005, 0.005);
+      text.position.y = mesh.position.y + 0.5;
+      mesh.add(text);
+
       count++;
     }
   }
@@ -50,11 +53,10 @@ export function makeGrid(sizeX, sizeY) {
 }
 /////////////// TEXT OVER  ///////////////////////
 
-function textMaker(thisName, thisCol, count) {
-  let string = thisName + " " + count.toString();
+function textMaker(string, thisCol) {
   var text = new SpriteText2D(string.toString(), {
     align: textAlign.center,
-    font: "50px arial",
+    font: "30px arial",
     fillStyle: thisCol,
     antialias: true
   });
