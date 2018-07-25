@@ -1,9 +1,9 @@
 // https://medium.com/@lachlantweedie/animation-in-three-js-using-tween-js-with-examples-c598a19b1263
 import * as THREE from "THREE";
 import { tweenCol } from "./modules";
+import { remapCol } from "./modules";
 var TWEEN = require("@tweenjs/tween.js");
 import * as PEDS from "./peds";
-import { remapCol } from "./modules";
 
 export function searchNearest(thisType, searchType, grid, x, y, animDuration) {
   // go through all grid cells
