@@ -1,5 +1,62 @@
+export async function cityIO() {
+  var tableName = window.location.search.substring(1);
+  let cityIOtableURL =
+    "https://cityio.media.mit.edu/api/table/" + tableName.toString();
+  var interval = 1000;
+
+  async function getCityIO(URL) {
+    // GET method
+    return $.ajax({
+      url: URL,
+      dataType: "JSON",
+      callback: "jsonData",
+      type: "GET",
+      success: function(jsonData) {
+        console.log("got cityIO table at " + jsonData.meta.timestamp);
+        return jsonData;
+      },
+      // or error
+      error: function() {
+        console.log("ERROR");
+      }
+    });
+  }
+  async function setup() {
+    //call server once at start, just to setup the grid
+    const cityIOjson = await getCityIO(cityIOtableURL);
+    // get grid size
+    var gridSizeCols = cityIOjson.header.spatial.ncols;
+    var gridSizeRows = cityIOjson.header.spatial.nrows;
+    console.log("table size is", gridSizeCols, "x", gridSizeRows);
+    //start listening to table every x milSecs
+    window.setInterval("update()", interval);
+  }
+
+  async function update() {
+    const cityIOjson = await getCityIO(cityIOtableURL);
+    console.log(cityIOjson);
+  }
+  setup();
+}
+
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+
+export function remapCol(countRes) {
+  let R = Math.ceil(255 - 255 * countRes);
+  let G = Math.ceil(255 * countRes);
+  let B = 0;
+
+  return [R, G, B];
+}
+
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+
 /*///////////////////////////////////////
-//postion Usage 
+//postion Usage example
 function cellPos(e) {
   var target = new THREE.Vector3(e.position.x, e.position.y + 1, e.position.z); // create on init
   tweenVector3(e.position, target, {
@@ -13,7 +70,7 @@ import * as THREE from "THREE";
 var TWEEN = require("@tweenjs/tween.js");
 
 //Animates a Vector3 to the target
-export async function tweenCol(colToAnim, targetCol, options) {
+export function tweenCol(colToAnim, targetCol, options) {
   options = options || {};
   // get targets from options or set to defaults
   var to = targetCol || THREE.Color(),
@@ -39,7 +96,7 @@ export async function tweenCol(colToAnim, targetCol, options) {
 ////////////////////////////////////////////////////////////////////
 
 /* Animates a Vector3 to the target */
-export async function tweenThreeVec3(vectorToAnimate, target, options) {
+export function tweenThreeVec3(vectorToAnimate, target, options) {
   options = options || {};
   // get targets from options or set to defaults
   var to = target || THREE.Vector3(),

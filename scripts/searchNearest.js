@@ -1,9 +1,9 @@
 // https://medium.com/@lachlantweedie/animation-in-three-js-using-tween-js-with-examples-c598a19b1263
 import * as THREE from "THREE";
-import { tweenCol } from "./tweenModules";
+import { tweenCol } from "./modules";
 var TWEEN = require("@tweenjs/tween.js");
 import * as PEDS from "./peds";
-import { remapCol } from "./colorModules";
+import { remapCol } from "./modules";
 
 export function searchNearest(thisType, searchType, grid, x, y, animDuration) {
   // go through all grid cells
@@ -18,9 +18,9 @@ export function searchNearest(thisType, searchType, grid, x, y, animDuration) {
       //if so, collect cells around [WIP]
       NeigbhorsArr.push(
         grid.children[i + 1],
-        grid.children[i - 1]
-        // grid.children[i + x],
-        // grid.children[i - x]
+        grid.children[i - 1],
+        grid.children[i + x],
+        grid.children[i - x]
       );
       let countRes = countNeigbhors(NeigbhorsArr, thisType, searchType);
       // update text inner cell with % of access

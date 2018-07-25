@@ -38,7 +38,7 @@ Structure:
       |                                         ^
       v                                         |
 +-----+------+    +-------------+               |
-|threeSetup  +--->+   makeGrid  +----------------
+|threeSetup  |--->|   makeGrid  |----------------
 +------------+    +-------------+
 */
 
@@ -50,33 +50,13 @@ import * as GRID from "./searchNearest.js";
 document.onload = init();
 
 function init() {
-  var allCols = [
-    "rgb(237, 80, 102)",
-    "rgb(244, 130, 125)",
-    "rgb(244, 185, 158)",
-    "rgb(253, 202, 162)",
-    "rgb(246, 236, 212)",
-    "rgb(204, 217, 206)",
-    "rgb(165, 187, 185)",
-    "rgb(163, 191, 162)",
-    "rgb(128, 173, 169)",
-    "rgb(102, 138, 135)",
-    "rgb(64, 86, 84)",
-    "rgb(38, 60, 58)",
-    "rgb(38, 60, 58)",
-    "rgb(20, 24, 26)"
-  ];
-
-  /////////////////////////////////////
-
   var gridX = 20;
   var gridY = 20;
   var grid;
   //call threejs setup onload
   grid = threeSetup.threeInit(gridX, gridY);
-
   /////////////////////////////////////////////
-  //interact for now
+  //interaction
   document.body.addEventListener("keyup", function(e) {
     switch (e.keyCode) {
       //look for this keys

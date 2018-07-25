@@ -2,7 +2,7 @@
 import "babel-polyfill";
 import * as THREE from "THREE";
 import OrbitControls from "three-orbitcontrols";
-import { makeGrid } from "./makeGrid.js";
+import { makeGrid } from "./makeGrid";
 
 export function threeInit(gridX, gridY) {
   //three vars
