@@ -43,7 +43,7 @@ export function makePeds(color, NeigbhorsArr, countRes) {
 
   geometry.computeBoundingSphere();
   var material = new THREE.PointsMaterial({
-    size: 1,
+    size: 2,
     transparent: true,
     opacity: 0.8,
     vertexColors: THREE.VertexColors,
