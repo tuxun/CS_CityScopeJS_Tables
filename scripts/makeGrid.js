@@ -38,25 +38,6 @@ export function makeGrid(sizeX, sizeY) {
   return grid;
 }
 
-/////////////// landUseGrid maker ///////////////////////
-export function landUseGrid(grid, cityIOdata) {
-  var names = ["P", "W", "L", "G"];
-  var colors = [0x3d85c6, 0xff4233, 0xf9ff33, 0x6aa84f];
-
-  for (let i = 0; i < grid.children.length; i++) {
-    //reset all
-    grid.children[i].position.y = 0;
-    grid.children[i].scale.y = 1;
-    // grid.children[i].children["0"].scale. = 1;
-
-    grid.children[i].children["0"].text = i.toString();
-
-    grid.children[i].material.color.set(colors[cityIOdata.grid[i] + 1]);
-    grid.children[i].name = names[cityIOdata.grid[i] + 1];
-    grid.children[i].children["0"].text += " > " + grid.children[i].name;
-  }
-}
-
 /////////////// TEXT OVER  ///////////////////////
 function textMaker(string, thisCol) {
   var text = new SpriteText2D(string.toString(), {
