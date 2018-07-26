@@ -68,7 +68,7 @@ export function threeInit(gridX, gridY) {
   scene.add(ambLight);
   // Spotlight for specific illumination
   var spotLight = new THREE.SpotLight(0xfffffff, 0.75);
-  spotLight.position.set(gridX, 30, gridY);
+  spotLight.position.set(30, 40, 30);
 
   spotLight.castShadow = true;
   spotLight.shadow.bias = 0.0000001;

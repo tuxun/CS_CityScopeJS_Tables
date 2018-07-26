@@ -9,7 +9,6 @@ export function makeGrid(sizeX, sizeY) {
   var grid = new THREE.Object3D();
   var geometry = null;
   var material = null;
-  var count = 0;
   //loop through grid making
   for (var x = 0; x < sizeX; x++) {
     for (var y = 0; y < sizeY; y++) {
@@ -30,12 +29,10 @@ export function makeGrid(sizeX, sizeY) {
       grid.add(mesh);
 
       // make text over cell
-      let string = count.toString();
-      let text = textMaker(string, "white");
+      let text = textMaker(" ", "white");
       text.scale.set(0.005, 0.005, 0.005);
       text.position.y = mesh.position.y + 0.5;
       mesh.add(text);
-      count++;
     }
   }
   return grid;
@@ -45,9 +42,18 @@ export function makeGrid(sizeX, sizeY) {
 export function landUseGrid(grid, cityIOdata) {
   var names = ["P", "W", "L", "G"];
   var colors = [0x3d85c6, 0xff4233, 0xf9ff33, 0x6aa84f];
+
   for (let i = 0; i < grid.children.length; i++) {
+    //reset all
+    grid.children[i].position.y = 0;
+    grid.children[i].scale.y = 1;
+    // grid.children[i].children["0"].scale. = 1;
+
+    grid.children[i].children["0"].text = i.toString();
+
     grid.children[i].material.color.set(colors[cityIOdata.grid[i] + 1]);
     grid.children[i].name = names[cityIOdata.grid[i] + 1];
+    grid.children[i].children["0"].text += " > " + grid.children[i].name;
   }
 }
 

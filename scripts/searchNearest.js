@@ -8,8 +8,15 @@ import * as PEDS from "./peds";
 export function searchNearest(thisType, searchType, grid, x, y, animDuration) {
   // go through all grid cells
   for (let i = 0; i < grid.children.length; i++) {
-    //draw all in black
+    //draw all in black and reset scale/pos
     grid.children[i].material.color.set(0x181818);
+    grid.children[i].position.y = 0;
+    grid.children[i].scale.y = 1;
+    //remove old peds from this cell
+    if (grid.children[i].children[1]) {
+      grid.children[i].remove(grid.children[i].children[1]);
+    }
+    //;
 
     //check if grid cell is the type we look for
     if (grid.children[i].name === thisType) {
@@ -20,11 +27,15 @@ export function searchNearest(thisType, searchType, grid, x, y, animDuration) {
         grid.children[i + 1],
         grid.children[i - 1],
         grid.children[i + x],
-        grid.children[i - x]
+        grid.children[i - x],
+        grid.children[i + x + 1],
+        grid.children[i - x - 1]
       );
       let countRes = countNeigbhors(NeigbhorsArr, thisType, searchType);
+      //update size to show results
+      grid.children[i].scale.y += countRes * 2;
+      grid.children[i].position.y += countRes;
       // update text inner cell with % of access
-
       grid.children[i].children["0"].text = countRes * 100 + "%";
 
       //remap neighbors count to color on a scale of green to red

@@ -8,7 +8,7 @@ export function stateManager(cityIOdata) {
   if (cityIOdata.header.spatial.ncols) {
     var gridX = cityIOdata.header.spatial.ncols;
     var gridY = cityIOdata.header.spatial.nrows;
-    //build threejs baseline grid onload
+    //build threejs baseline grid on load
     var grid = threeSetup.threeInit(gridX, gridY);
     //paint land use grid at start
     landUseGrid(grid, cityIOdata);
