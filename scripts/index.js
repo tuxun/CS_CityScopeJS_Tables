@@ -30,8 +30,8 @@ https://github.com/RELNO]
 */ ///////////////////////////////////////////////////////////////////////////
 
 import * as threeSetup from "./threeSetup";
-import { searchNearest } from "./states";
-import { landUseGrid } from "./states";
+import { walkabilityMap } from "./states";
+import { landUseMap } from "./states";
 
 ////////////////////////////////////////
 //get cityIO method
@@ -69,7 +69,7 @@ function stateManager(cityIOdata) {
     //build threejs baseline grid on load
     var grid = threeSetup.threeInit(gridX, gridY);
     //paint land use grid at start
-    landUseGrid(grid, cityIOdata);
+    landUseMap(grid, cityIOdata);
     //then, set key listener
     document.body.addEventListener("keyup", function(e) {
       switch (e.keyCode) {
@@ -78,7 +78,7 @@ function stateManager(cityIOdata) {
         case 76:
         case 80:
         case 87:
-          searchNearest(
+          walkabilityMap(
             String.fromCharCode(e.keyCode),
             "P",
             grid,
@@ -88,7 +88,7 @@ function stateManager(cityIOdata) {
           );
           break;
         default:
-          landUseGrid(grid, cityIOdata);
+          landUseMap(grid, cityIOdata);
           break;
       }
     });

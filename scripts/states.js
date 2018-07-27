@@ -6,7 +6,7 @@ var TWEEN = require("@tweenjs/tween.js");
 import * as PEDS from "./peds";
 
 /////////////// landUseGrid maker ///////////////////////
-export function landUseGrid(grid, cityIOdata) {
+export function landUseMap(grid, cityIOdata) {
   var names = ["P", "W", "L", "G"];
   var colors = [0x3d85c6, 0xff4233, 0xf9ff33, 0x6aa84f];
 
@@ -30,7 +30,7 @@ export function landUseGrid(grid, cityIOdata) {
 
 /////////////// searchNearest  ///////////////////////
 
-export function searchNearest(thisType, searchType, grid, x, y, animDuration) {
+export function walkabilityMap(thisType, searchType, grid, x, y, animDuration) {
   // go through all grid cells
   for (let i = 0; i < grid.children.length; i++) {
     //draw all in black and reset scale/pos
@@ -61,7 +61,9 @@ export function searchNearest(thisType, searchType, grid, x, y, animDuration) {
       grid.children[i].scale.y += countRes * 2;
       grid.children[i].position.y += countRes;
       // update text inner cell with % of access
-      grid.children[i].children["0"].text = countRes * 100 + "%";
+      grid.children[i].children["0"].text = Math.floor(countRes * 100) + "%";
+      // if (countRes === 1) console.log(grid.children[i]);
+      //grid.children[i].children["0"].text += " " + cellCol;
 
       //remap neighbors count to color on a scale of green to red
       let cellCol =
@@ -72,8 +74,6 @@ export function searchNearest(thisType, searchType, grid, x, y, animDuration) {
         "," +
         remapCol(countRes)[2] +
         ")";
-
-      grid.children[i].children["0"].text += " " + cellCol;
 
       //recolor the cells
       drawCell(grid.children[i], cellCol, animDuration);
