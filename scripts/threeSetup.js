@@ -1,4 +1,3 @@
-// fixes Uncaught ReferenceError: regeneratorRuntime is not defined
 import * as THREE from "THREE";
 import OrbitControls from "three-orbitcontrols";
 import { makeGrid } from "./makeGrid";
