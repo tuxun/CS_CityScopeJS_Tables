@@ -32,29 +32,49 @@ https://github.com/RELNO]
 // fixes Uncaught ReferenceError: regeneratorRuntime is not defined
 import "babel-polyfill";
 ///
+import { getCityIO } from "./modules";
 import * as threeSetup from "./threeSetup";
-import { walkabilityMap } from "./states";
+import { gridInfo } from "./states";
 import { landUseMap } from "./states";
+import { walkabilityMap } from "./states";
+
+// global vars for now
+let tableName = "cityscopeJS";
+let cityIOtableURL =
+  "https://cityio.media.mit.edu/api/table/" + tableName.toString();
+let interval = 1000;
 
 ////////////////////////////////////////
 async function init() {
-  var tableName = "cityscopeJS";
-  let cityIOtableURL =
-    "https://cityio.media.mit.edu/api/table/" + tableName.toString();
-
   //call server once at start, just to setup the grid
   let cityIOdata = await getCityIO(cityIOtableURL);
 
   //build threejs initial grid on load
   var grid = threeSetup.threeInit(cityIOdata);
   //paint land use grid at start
+  gridInfo(grid, cityIOdata);
   landUseMap(grid, cityIOdata);
   stateManager(grid, cityIOdata);
 }
 
 /////////////////////////////////////////////
 //state Manager
-function stateManager(grid, cityIOdata) {
+function stateManager(grid, initalCityIOdata) {
+  let cityIOdata;
+  let lastUpdateDate = initalCityIOdata.meta.timestamp;
+  let currentstate = null;
+  //call update recursively
+  setInterval(updateCityIO, interval);
+  async function updateCityIO() {
+    cityIOdata = await getCityIO(cityIOtableURL);
+    if (lastUpdateDate == cityIOdata.meta.timestamp) {
+      console.log("no new data");
+    } else {
+      lastUpdateDate = cityIOdata.meta.timestamp;
+      console.log("New CityIO data");
+      gridInfo(grid, cityIOdata);
+    }
+  }
   //then, set key listener
   document.body.addEventListener("keyup", function(e) {
     switch (e.keyCode) {
@@ -76,20 +96,6 @@ function stateManager(grid, cityIOdata) {
         break;
     }
   });
-}
-
-////////////////////////////////////////
-//get cityIO method [polyfill]
-function getCityIO(cityIOtableURL) {
-  console.log("trying to fetch..");
-  return fetch(cityIOtableURL)
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(cityIOdata) {
-      console.log("got cityIO table at " + cityIOdata.meta.timestamp);
-      return cityIOdata;
-    });
 }
 
 ////////////////////////////////////////

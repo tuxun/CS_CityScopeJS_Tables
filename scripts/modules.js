@@ -1,3 +1,19 @@
+import "babel-polyfill";
+
+////////////////////////////////////////
+//get cityIO method [polyfill]
+export function getCityIO(cityIOtableURL) {
+  console.log("trying to fetch " + cityIOtableURL);
+  return fetch(cityIOtableURL)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(cityIOdata) {
+      console.log("got cityIO table at " + cityIOdata.meta.timestamp);
+      return cityIOdata;
+    });
+}
+
 ////////////////////////////////////////
 ////////////////////////////////////////
 export function remapCol(countRes) {

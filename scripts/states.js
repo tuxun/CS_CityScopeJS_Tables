@@ -7,26 +7,32 @@ import { remapCol } from "./modules";
 var TWEEN = require("@tweenjs/tween.js");
 import * as PEDS from "./peds";
 
+export function gridInfo(grid, cityIOdata) {
+  var names = ["P", "W", "L", "G"];
+  for (let i = 0; i < grid.children.length; i++) {
+    grid.children[i].name = names[cityIOdata.grid[i] + 1];
+  }
+}
+
 /////////////// landUseGrid maker ///////////////////////
 export function landUseMap(grid, cityIOdata) {
-  var names = ["P", "W", "L", "G"];
   var colors = [0x3d85c6, 0xff4233, 0xf9ff33, 0x6aa84f];
 
   for (let i = 0; i < grid.children.length; i++) {
-    //cleanup peds at state reset
+    //if exist, cleanup peds at state reset
     if (grid.children[i].children[1]) {
       grid.children[i].remove(grid.children[i].children[1]);
     }
     //reset all sizes and positions
     grid.children[i].position.y = 0;
     grid.children[i].scale.y = 1;
-    // grid.children[i].children["0"].scale. = 1;
+
     //cell number display
     grid.children[i].children["0"].text = i.toString();
 
-    // set the type for each cell [WIP]
+    // set the land use color for each cell [WIP]
     grid.children[i].material.color.set(colors[cityIOdata.grid[i] + 1]);
-    grid.children[i].name = names[cityIOdata.grid[i] + 1];
+
     //add name to cell text display
     grid.children[i].children["0"].text += " > " + grid.children[i].name;
   }
