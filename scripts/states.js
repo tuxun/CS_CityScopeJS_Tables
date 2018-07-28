@@ -1,4 +1,6 @@
 // https://medium.com/@lachlantweedie/animation-in-three-js-using-tween-js-with-examples-c598a19b1263
+import "babel-polyfill";
+
 import * as THREE from "THREE";
 import { tweenCol } from "./modules";
 import { remapCol } from "./modules";
