@@ -2,7 +2,10 @@ import * as THREE from "THREE";
 import OrbitControls from "three-orbitcontrols";
 import { makeGrid } from "./makeGrid";
 
-export function threeInit(gridX, gridY) {
+export function threeInit(cityIOdata) {
+  //get table dims
+  var gridX = cityIOdata.header.spatial.ncols;
+  var gridY = cityIOdata.header.spatial.nrows;
   //three vars
   var camera;
   var scene;

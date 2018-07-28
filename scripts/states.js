@@ -33,7 +33,16 @@ export function landUseMap(grid, cityIOdata) {
 }
 
 /////////////// searchNearest  ///////////////////////
-export function walkabilityMap(thisType, searchType, grid, x, y, animDuration) {
+export function walkabilityMap(
+  thisType,
+  searchType,
+  grid,
+  cityIOdata,
+  animDuration
+) {
+  //get table dims
+  var x = cityIOdata.header.spatial.ncols;
+  var y = cityIOdata.header.spatial.nrows;
   // go through all grid cells
   for (let i = 0; i < grid.children.length; i++) {
     //draw all in black and reset scale/pos

@@ -41,49 +41,45 @@ async function init() {
   var tableName = "cityscopeJS";
   let cityIOtableURL =
     "https://cityio.media.mit.edu/api/table/" + tableName.toString();
+
   //call server once at start, just to setup the grid
-  await getCityIO(cityIOtableURL);
+  let cityIOdata = await getCityIO(cityIOtableURL);
+
+  //build threejs initial grid on load
+  var grid = threeSetup.threeInit(cityIOdata);
+  //paint land use grid at start
+  landUseMap(grid, cityIOdata);
+  stateManager(grid, cityIOdata);
 }
-//start app
-init();
 
 /////////////////////////////////////////////
 //state Manager
-function stateManager(cityIOdata) {
-  if (cityIOdata.meta.timestamp) {
-    var gridX = cityIOdata.header.spatial.ncols;
-    var gridY = cityIOdata.header.spatial.nrows;
-    //build threejs initial grid on load
-    var grid = threeSetup.threeInit(gridX, gridY);
-    //paint land use grid at start
-    landUseMap(grid, cityIOdata);
-    //then, set key listener
-    document.body.addEventListener("keyup", function(e) {
-      switch (e.keyCode) {
-        //look for this keys
-        case 71:
-        case 76:
-        case 80:
-        case 87:
-          walkabilityMap(
-            String.fromCharCode(e.keyCode),
-            "P",
-            grid,
-            gridX,
-            gridY,
-            3000
-          );
-          break;
-        default:
-          landUseMap(grid, cityIOdata);
-          break;
-      }
-    });
-  }
+function stateManager(grid, cityIOdata) {
+  //then, set key listener
+  document.body.addEventListener("keyup", function(e) {
+    switch (e.keyCode) {
+      //look for this keys
+      case 71:
+      case 76:
+      case 80:
+      case 87:
+        walkabilityMap(
+          String.fromCharCode(e.keyCode),
+          "P",
+          grid,
+          cityIOdata,
+          3000
+        );
+        break;
+      default:
+        landUseMap(grid, cityIOdata);
+        break;
+    }
+  });
 }
 
 ////////////////////////////////////////
-//get cityIO method
+//get cityIO method [polyfill]
 function getCityIO(cityIOtableURL) {
   console.log("trying to fetch..");
   return fetch(cityIOtableURL)
@@ -92,7 +88,10 @@ function getCityIO(cityIOtableURL) {
     })
     .then(function(cityIOdata) {
       console.log("got cityIO table at " + cityIOdata.meta.timestamp);
-      // return jsonData;
-      stateManager(cityIOdata);
+      return cityIOdata;
     });
 }
+
+////////////////////////////////////////
+//start app
+init();
