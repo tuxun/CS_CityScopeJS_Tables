@@ -42,6 +42,7 @@ import { walkabilityMap } from "./states";
 let tableName = "cityscopeJS";
 let cityIOtableURL =
   "https://cityio.media.mit.edu/api/table/" + tableName.toString();
+//update interval
 let interval = 1000;
 
 ////////////////////////////////////////
@@ -62,8 +63,7 @@ async function init() {
 function stateManager(grid, initalCityIOdata) {
   let cityIOdata;
   let lastUpdateDate = initalCityIOdata.meta.timestamp;
-  let currentstate = null;
-  //call update recursively
+  //call cityIO update recursively
   setInterval(updateCityIO, interval);
   async function updateCityIO() {
     cityIOdata = await getCityIO(cityIOtableURL);
@@ -78,6 +78,29 @@ function stateManager(grid, initalCityIOdata) {
       walkabilityMap("W", "P", grid, cityIOdata, 3000);
     }
   }
+
+  //
+  //then, set key listener
+  document.body.addEventListener("keyup", function(e) {
+    switch (e.keyCode) {
+      //look for this keys
+      case 71:
+      case 76:
+      case 80:
+      case 87:
+        walkabilityMap(
+          String.fromCharCode(e.keyCode),
+          "P",
+          grid,
+          cityIOdata,
+          3000
+        );
+        break;
+      default:
+        landUseMap(grid, cityIOdata);
+        break;
+    }
+  });
 }
 
 ////////////////////////////////////////

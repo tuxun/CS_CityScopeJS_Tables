@@ -1,10 +1,8 @@
 // https://medium.com/@lachlantweedie/animation-in-three-js-using-tween-js-with-examples-c598a19b1263
 import "babel-polyfill";
 
-import * as THREE from "THREE";
-import { tweenCol } from "./modules";
 import { remapCol } from "./modules";
-var TWEEN = require("@tweenjs/tween.js");
+import { countNeigbhors, drawCell } from "./modules";
 import * as PEDS from "./peds";
 
 export function gridInfo(grid, cityIOdata) {
@@ -14,7 +12,7 @@ export function gridInfo(grid, cityIOdata) {
   }
 }
 
-/////////////// landUseGrid maker ///////////////////////
+/////////////// landUseGrid  ///////////////////////
 export function landUseMap(grid, cityIOdata) {
   var colors = [0x3d85c6, 0xff4233, 0xf9ff33, 0x6aa84f];
 
@@ -47,8 +45,7 @@ export function walkabilityMap(
   animDuration
 ) {
   //get table dims
-  var x = cityIOdata.header.spatial.ncols;
-  var y = cityIOdata.header.spatial.nrows;
+  var gridX = cityIOdata.header.spatial.ncols;
   // go through all grid cells
   for (let i = 0; i < grid.children.length; i++) {
     //draw all in black and reset scale/pos
@@ -69,10 +66,10 @@ export function walkabilityMap(
       NeigbhorsArr.push(
         grid.children[i + 1],
         grid.children[i - 1],
-        grid.children[i + x],
-        grid.children[i - x],
-        grid.children[i + x + 1],
-        grid.children[i - x - 1]
+        grid.children[i + gridX],
+        grid.children[i - gridX],
+        grid.children[i + gridX + 1],
+        grid.children[i - gridX - 1]
       );
       let countRes = countNeigbhors(NeigbhorsArr, thisType, searchType);
       //update size to show results
@@ -93,7 +90,7 @@ export function walkabilityMap(
         remapCol(countRes)[2] +
         ")";
 
-      //recolor the cells
+      //recolor the cells with TWEEN
       drawCell(grid.children[i], cellCol, animDuration);
 
       //add pedestrians per grid object
@@ -102,38 +99,8 @@ export function walkabilityMap(
         NeigbhorsArr,
         countRes
       );
+      //add peds to cell
       grid.children[i].add(peds);
     }
   }
-}
-
-////////////////////////////////////////
-function countNeigbhors(NeigbhorsArr, thisType, searchType) {
-  let counter = 0;
-  for (let i = 0; i < NeigbhorsArr.length; i++) {
-    if (
-      NeigbhorsArr[i] != null &&
-      NeigbhorsArr[i].name != thisType &&
-      NeigbhorsArr[i].name == searchType
-    ) {
-      counter++;
-    }
-  }
-  return counter / NeigbhorsArr.length;
-}
-
-////////////////////////////////////////
-//color each cell
-//https://sole.github.io/tween.js/examples/03_graphs.html
-function drawCell(obj, color, duration) {
-  var target = new THREE.Color(color);
-  tweenCol(obj.material.color, target, {
-    duration: rndInt(0, duration),
-    easing: TWEEN.Easing.Bounce.In
-  });
-}
-
-////////////////////////////////////////
-function rndInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
 }

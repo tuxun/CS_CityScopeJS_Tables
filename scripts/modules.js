@@ -1,15 +1,17 @@
 import "babel-polyfill";
+import * as THREE from "THREE";
+var TWEEN = require("@tweenjs/tween.js");
 
 ////////////////////////////////////////////////////////////////////
 //get cityIO method [polyfill]
 export function getCityIO(cityIOtableURL) {
-  console.log("trying to fetch " + cityIOtableURL);
+  // console.log("trying to fetch " + cityIOtableURL);
   return fetch(cityIOtableURL)
     .then(function(response) {
       return response.json();
     })
     .then(function(cityIOdata) {
-      console.log("got cityIO table at " + cityIOdata.meta.timestamp);
+      // console.log("got cityIO table at " + cityIOdata.meta.timestamp);
       return cityIOdata;
     });
 }
@@ -25,9 +27,23 @@ export function remapCol(countRes) {
 }
 
 ////////////////////////////////////////////////////////////////////
+//color each cell
+//https://sole.github.io/tween.js/examples/03_graphs.html
+export function drawCell(obj, color, duration) {
+  var target = new THREE.Color(color);
+  tweenCol(obj.material.color, target, {
+    duration: rndInt(0, duration),
+    easing: TWEEN.Easing.Bounce.In
+  });
+}
+
+////////////////////////////////////////////////////////////////////
+export function rndInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+////////////////////////////////////////////////////////////////////
 //TWEEN colors
-import * as THREE from "THREE";
-var TWEEN = require("@tweenjs/tween.js");
 
 //Animates a Vector3 to the target
 export function tweenCol(colToAnim, targetCol, options) {
@@ -61,3 +77,18 @@ function animate(t) {
 }
 //start the loop
 animate();
+
+////////////////////////////////////////////////////////////////////
+export function countNeigbhors(NeigbhorsArr, thisType, searchType) {
+  let counter = 0;
+  for (let i = 0; i < NeigbhorsArr.length; i++) {
+    if (
+      NeigbhorsArr[i] != null &&
+      NeigbhorsArr[i].name != thisType &&
+      NeigbhorsArr[i].name == searchType
+    ) {
+      counter++;
+    }
+  }
+  return counter / NeigbhorsArr.length;
+}
