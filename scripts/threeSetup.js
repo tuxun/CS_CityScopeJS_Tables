@@ -69,10 +69,10 @@ export function threeInit(cityIOdata) {
   scene.add(ambLight);
   // Spotlight for specific illumination
   var spotLight = new THREE.SpotLight(0xfffffff, 0.75);
-  spotLight.position.set(30, 40, 30);
+  spotLight.position.set(gridX * 2, 25, gridY * 2);
 
   spotLight.castShadow = true;
-  spotLight.shadow.bias = 0.0000001;
+  spotLight.shadow.bias = 0.00000001;
   spotLight.shadow.mapSize.width = 1024; // Shadow Quality
   spotLight.shadow.mapSize.height = 1024; // Shadow Quality
   scene.add(spotLight);
