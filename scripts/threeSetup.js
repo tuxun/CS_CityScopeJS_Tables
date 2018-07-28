@@ -1,5 +1,4 @@
 // fixes Uncaught ReferenceError: regeneratorRuntime is not defined
-import "babel-polyfill";
 import * as THREE from "THREE";
 import OrbitControls from "three-orbitcontrols";
 import { makeGrid } from "./makeGrid";
