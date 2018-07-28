@@ -1,3 +1,25 @@
+//then, set key listener
+document.body.addEventListener("keyup", function(e) {
+  switch (e.keyCode) {
+    //look for this keys
+    case 71:
+    case 76:
+    case 80:
+    case 87:
+      walkabilityMap(
+        String.fromCharCode(e.keyCode),
+        "P",
+        grid,
+        cityIOdata,
+        3000
+      );
+      break;
+    default:
+      landUseMap(grid, cityIOdata);
+      break;
+  }
+});
+
 //keep for now
 var allCols = [
   "rgb(237, 80, 102)",

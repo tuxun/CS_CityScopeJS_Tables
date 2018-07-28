@@ -72,30 +72,12 @@ function stateManager(grid, initalCityIOdata) {
     } else {
       lastUpdateDate = cityIOdata.meta.timestamp;
       console.log("New CityIO data");
+      //update the grid info
       gridInfo(grid, cityIOdata);
+      // landUseMap(grid, cityIOdata);
+      walkabilityMap("W", "P", grid, cityIOdata, 3000);
     }
   }
-  //then, set key listener
-  document.body.addEventListener("keyup", function(e) {
-    switch (e.keyCode) {
-      //look for this keys
-      case 71:
-      case 76:
-      case 80:
-      case 87:
-        walkabilityMap(
-          String.fromCharCode(e.keyCode),
-          "P",
-          grid,
-          cityIOdata,
-          3000
-        );
-        break;
-      default:
-        landUseMap(grid, cityIOdata);
-        break;
-    }
-  });
 }
 
 ////////////////////////////////////////
