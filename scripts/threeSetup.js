@@ -45,7 +45,7 @@ export function threeInit(cityIOdata) {
     /////////////
     var frustumSize = 100;
     var aspect = window.innerWidth / window.innerHeight;
-    var zoomFactor = 6;
+    var zoomFactor = 10;
     camera = new THREE.OrthographicCamera(
       (frustumSize * aspect) / -zoomFactor,
       (frustumSize * aspect) / zoomFactor,
@@ -62,6 +62,10 @@ export function threeInit(cityIOdata) {
   //issue with drop down-menu not responding
   controls = new OrbitControls(camera, renderer.domElement);
   controls.target.set(gridX / 2, 0, gridY / 2);
+
+  camera.lookAt(new THREE.Vector3(gridX / 2, 0, gridY / 2));
+  //rotate camera FIX
+  // camera.rotateZ(3.14159);
 
   /////////////// LIGHTS ///////////////////////
   //Create a PointLight and turn on shadows for the light
@@ -82,7 +86,6 @@ export function threeInit(cityIOdata) {
   // scene.add(axes);
 
   //make grid geom
-
   let grid = makeGrid(gridX, gridY);
   scene.add(grid);
 

@@ -1,14 +1,21 @@
 // https://medium.com/@lachlantweedie/animation-in-three-js-using-tween-js-with-examples-c598a19b1263
 import "babel-polyfill";
 
-import { remapCol } from "./modules";
+import { remapCol, getCityIO } from "./modules";
 import { countNeigbhors, drawCell } from "./modules";
 import * as PEDS from "./peds";
 
 export function gridInfo(grid, cityIOdata) {
   var names = ["P", "W", "L", "G"];
   for (let i = 0; i < grid.children.length; i++) {
-    grid.children[i].name = names[cityIOdata.grid[i] + 1];
+    //base type
+    grid.children[i].name = "G";
+    //then
+    if (cityIOdata.grid[i] === -1) {
+      grid.children[i].name = "L";
+    } else {
+      grid.children[i].name = names[cityIOdata.grid[i]];
+    }
   }
 }
 
@@ -26,13 +33,17 @@ export function landUseMap(grid, cityIOdata) {
     grid.children[i].scale.y = 1;
 
     //cell number display
-    grid.children[i].children["0"].text = i.toString();
+    grid.children[i].children["0"].text =
+      i.toString() + " > " + grid.children[i].name;
 
     // set the land use color for each cell [WIP]
-    grid.children[i].material.color.set(colors[cityIOdata.grid[i] + 1]);
+    grid.children[i].material.color.set(colors[3]);
 
-    //add name to cell text display
-    grid.children[i].children["0"].text += " > " + grid.children[i].name;
+    if (cityIOdata.grid[i] === -1) {
+      grid.children[i].material.color.set(colors[2]);
+    } else {
+      grid.children[i].material.color.set(colors[cityIOdata.grid[i]]);
+    }
   }
 }
 

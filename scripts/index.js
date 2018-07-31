@@ -39,7 +39,7 @@ import { landUseMap } from "./states";
 import { walkabilityMap } from "./states";
 
 // global vars for now
-let tableName = "cityscopeJS";
+let tableName = "cityscopeJSwalk";
 let cityIOtableURL =
   "https://cityio.media.mit.edu/api/table/" + tableName.toString();
 //update interval
@@ -68,14 +68,15 @@ function stateManager(grid, initalCityIOdata) {
   async function updateCityIO() {
     cityIOdata = await getCityIO(cityIOtableURL);
     if (lastUpdateDate == cityIOdata.meta.timestamp) {
-      console.log("no new data");
+      // console.log("no new data");
     } else {
       lastUpdateDate = cityIOdata.meta.timestamp;
       console.log("New CityIO data");
       //update the grid info
       gridInfo(grid, cityIOdata);
-      // landUseMap(grid, cityIOdata);
-      walkabilityMap("W", "P", grid, cityIOdata, 3000);
+      landUseMap(grid, cityIOdata);
+      //HERE - a pair of two bricks would set the interaction
+      // walkabilityMap("G", "L", grid, cityIOdata, 1000);
     }
   }
 
@@ -93,7 +94,7 @@ function stateManager(grid, initalCityIOdata) {
           "P",
           grid,
           cityIOdata,
-          3000
+          2000
         );
         break;
       default:
