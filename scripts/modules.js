@@ -3,7 +3,11 @@ import * as THREE from "THREE";
 var TWEEN = require("@tweenjs/tween.js");
 
 ////////////////////////////////////////////////////////////////////
-//get cityIO method [polyfill]
+/**
+ * get cityIO method [uses polyfill]
+ * @param cityIOtableURL cityIO API endpoint URL
+ */
+
 export function getCityIO(cityIOtableURL) {
   // console.log("trying to fetch " + cityIOtableURL);
   return fetch(cityIOtableURL)
@@ -17,7 +21,12 @@ export function getCityIO(cityIOtableURL) {
 }
 
 ////////////////////////////////////////////////////////////////////
-//remap color to RGB
+
+/**
+ * remap color to RGB
+ * @param countRes the ratio of surrounding walkable objects
+ * @returns {} R , G , B colors
+ */
 export function remapCol(countRes) {
   let R = Math.ceil(255 - 255 * countRes);
   let G = Math.ceil(255 * countRes);

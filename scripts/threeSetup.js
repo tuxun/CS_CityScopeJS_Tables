@@ -14,7 +14,7 @@ export function threeInit(cityIOdata) {
   var renderer;
   var controls;
   //could be edited - Square for now
-  var CANVAS_WIDTH = window.innerHeight;
+  var CANVAS_WIDTH = window.innerWidth;
   var CANVAS_HEIGHT = window.innerHeight;
   ///////////////SETUP SCENE///////////////////////
   let threeDiv = document.createElement("div");

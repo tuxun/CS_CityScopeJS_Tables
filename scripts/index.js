@@ -39,11 +39,11 @@ import { landUseMap } from "./states";
 import { walkabilityMap } from "./states";
 
 // global vars for now
-let tableName = "cityscopeJSwalk";
+let tableName = "CityScopeJS_WALK";
 let cityIOtableURL =
   "https://cityio.media.mit.edu/api/table/" + tableName.toString();
 //update interval
-let interval = 1000;
+let interval = 100;
 
 ////////////////////////////////////////
 async function init() {
@@ -59,8 +59,14 @@ async function init() {
 }
 
 /////////////////////////////////////////////
-//state Manager
+/**
+ * state Manager for keyboard input
+ * @param grid THREE.js grid.
+ * @param initalCityIOdata the results of the init call to cityIO.
+ */
+
 function stateManager(grid, initalCityIOdata) {
+  let stateHolder = [];
   let cityIOdata;
   let lastUpdateDate = initalCityIOdata.meta.timestamp;
   //call cityIO update recursively
@@ -72,24 +78,33 @@ function stateManager(grid, initalCityIOdata) {
       // console.log("no new data");
     } else {
       lastUpdateDate = cityIOdata.meta.timestamp;
-      console.log("New CityIO data");
+      // console.log("New CityIO data");
       //update the grid info
       gridInfo(grid, cityIOdata);
-      landUseMap(grid, cityIOdata);
-      //HERE - a pair of two bricks would set the interaction
-      // walkabilityMap("G", "L", grid, cityIOdata, 1000);
+      console.log(stateHolder);
+
+      if (stateHolder.length < 2) {
+        landUseMap(grid, cityIOdata);
+      } else {
+        //read state details and make a quick map in accordance
+        walkabilityMap(stateHolder[0], stateHolder[1], grid, cityIOdata, 100);
+      }
     }
   }
 
-  //
+  ////////////////////////////////////////////////////////
   //then, set key listener
   document.body.addEventListener("keyup", function(e) {
     switch (e.keyCode) {
-      //look for this keys
+      //look for these keys
       case 71:
       case 76:
       case 80:
       case 87:
+        //put  state details in a stateHolder var,
+        //so we can go back and read them after next cityIO update
+        stateHolder.splice(0, 2, String.fromCharCode(e.keyCode), "P");
+
         walkabilityMap(
           String.fromCharCode(e.keyCode),
           "P",
@@ -100,11 +115,12 @@ function stateManager(grid, initalCityIOdata) {
         break;
       default:
         landUseMap(grid, cityIOdata);
+        stateHolder.splice(0, 5);
         break;
     }
   });
 }
 
 ////////////////////////////////////////
-//start app
+//start the app
 init();
