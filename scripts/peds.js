@@ -1,12 +1,13 @@
 // https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry_drawcalls.html
 import * as THREE from "THREE";
 import * as texPath from "../images/ball.png";
+import { rndInt } from "./modules";
 
-export function makePeds(color, NeigbhorsArr, countRes) {
+export function makePeds(cellColor, NeigbhorsArr, countRes) {
   var cellPeds;
   var geometry = new THREE.BufferGeometry();
   var positions = [];
-  var colors = [];
+  var colArr = [];
   var texture = new THREE.TextureLoader().load(texPath.default);
   var maxparticles = 1000;
 
@@ -17,42 +18,41 @@ export function makePeds(color, NeigbhorsArr, countRes) {
   var n = 1;
   // particles spread in the cube
   var n2 = n / 2;
+
+  //FIXED COLORS -- MUST BE REMAPPED to 0-1 range!!
+  let colR = rndInt(cellColor[0], cellColor[0] + 50) / 255;
+  let colG = rndInt(cellColor[1], cellColor[1] + 50) / 255;
+  let colB = rndInt(cellColor[2], cellColor[2] + 50) / 255;
+
   for (var i = 0; i < particles; i++) {
-    // colors -WIP GET THIS IN RGB
-    colors.push(color[0]);
-    colors.push(color[1]);
-    colors.push(color[2]);
+    colArr.push(colR, colG, colB);
 
     // positions
     var x = Math.random() * n - n2;
     var z = Math.random() * n - n2;
     positions.push(x, 2, z);
   }
-
+  //
   let posBuffer = new THREE.Float32BufferAttribute(positions, 3).setDynamic(
     true
   );
-
+  let colBuffer = new THREE.Float32BufferAttribute(colArr, 3);
+  //
   geometry.addAttribute("position", posBuffer);
-  geometry.addAttribute(
-    "color",
-    new THREE.Float32BufferAttribute(colors, 3).setDynamic(true)
-  );
-
-  geometry.computeBoundingSphere();
+  geometry.addAttribute("color", colBuffer);
+  //
   var material = new THREE.PointsMaterial({
-    size: 2,
+    size: 4,
     transparent: true,
     opacity: 0.8,
-    vertexColors: THREE.VertexColors,
     blending: THREE.AdditiveBlending,
     sizeAttenuation: false,
     map: texture,
-    depthTest: false
+    depthTest: false,
+    vertexColors: THREE.VertexColors
   });
 
   cellPeds = new THREE.Points(geometry, material);
-  // console.log(cellPeds.geometry.attributes.color.array);
 
   //grab the peds pos array for animation
   var posArr = posBuffer.array;
@@ -85,14 +85,14 @@ export function makePeds(color, NeigbhorsArr, countRes) {
         posArr[i] = 0;
       } else if (posArr[i] < 1 || posArr[i] > -1) {
         // posArr[i] += Math.random() / 20;
-        posArr[i] += Math.cos(angle) * 0.01;
+        posArr[i] += Math.cos(angle) * posArr.length * 0.0001;
       }
 
       //set Z
       if (posArr[i + 2] >= 1 || posArr[i + 2] <= -1) {
         posArr[i + 2] = 0;
       } else if (posArr[i + 2] < 1 || posArr[i + 2] > -1) {
-        posArr[i + 2] += Math.sin(angle) * 0.01;
+        posArr[i + 2] += Math.sin(angle) * posArr.length * 0.0001;
       }
 
       if (angle < countRes * 360) {
