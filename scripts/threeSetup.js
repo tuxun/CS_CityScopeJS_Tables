@@ -13,7 +13,8 @@ export function threeInit(cityIOdata) {
   var scene;
   var renderer;
   var controls;
-  var CANVAS_WIDTH = window.innerWidth;
+  //could be edited - Square for now
+  var CANVAS_WIDTH = window.innerHeight;
   var CANVAS_HEIGHT = window.innerHeight;
   ///////////////SETUP SCENE///////////////////////
   let threeDiv = document.createElement("div");
@@ -41,6 +42,7 @@ export function threeInit(cityIOdata) {
 
   /////////////// CAMERA ///////////////////////
   if (camera === undefined) {
+    //pers. cam
     // camera = new THREE.PerspectiveCamera(
     //   70,
     //   window.innerWidth / window.innerHeight,
