@@ -1,7 +1,9 @@
 import * as THREE from "THREE";
 import OrbitControls from "three-orbitcontrols";
 import { makeGrid } from "./gridSetup";
+import { Maptastic } from "./maptastic";
 
+//
 export function threeInit(cityIOdata) {
   //get table dims
   var gridX = cityIOdata.header.spatial.ncols;
@@ -11,26 +13,31 @@ export function threeInit(cityIOdata) {
   var scene;
   var renderer;
   var controls;
-
+  var CANVAS_WIDTH = window.innerWidth;
+  var CANVAS_HEIGHT = window.innerHeight;
   ///////////////SETUP SCENE///////////////////////
   let threeDiv = document.createElement("div");
   document.body.appendChild(threeDiv);
   threeDiv.id = "threeDiv";
   threeDiv.className = "threeDiv";
+  // add prjmaping
 
   scene = new THREE.Scene();
 
   // set up the renderer
   renderer = window.renderer = new THREE.WebGLRenderer({
-    alpha: true
+    alpha: true,
+    antialias: true
   });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(CANVAS_WIDTH, CANVAS_HEIGHT);
 
   //put to div
   threeDiv.appendChild(renderer.domElement);
+  //ONLY WAY TO M/S THREE.JS
+  Maptastic(renderer.domElement);
 
   /////////////// CAMERA ///////////////////////
   if (camera === undefined) {
@@ -45,7 +52,7 @@ export function threeInit(cityIOdata) {
     /////////////
     var frustumSize = 100;
     var aspect = window.innerWidth / window.innerHeight;
-    var zoomFactor = 10;
+    var zoomFactor = 15;
     camera = new THREE.OrthographicCamera(
       (frustumSize * aspect) / -zoomFactor,
       (frustumSize * aspect) / zoomFactor,
@@ -102,5 +109,6 @@ export function threeInit(cityIOdata) {
     controls.update();
     renderer.render(scene, camera);
   }
+
   return grid;
 }

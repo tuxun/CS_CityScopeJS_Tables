@@ -7,10 +7,8 @@ export function makePeds(color, NeigbhorsArr, countRes) {
   var geometry = new THREE.BufferGeometry();
   var positions = [];
   var colors = [];
-
   var texture = new THREE.TextureLoader().load(texPath.default);
-
-  var maxparticles = 100;
+  var maxparticles = 1000;
 
   //ratio of particles to num of neighbors
   var particles = (maxparticles * countRes) / NeigbhorsArr.length;

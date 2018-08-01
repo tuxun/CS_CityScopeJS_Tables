@@ -32,6 +32,7 @@ https://github.com/RELNO]
 // fixes Uncaught ReferenceError: regeneratorRuntime is not defined
 import "babel-polyfill";
 ///
+
 import { getCityIO } from "./modules";
 import * as threeSetup from "./threeSetup";
 import { gridInfo } from "./states";
@@ -67,6 +68,7 @@ function stateManager(grid, initalCityIOdata) {
   setInterval(updateCityIO, interval);
   async function updateCityIO() {
     cityIOdata = await getCityIO(cityIOtableURL);
+    //check for cityIO update using a timestamp
     if (lastUpdateDate == cityIOdata.meta.timestamp) {
       // console.log("no new data");
     } else {
