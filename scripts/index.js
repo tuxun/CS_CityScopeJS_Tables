@@ -29,9 +29,8 @@ https://github.com/RELNO]
 
 */ ///////////////////////////////////////////////////////////////////////////
 
-// !!!! fixes Uncaught ReferenceError: regeneratorRuntime is not defined
+//fixes Uncaught ReferenceError: regeneratorRuntime is not defined
 import "babel-polyfill";
-///
 import { getCityIO } from "./modules";
 import * as threeSetup from "./threeSetup";
 import { gridInfo } from "./states";
@@ -39,11 +38,11 @@ import { landUseMap } from "./states";
 import { walkabilityMap } from "./states";
 
 // global vars for now
-let tableName = "CityScopeJS_WALK";
+let tableName = "cityscopeJSwalk";
 let cityIOtableURL =
   "https://cityio.media.mit.edu/api/table/" + tableName.toString();
 //update interval
-let interval = 100;
+let interval = 500;
 
 ////////////////////////////////////////
 async function init() {
@@ -87,7 +86,7 @@ function stateManager(grid, initalCityIOdata) {
         landUseMap(grid, cityIOdata);
       } else {
         //read state details and make a quick map in accordance
-        walkabilityMap(stateHolder[0], stateHolder[1], grid, cityIOdata, 100);
+        walkabilityMap(stateHolder[0], stateHolder[1], grid, cityIOdata, 1);
       }
     }
   }

@@ -21,7 +21,7 @@ export function gridInfo(grid, cityIOdata) {
 
 /////////////// landUseGrid  ///////////////////////
 export function landUseMap(grid, cityIOdata) {
-  var colors = [0x3d85c6, 0xff4233, 0xf9ff33, 0x6aa84f];
+  var colors = [0xa3bfa2, 0xed5085, 0xfdcaa2, 0xa0b8a4];
 
   for (let i = 0; i < grid.children.length; i++) {
     //if exist, cleanup peds at state reset
@@ -33,8 +33,7 @@ export function landUseMap(grid, cityIOdata) {
     grid.children[i].scale.y = 1;
 
     //cell number display
-    grid.children[i].children["0"].text =
-      i.toString() + " > " + grid.children[i].name;
+    grid.children[i].children["0"].text = grid.children[i].name;
 
     // set the land use color for each cell [WIP]
     grid.children[i].material.color.set(colors[3]);
