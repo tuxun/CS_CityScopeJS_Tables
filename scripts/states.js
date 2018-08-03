@@ -1,7 +1,7 @@
 // https://medium.com/@lachlantweedie/animation-in-three-js-using-tween-js-with-examples-c598a19b1263
 import "babel-polyfill";
 
-import { remapCol, getCityIO } from "./modules";
+import { remapCol } from "./modules";
 import { countNeigbhors, drawCell } from "./modules";
 import * as PEDS from "./peds";
 
@@ -21,7 +21,7 @@ export function gridInfo(grid, cityIOdata) {
 
 /////////////// landUseGrid  ///////////////////////
 export function landUseMap(grid, cityIOdata) {
-  var colors = [0xa3bfa2, 0xed5085, 0xfdcaa2, 0xa0b8a4];
+  var colors = [0xaceaf7, 0xed5085, 0xfdcaa2, 0x76a075];
 
   for (let i = 0; i < grid.children.length; i++) {
     //if exist, cleanup peds at state reset
@@ -59,7 +59,7 @@ export function walkabilityMap(
   // go through all grid cells
   for (let i = 0; i < grid.children.length; i++) {
     //draw all in black and reset scale/pos
-    grid.children[i].material.color.set(0x181818);
+    grid.children[i].material.color.set(0x454d4e);
     grid.children[i].position.y = 0;
     grid.children[i].scale.y = 1;
     //remove old peds from this cell
@@ -111,6 +111,8 @@ export function walkabilityMap(
       );
       //add peds to cell
       grid.children[i].add(peds);
+    } else {
+      grid.children[i].children["0"].text = grid.children[i].name;
     }
   }
 }
