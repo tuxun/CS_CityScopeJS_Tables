@@ -66,15 +66,12 @@ export function threeInit(cityIOdata) {
   }
   //set camera in accordance to grid
   camera.position.set(gridX / 2, 10, gridY / 2);
-
+  //rotate camera around axis
+  camera.up.set(-1, -1, 0);
   //IMPORTANT: renderer.domElement solves DAT.GUI
   //issue with drop down-menu not responding
   controls = new OrbitControls(camera, renderer.domElement);
   controls.target.set(gridX / 2, 0, gridY / 2);
-
-  camera.lookAt(new THREE.Vector3(gridX / 2, 0, gridY / 2));
-  //rotate camera FIX
-  // camera.rotateZ(3.14159);
 
   /////////////// LIGHTS ///////////////////////
   //Create a PointLight and turn on shadows for the light

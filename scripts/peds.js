@@ -84,15 +84,15 @@ export function makePeds(cellColor, NeigbhorsArr, countRes) {
       if (posArr[i] >= 1 || posArr[i] <= -1) {
         posArr[i] = 0;
       } else if (posArr[i] < 1 || posArr[i] > -1) {
-        // posArr[i] += Math.random() / 20;
-        posArr[i] += Math.cos(angle) * posArr.length * 0.0001;
+        //speed and dir of move
+        posArr[i] += (Math.cos(angle) * posArr.length) / 30000;
       }
 
       //set Z
       if (posArr[i + 2] >= 1 || posArr[i + 2] <= -1) {
         posArr[i + 2] = 0;
       } else if (posArr[i + 2] < 1 || posArr[i + 2] > -1) {
-        posArr[i + 2] += Math.sin(angle) * posArr.length * 0.0001;
+        posArr[i + 2] += (Math.sin(angle) * posArr.length) / 30000;
       }
 
       if (angle < countRes * 360) {

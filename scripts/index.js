@@ -37,7 +37,7 @@ import { gridInfo } from "./states";
 import { landUseMap } from "./states";
 import { walkabilityMap } from "./states";
 
-// global vars for now
+// global vars for fun
 let tableName = "cityscopeJSwalk";
 let cityIOtableURL =
   "https://cityio.media.mit.edu/api/table/" + tableName.toString();
@@ -68,24 +68,27 @@ function stateManager(grid, initalCityIOdata) {
   let stateHolder = [];
   let cityIOdata;
   let lastUpdateDate = initalCityIOdata.meta.timestamp;
-  //call cityIO update recursively
+  //loop cityIO update recursively
   setInterval(updateCityIO, interval);
+  //update grid if cityIO new data arrives
   async function updateCityIO() {
+    //get the data through promise
     cityIOdata = await getCityIO(cityIOtableURL);
-    //check for cityIO update using a timestamp
+    //check for new cityIO update using a timestamp
     if (lastUpdateDate == cityIOdata.meta.timestamp) {
       // console.log("no new data");
-    } else {
+    }
+    //or, new data
+    else {
       lastUpdateDate = cityIOdata.meta.timestamp;
       // console.log("New CityIO data");
       //update the grid info
       gridInfo(grid, cityIOdata);
-      console.log(stateHolder);
 
       if (stateHolder.length < 2) {
         landUseMap(grid, cityIOdata);
       } else {
-        //read state details and make a quick map in accordance
+        //read state details and make a map in accordance
         walkabilityMap(stateHolder[0], stateHolder[1], grid, cityIOdata, 1);
       }
     }
