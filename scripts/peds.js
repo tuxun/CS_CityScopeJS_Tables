@@ -9,7 +9,7 @@ export function makePeds(cellColor, NeigbhorsArr, countRes) {
   var positions = [];
   var colArr = [];
   var texture = new THREE.TextureLoader().load(texPath.default);
-  var maxparticles = 1000;
+  var maxparticles = 2000;
 
   //ratio of particles to num of neighbors
   var particles = (maxparticles * countRes) / NeigbhorsArr.length;
@@ -42,7 +42,7 @@ export function makePeds(cellColor, NeigbhorsArr, countRes) {
   geometry.addAttribute("color", colBuffer);
   //
   var material = new THREE.PointsMaterial({
-    size: 4,
+    size: 3,
     transparent: true,
     opacity: 0.8,
     blending: THREE.AdditiveBlending,
@@ -85,14 +85,14 @@ export function makePeds(cellColor, NeigbhorsArr, countRes) {
         posArr[i] = 0;
       } else if (posArr[i] < 1 || posArr[i] > -1) {
         //speed and dir of move
-        posArr[i] += (Math.cos(angle) * posArr.length) / 30000;
+        posArr[i] += Math.cos(angle) / 200;
       }
 
       //set Z
       if (posArr[i + 2] >= 1 || posArr[i + 2] <= -1) {
         posArr[i + 2] = 0;
       } else if (posArr[i + 2] < 1 || posArr[i + 2] > -1) {
-        posArr[i + 2] += (Math.sin(angle) * posArr.length) / 30000;
+        posArr[i + 2] += Math.sin(angle) / 200;
       }
 
       if (angle < countRes * 360) {
