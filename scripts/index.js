@@ -36,6 +36,7 @@ import * as threeSetup from "./threeSetup";
 import { gridInfo } from "./states";
 import { landUseMap } from "./states";
 import { walkabilityMap } from "./states";
+import { info } from "./ui";
 
 // global vars for fun
 let tableName = "cityscopeJSwalk";
@@ -46,6 +47,7 @@ let interval = 500;
 
 ////////////////////////////////////////
 async function init() {
+  info();
   //call server once at start, just to setup the grid
   let cityIOdata = await getCityIO(cityIOtableURL);
 
