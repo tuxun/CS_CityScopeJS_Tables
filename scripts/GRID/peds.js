@@ -1,7 +1,7 @@
 // https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry_drawcalls.html
-import * as THREE from "THREE";
-import * as texPath from "../images/ball.png";
-import { rndInt } from "./modules";
+import * as THREE from "three";
+import * as texPath from "../../images/ball.png";
+import { rndInt } from "../LOGIC/modules";
 
 export function makePeds(cellColor, NeigbhorsArr, countRes) {
   var cellPeds;

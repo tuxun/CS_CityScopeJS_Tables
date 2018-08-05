@@ -1,7 +1,7 @@
-import * as THREE from "THREE";
+import * as THREE from "three";
 import OrbitControls from "three-orbitcontrols";
-import { makeGrid } from "./gridSetup";
-import { Maptastic } from "./maptastic";
+import { makeGrid } from "../GRID/gridSetup";
+import { Maptastic } from "../UI/maptastic";
 
 //
 export function threeInit(cityIOdata) {
@@ -14,8 +14,11 @@ export function threeInit(cityIOdata) {
   var renderer;
   var controls;
   //could be edited - Square for now
-  var CANVAS_WIDTH = window.innerWidth;
-  var CANVAS_HEIGHT = window.innerHeight;
+  // var CANVAS_WIDTH = window.innerWidth;
+  // var CANVAS_HEIGHT = window.innerHeight;
+  //fixed resolution for canvas
+  var CANVAS_WIDTH = 1000;
+  var CANVAS_HEIGHT = 1000;
   ///////////////SETUP SCENE///////////////////////
   let threeDiv = document.createElement("div");
   document.body.appendChild(threeDiv);
@@ -53,7 +56,8 @@ export function threeInit(cityIOdata) {
 
     /////////////
     var frustumSize = 100;
-    var aspect = window.innerWidth / window.innerHeight;
+    // var aspect = window.innerWidth / window.innerHeight;
+    var aspect = CANVAS_WIDTH / CANVAS_HEIGHT;
     var zoomFactor = 15;
     camera = new THREE.OrthographicCamera(
       (frustumSize * aspect) / -zoomFactor,

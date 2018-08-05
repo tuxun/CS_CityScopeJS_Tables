@@ -1,5 +1,5 @@
 import "babel-polyfill";
-import * as THREE from "THREE";
+import * as THREE from "three";
 var TWEEN = require("@tweenjs/tween.js");
 
 ////////////////////////////////////////////////////////////////////

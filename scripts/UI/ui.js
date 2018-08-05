@@ -1,4 +1,4 @@
-import * as logoPath from "../images/logo.png";
+import * as logoPath from "../../images/logo.png";
 import { Maptastic } from "./maptastic";
 //
 export function info() {

@@ -3,7 +3,7 @@ import "babel-polyfill";
 
 import { remapCol } from "./modules";
 import { countNeigbhors, drawCell } from "./modules";
-import * as PEDS from "./peds";
+import * as PEDS from "../GRID/peds";
 
 export function gridInfo(grid, cityIOdata) {
   var names = ["P", "W", "L", "G"];
