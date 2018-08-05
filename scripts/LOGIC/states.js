@@ -24,24 +24,31 @@ export function landUseMap(grid, cityIOdata) {
   var colors = [0xaceaf7, 0xed5085, 0xfdcaa2, 0x76a075];
 
   for (let i = 0; i < grid.children.length; i++) {
-    //if exist, cleanup peds at state reset
-    if (grid.children[i].children[1]) {
-      grid.children[i].remove(grid.children[i].children[1]);
-    }
+    // console.log(grid.children[i]);
+
     //reset all sizes and positions
     grid.children[i].position.y = 0;
     grid.children[i].scale.y = 1;
 
-    //cell number display
-    grid.children[i].children["0"].text = grid.children[i].name;
+    //if exist, cleanup peds at state reset
+    for (let j = 0; j < grid.children[i].children.length; j++) {
+      if (grid.children[i].children[j].name === "peds") {
+        grid.children[i].remove(grid.children[i].children[j]);
+      } else if (grid.children[i].children[j].name === "text") {
+        //cell number display
+        grid.children[i].children[j].text = grid.children[i].name;
+      } else {
+        // set the land use color for each cell [WIP]
+        grid.children[i].children[j].material.color.set(colors[3]);
 
-    // set the land use color for each cell [WIP]
-    grid.children[i].material.color.set(colors[3]);
-
-    if (cityIOdata.grid[i] === -1) {
-      grid.children[i].material.color.set(colors[2]);
-    } else {
-      grid.children[i].material.color.set(colors[cityIOdata.grid[i]]);
+        if (cityIOdata.grid[i] === -1) {
+          grid.children[i].children[j].material.color.set(colors[2]);
+        } else {
+          grid.children[i].children[j].material.color.set(
+            colors[cityIOdata.grid[i]]
+          );
+        }
+      }
     }
   }
 }
@@ -56,63 +63,73 @@ export function walkabilityMap(
 ) {
   //get table dims
   var gridX = cityIOdata.header.spatial.ncols;
+
   // go through all grid cells
   for (let i = 0; i < grid.children.length; i++) {
-    //draw all in black and reset scale/pos
-    grid.children[i].material.color.set(0x454d4e);
-    grid.children[i].position.y = 0;
-    grid.children[i].scale.y = 1;
-    //remove old peds from this cell
-    if (grid.children[i].children[1]) {
-      grid.children[i].remove(grid.children[i].children[1]);
-    }
-    //;
+    for (let j = 0; j < grid.children[i].children.length; j++) {
+      //remove old peds from this cell
+      if (grid.children[i].children[j].name === "peds") {
+        grid.children[i].remove(grid.children[i].children[j]);
+      } else if (grid.children[i].children[j].name === "text") {
+      } else {
+        //draw all in black and reset scale/pos
+        grid.children[i].children[j].material.color.set(0x454d4e);
+        grid.children[i].children[j].position.y = 0;
+        grid.children[i].children[j].scale.y = 1;
+      }
 
-    //check if grid cell is the type we look for
-    if (grid.children[i].name === thisType) {
-      let NeigbhorsArr = [];
+      ///
+      //check if grid cell is the type we look for
+      if (grid.children[i].name === thisType) {
+        let NeigbhorsArr = [];
 
-      //if so, collect cells around [WIP]
-      NeigbhorsArr.push(
-        grid.children[i + 1],
-        grid.children[i - 1],
-        grid.children[i + gridX],
-        grid.children[i - gridX],
-        grid.children[i + gridX + 1],
-        grid.children[i - gridX - 1]
-      );
-      let countRes = countNeigbhors(NeigbhorsArr, thisType, searchType);
-      //update size to show results
-      grid.children[i].scale.y += countRes * 2;
-      grid.children[i].position.y += countRes;
-      // update text inner cell with % of access
-      grid.children[i].children["0"].text = Math.floor(countRes * 100) + "%";
-      // if (countRes === 1) console.log(grid.children[i]);
-      //grid.children[i].children["0"].text += " " + cellCol;
+        //if so, collect cells around [WIP]
+        NeigbhorsArr.push(
+          grid.children[i + 1],
+          grid.children[i - 1],
+          grid.children[i + gridX],
+          grid.children[i - gridX],
+          grid.children[i + gridX + 1],
+          grid.children[i - gridX - 1]
+        );
+        let countRes = countNeigbhors(NeigbhorsArr, thisType, searchType);
 
-      //remap neighbors count to color on a scale of green to red
-      let cellCol =
-        "rgb(" +
-        remapCol(countRes)[0] +
-        "," +
-        remapCol(countRes)[1] +
-        "," +
-        remapCol(countRes)[2] +
-        ")";
+        for (let j = 0; j < grid.children[i].children.length; j++) {
+          if (grid.children[i].children[j].name === "text") {
+          } else {
+            //update size to show results
+            grid.children[i].children[j].scale.y = countRes + 0.2;
+            grid.children[i].children[j].position.y = countRes / 2 + 0.1;
 
-      //recolor the cells with TWEEN
-      drawCell(grid.children[i], cellCol, animDuration);
+            // update text inner cell with % of access
+            // grid.children[i].children["0"].text = Math.floor(countRes * 100) + "%";
+            // if (countRes === 1) console.log(grid.children[i]);
+            //grid.children[i].children["0"].text += " " + cellCol;
 
-      //add pedestrians per grid object
-      let peds = PEDS.makePeds(
-        [remapCol(countRes)[0], remapCol(countRes)[1], remapCol(countRes)[2]],
-        NeigbhorsArr,
-        countRes
-      );
-      //add peds to cell
-      grid.children[i].add(peds);
-    } else {
-      grid.children[i].children["0"].text = grid.children[i].name;
+            //remap neighbors count to color on a scale of green to red
+            let cellCol =
+              "rgb(" +
+              remapCol(countRes)[0] +
+              "," +
+              remapCol(countRes)[1] +
+              "," +
+              remapCol(countRes)[2] +
+              ")";
+
+            //recolor the cells with TWEEN
+            drawCell(grid.children[i].children[j], cellCol, animDuration);
+          }
+        }
+
+        //add pedestrians per grid object
+        let peds = PEDS.makePeds(
+          [remapCol(countRes)[0], remapCol(countRes)[1], remapCol(countRes)[2]],
+          NeigbhorsArr,
+          countRes
+        );
+        //add peds to cell
+        grid.children[i].add(peds);
+      }
     }
   }
 }
