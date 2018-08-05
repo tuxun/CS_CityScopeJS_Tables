@@ -4,11 +4,11 @@
 
 export class radarFeatures {
   constructor(data) {
-    this._data = data;
+    this.data = data;
   }
   ///////////////////////////
   uniqueTypes() {
-    var uniqueItems = Array.from(new Set(this._data.grid));
+    var uniqueItems = Array.from(new Set(this.data.grid));
     return uniqueItems.length / this._data.grid.length;
   }
 
@@ -16,12 +16,12 @@ export class radarFeatures {
 
   typeRatio(type) {
     let ratioCount = 0;
-    let d = this._data.grid;
+    let d = this.data.grid;
     for (let i = 0; i < d.length; i++) {
       if (d[i].toString() === type) {
-        ratioCount += 2;
+        ratioCount += 1;
       }
     }
-    return (ratioCount * 2) / d.length;
+    return ratioCount / d.length;
   }
 }

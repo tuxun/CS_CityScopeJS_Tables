@@ -82,11 +82,12 @@ function stateManager(grid, radarChartObj, initalCityIOdata) {
   setInterval(updateCityIO, interval);
   //update grid if cityIO new data arrives
   async function updateCityIO() {
+    //get the data through promise
+    cityIOdata = await getCityIO(cityIOtableURL);
+
     // update to radar
     radarUpdate(cityIOdata, radarChartObj, interval / 2);
 
-    //get the data through promise
-    cityIOdata = await getCityIO(cityIOtableURL);
     //check for new cityIO update using a timestamp
     if (lastUpdateDate == cityIOdata.meta.timestamp) {
       // console.log("no new data");

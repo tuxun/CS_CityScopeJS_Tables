@@ -60,9 +60,10 @@ export function radarUpdate(cityIOjson, radarChartObj, interval) {
     {
       key: "Kendall Sq.",
       values: [
-        { axis: "Density", value: tableFeatures.typeRatio("1") },
-        { axis: "Diversity", value: tableFeatures.typeRatio("2") },
-        { axis: "Proximity", value: tableFeatures.typeRatio("3") }
+        { axis: "Work", value: tableFeatures.typeRatio("0") },
+        { axis: "Live", value: tableFeatures.typeRatio("1") },
+        { axis: "Park", value: tableFeatures.typeRatio("2") },
+        { axis: "Green", value: tableFeatures.typeRatio("3") }
       ]
     }
   ];

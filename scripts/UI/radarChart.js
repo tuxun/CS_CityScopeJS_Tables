@@ -1,4 +1,5 @@
 //taken from http://bl.ocks.org/TennisVisuals/c591445c3e6773c6eb6f
+// No lisence in palce
 // <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.3.0/d3-legend.js" charset="utf-8"></script>
 
 import * as d3 from "d3";
