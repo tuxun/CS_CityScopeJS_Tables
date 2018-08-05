@@ -23,6 +23,7 @@ export function radarInit() {
   ];
 
   var color = d3.scale.ordinal().range(globalColors);
+  //size of radar
   let docRatio = window.innerHeight / window.innerWidth;
 
   var radarChartOptions = {
@@ -30,13 +31,16 @@ export function radarInit() {
     height: window.innerWidth * docRatio * 0.5,
     color: color
   };
+  //call the radar function for init
   radarChartMethod = RadarChart();
   d3.select("#radarDiv").call(radarChartMethod);
   //make radar but without data for now
   radarChartMethod.options(radarChartOptions).update();
 }
 
-// controls radar updates from cityIO
+//////////////////
+
+//radar updates upon cityIO new data
 export function radarUpdate(cityIOjson) {
   const tableFeatures = new radarFeatures(cityIOjson);
 
