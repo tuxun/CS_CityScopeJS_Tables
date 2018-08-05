@@ -62,9 +62,9 @@ async function init() {
   //paint land use grid at start
   gridInfo(grid, cityIOdata);
   landUseMap(grid, cityIOdata);
-  stateManager(grid, cityIOdata);
   //init the radar
-  radarInit();
+  let radarChartObj = radarInit();
+  stateManager(grid, radarChartObj, cityIOdata);
 }
 
 /////////////////////////////////////////////
@@ -74,7 +74,7 @@ async function init() {
  * @param initalCityIOdata the results of the init call to cityIO.
  */
 
-function stateManager(grid, initalCityIOdata) {
+function stateManager(grid, radarChartObj, initalCityIOdata) {
   let stateHolder = [];
   let cityIOdata;
   let lastUpdateDate = initalCityIOdata.meta.timestamp;
@@ -82,11 +82,15 @@ function stateManager(grid, initalCityIOdata) {
   setInterval(updateCityIO, interval);
   //update grid if cityIO new data arrives
   async function updateCityIO() {
+    // update to radar
+    radarUpdate(cityIOdata, radarChartObj, interval / 2);
+
     //get the data through promise
     cityIOdata = await getCityIO(cityIOtableURL);
     //check for new cityIO update using a timestamp
     if (lastUpdateDate == cityIOdata.meta.timestamp) {
       // console.log("no new data");
+      return;
     }
     //or, if new cityIO data
     else {
@@ -94,6 +98,10 @@ function stateManager(grid, initalCityIOdata) {
       // console.log("New CityIO data");
       //update the grid info
       gridInfo(grid, cityIOdata);
+
+      //update radar
+      radarUpdate(cityIOdata);
+
       //if stateHolder array has no walkabilityMap setup in it
       if (stateHolder.length < 2) {
         landUseMap(grid, cityIOdata);

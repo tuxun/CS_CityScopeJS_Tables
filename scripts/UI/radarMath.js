@@ -2,7 +2,7 @@
 //a class to preform math on data arriving from table
 ////////////////////////////////////////////////////////////////////////////////////
 
-class radarFeatures {
+export class radarFeatures {
   constructor(data) {
     this._data = data;
   }

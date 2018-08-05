@@ -1,11 +1,11 @@
 import * as d3 from "d3";
 console.log("d3 version: ", d3.version);
-///
 import { RadarChart } from "./radarChart";
+import { radarFeatures } from "./radarMath";
 import { Maptastic } from "./maptastic";
 
 //declare as global for both init and update
-let radarChartMethod;
+// let radarChartMethod;
 
 export function radarInit() {
   var globalColors = [
@@ -30,33 +30,30 @@ export function radarInit() {
   radarDiv.className = "radarDiv";
   document.body.appendChild(radarDiv);
   //
-
-  var color = d3.scaleBand().range(globalColors);
-  //old
-  // d3.scale.ordinal().range(globalColors);
-  //fix
-  // d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
-  // d3.scaleBand().rangeRound([0, width]);
-
+  var color = d3.scale.ordinal().range(globalColors);
   //size of radar
   let docRatio = window.innerHeight / window.innerWidth;
-
   var radarChartOptions = {
     width: window.innerWidth * docRatio,
     height: window.innerWidth * docRatio,
     color: color
   };
   //call the radar function for init
-  radarChartMethod = RadarChart();
-  d3.select("#radarDiv").call(radarChartMethod);
+  let radarChartObj = RadarChart();
+  d3.select("#radarDiv").call(radarChartObj);
   //make empty radar without data for now
-  radarChartMethod.options(radarChartOptions).update();
+  radarChartObj.options(radarChartOptions).update();
+
+  return radarChartObj;
 }
 
 //////////////////
+/**
+ * radar updates upon cityIO new data
+ * @param cityIOjson data from cityIO.
+ */
 
-//radar updates upon cityIO new data
-export function radarUpdate(cityIOjson) {
+export function radarUpdate(cityIOjson, radarChartObj, interval) {
   const tableFeatures = new radarFeatures(cityIOjson);
 
   var data = [
@@ -65,22 +62,14 @@ export function radarUpdate(cityIOjson) {
       values: [
         { axis: "Density", value: tableFeatures.typeRatio("1") },
         { axis: "Diversity", value: tableFeatures.typeRatio("2") },
-        { axis: "Proximity", value: tableFeatures.typeRatio("3") },
-        { axis: "Amenities", value: tableFeatures.typeRatio("4") },
-        { axis: "Energy", value: tableFeatures.typeRatio("5") },
-        { axis: "Mix use", value: tableFeatures.uniqueTypes() },
-        { axis: "Land Value", value: tableFeatures.typeRatio("6") },
-        { axis: "Mobility", value: tableFeatures.typeRatio("4") },
-        { axis: "Temp.", value: tableFeatures.typeRatio("5") },
-        { axis: "Public Space", value: tableFeatures.uniqueTypes() },
-        { axis: "Coolness", value: tableFeatures.typeRatio("6") }
+        { axis: "Proximity", value: tableFeatures.typeRatio("3") }
       ]
     }
   ];
 
-  radarChartMethod
+  radarChartObj
     .data(data)
-    .duration(500)
+    .duration(interval)
     .update();
-  radarChartMethod.options({ legend: { display: true } });
+  radarChartObj.options({ legend: { display: true } });
 }
