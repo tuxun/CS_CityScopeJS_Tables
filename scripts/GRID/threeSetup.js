@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import OrbitControls from "three-orbitcontrols";
-import { makeGrid } from "../GRID/gridSetup";
+import { makeGrid } from "./gridSetup";
 import { Maptastic } from "../UI/maptastic";
 
 //
