@@ -16,3 +16,7 @@ body {
 .logoDiv {
   padding-top: 1rem;
 }
+
+.radarDiv {
+  z-index: 10;
+}

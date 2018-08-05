@@ -1,9 +1,9 @@
-import * as d3 from "d3";
-
 ////////////////////////////////////////////////////////////////////////////////////
 //taken from http://bl.ocks.org/TennisVisuals/c591445c3e6773c6eb6f
 // <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.3.0/d3-legend.js" charset="utf-8"></script>
 ////////////////////////////////////////////////////////////////////////////////////
+
+import * as d3 from "d3";
 
 export function RadarChart() {
   //Remove whatever chart with the same id/class was present before
@@ -61,7 +61,8 @@ export function RadarChart() {
       position: { x: 25, y: 25 }
     },
 
-    color: d3.scale.category10() //Color function
+    // color: d3.scale.category10() //Color function
+    color: d3.scaleOrdinal(d3.schemeCategory10).domain(d3.range(0, 9))
   };
 
   // nodes layered such that radarInvisibleCircles always on top of radarAreas
@@ -165,8 +166,8 @@ export function RadarChart() {
         keys = _data.map(function(m) {
           return m.key;
         });
-        keyScale = d3.scale
-          .ordinal()
+        keyScale = d3
+          .scaleBand()
           .domain(
             _data.map(function(m) {
               return m._i;
@@ -177,8 +178,8 @@ export function RadarChart() {
               return m.key;
             })
           );
-        colorScale = d3.scale
-          .ordinal()
+        colorScale = d3
+          .scaleBand()
           .domain(
             _data.map(function(m) {
               return options.areas.colors[keyScale(m._i)]
@@ -487,11 +488,9 @@ export function RadarChart() {
             return calcY(null, options.circles.labelFactor, j);
           });
 
-        var radarLine = d3.svg.line
-          .radial()
-          .interpolate(
-            options.areas.rounded ? "cardinal-closed" : "linear-closed"
-          )
+        var radarLine = d3
+          .radialLine()
+          .curve(options.areas.rounded ? "cardinal-closed" : "linear-closed")
           .radius(function(d) {
             return radial_calcs.rScale(d.value);
           })
@@ -722,8 +721,8 @@ export function RadarChart() {
             .size(150)();
           var foo;
           legend_node.selectAll("cell").remove();
-          var colorScale = d3.scale
-            .ordinal()
+          var colorScale = d3
+            .scaleBand()
             .domain(
               _data.map(function(m) {
                 return m._i;
@@ -898,8 +897,8 @@ export function RadarChart() {
       radial_calcs.total > 0 ? (Math.PI * 2) / radial_calcs.total : 1;
 
     //Scale for the radius
-    radial_calcs.rScale = d3.scale
-      .linear()
+    radial_calcs.rScale = d3
+      .scaleLinear()
       .range([0, radial_calcs.radius])
       .domain([0, radial_calcs.maxValue]);
   }

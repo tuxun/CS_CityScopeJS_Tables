@@ -37,6 +37,7 @@ import { gridInfo } from "./LOGIC/states";
 import { landUseMap } from "./LOGIC/states";
 import { walkabilityMap } from "./LOGIC/states";
 import { info } from "./UI/ui";
+import { radarInit, radarUpdate } from "./UI/radarSetup";
 //
 // import * as radarChart from "./radar";
 // console.log(radarChart);
@@ -62,6 +63,8 @@ async function init() {
   gridInfo(grid, cityIOdata);
   landUseMap(grid, cityIOdata);
   stateManager(grid, cityIOdata);
+  //init the radar
+  radarInit();
 }
 
 /////////////////////////////////////////////
@@ -85,13 +88,13 @@ function stateManager(grid, initalCityIOdata) {
     if (lastUpdateDate == cityIOdata.meta.timestamp) {
       // console.log("no new data");
     }
-    //or, new data
+    //or, if new cityIO data
     else {
       lastUpdateDate = cityIOdata.meta.timestamp;
       // console.log("New CityIO data");
       //update the grid info
       gridInfo(grid, cityIOdata);
-
+      //if stateHolder array has no walkabilityMap setup in it
       if (stateHolder.length < 2) {
         landUseMap(grid, cityIOdata);
       } else {
@@ -102,7 +105,7 @@ function stateManager(grid, initalCityIOdata) {
   }
 
   ////////////////////////////////////////////////////////
-  //then, set key listener
+  //also, set key listener
   document.body.addEventListener("keyup", function(e) {
     switch (e.keyCode) {
       //look for these keys
