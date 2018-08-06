@@ -26,21 +26,13 @@ export function landUseMap(grid, cityIOdata) {
     //if exist, cleanup peds at state reset
     for (let j = 0; j < grid.children[i].children.length; j++) {
       let subCell = grid.children[i].children[j];
-      //remove old peds from this cell
-      if (
-        (subCell.type =
-          "mesh" &&
-          subCell.children["0"] &&
-          subCell.children["0"].type != "Sprite")
-      ) {
+      // remove old peds from this cell
+      if ((subCell.type = "mesh" && subCell.children["0"])) {
         subCell.remove(subCell.children["0"]);
-      } else if (subCell.name === "text") {
-        //cell number display
-        subCell.text = grid.children[i].name;
       } else {
         //reset all sizes and positions
         subCell.position.y = 0;
-        subCell.scale.y = 1;
+        subCell.scale.y = 0.1;
         // set the land use color for each cell [WIP]
         subCell.material.color.set(colors[3]);
         if (cityIOdata.grid[i] === -1) {
@@ -63,29 +55,21 @@ export function walkabilityMap(
 ) {
   //get table dims
   var gridX = cityIOdata.header.spatial.ncols;
-  var textObjPos = null;
   // go through all grid cells
   for (let i = 0; i < grid.children.length; i++) {
+    //reset size, color, pos of all children
     for (let j = 0; j < grid.children[i].children.length; j++) {
       let subCell = grid.children[i].children[j];
+
+      //draw all in gray and reset scale/pos
+      subCell.material.color.set(0x454d4e);
+      subCell.position.y = 0;
+      subCell.scale.y = 0.1;
+
       //remove peds from each cell children
-      if (
-        (subCell.type =
-          "mesh" &&
-          subCell.children["0"] &&
-          subCell.children["0"].type != "Sprite")
-      ) {
+      if ((subCell.type = "mesh" && subCell.children["0"])) {
         //remove old peds from this cell
         subCell.remove(subCell.children["0"]);
-      }
-      if (subCell.name === "text") {
-        textObjPos = j;
-        continue;
-      } else {
-        //draw all in black and reset scale/pos
-        subCell.material.color.set(0x454d4e);
-        subCell.position.y = 0;
-        subCell.scale.y = 1;
       }
     }
 
@@ -103,47 +87,46 @@ export function walkabilityMap(
         grid.children[i + gridX + 1],
         grid.children[i - gridX - 1]
       );
-      let countRes = countNeigbhors(NeigbhorsArr, thisType, searchType);
-
-      // update text inner cell with % of access
-      grid.children[i].children[textObjPos].text =
-        Math.floor(countRes * 100) + "%";
+      let countRes = countNeigbhors(NeigbhorsArr, thisType, searchType)[0];
 
       for (let j = 0; j < grid.children[i].children.length; j++) {
         let subCell = grid.children[i].children[j];
 
-        if (subCell.name === "text") {
-          continue;
-        } else {
-          //update size to show results
-          subCell.scale.y = countRes * 2 + 0.2;
-          subCell.position.y = (countRes * 2 + 0.2) / 2;
+        //update size to show results
+        if (countRes > 0) {
+          subCell.scale.y = countRes * 2;
+          subCell.position.y = subCell.scale.y / 4;
+        }
 
-          //remap neighbors count to color on a scale of green to red
-          let cellCol =
-            "rgb(" +
-            remapCol(countRes)[0] +
-            "," +
-            remapCol(countRes)[1] +
-            "," +
-            remapCol(countRes)[2] +
-            ")";
+        //remap neighbors count to color on a scale of green to red
+        let cellCol =
+          "rgb(" +
+          remapCol(countRes)[0] +
+          "," +
+          remapCol(countRes)[1] +
+          "," +
+          remapCol(countRes)[2] +
+          ")";
 
-          //recolor the cells with TWEEN
-          drawCell(subCell, cellCol, animDuration);
+        //recolor the cells with TWEEN
+        drawCell(subCell, cellCol, animDuration);
 
-          //add pedestrians per grid object
-          let peds = PEDS.makePeds(
-            [
-              remapCol(countRes)[0],
-              remapCol(countRes)[1],
-              remapCol(countRes)[2]
-            ],
-            NeigbhorsArr,
-            countRes
-          );
-          //add peds to cell
-          subCell.add(peds);
+        //add pedestrians per grid object
+        let peds = PEDS.makePeds(
+          [remapCol(countRes)[0], remapCol(countRes)[1], remapCol(countRes)[2]],
+          NeigbhorsArr,
+          countRes
+        );
+        //add peds to cell
+        subCell.add(peds);
+      }
+      //color the search type
+      let foundArr = countNeigbhors(NeigbhorsArr, thisType, searchType)[1];
+      if (foundArr.length > 0) {
+        for (let x = 0; x < foundArr.length; x++) {
+          for (let y = 0; y < foundArr[x].children.length; y++) {
+            foundArr[x].children[y].material.color.set("white");
+          }
         }
       }
     }

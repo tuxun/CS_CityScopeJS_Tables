@@ -90,14 +90,16 @@ animate();
 ////////////////////////////////////////////////////////////////////
 export function countNeigbhors(NeigbhorsArr, thisType, searchType) {
   let counter = 0;
+  let foundArr = [];
   for (let i = 0; i < NeigbhorsArr.length; i++) {
     if (
       NeigbhorsArr[i] != null &&
       NeigbhorsArr[i].name != thisType &&
       NeigbhorsArr[i].name == searchType
     ) {
+      foundArr.push(NeigbhorsArr[i]);
       counter++;
     }
   }
-  return counter / NeigbhorsArr.length;
+  return [counter / NeigbhorsArr.length, foundArr];
 }

@@ -41,12 +41,13 @@ export function makeGrid(sizeX, sizeY) {
         }
       }
       grid.add(cellGrp);
-      // make text over cell
-      let text = textMaker(" ", "white");
-      text.name = "text";
-      text.scale.set(0.005, 0.005, 0.005);
-      text.position.set(x * cellSize, 1.5, y * cellSize);
-      cellGrp.add(text);
+
+      // // make text over cell
+      // let text = textMaker(" ", "white");
+      // text.name = "text";
+      // text.scale.set(0.005, 0.005, 0.005);
+      // text.position.set(x * cellSize, 1.5, y * cellSize);
+      // cellGrp.add(text);
     }
   }
   return grid;
