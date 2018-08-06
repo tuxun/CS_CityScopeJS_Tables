@@ -9,7 +9,7 @@ export class radarFeatures {
   ///////////////////////////
   uniqueTypes() {
     var uniqueItems = Array.from(new Set(this.data.grid));
-    return uniqueItems.length / this._data.grid.length;
+    return uniqueItems.length / this.data.grid.length;
   }
 
   ///////////////////////////

@@ -65,7 +65,11 @@ export function radarUpdate(cityIOjson, radarChartObj, interval) {
         { axis: "Work", value: tableFeatures.typeRatio("0") },
         { axis: "Live", value: tableFeatures.typeRatio("1") },
         { axis: "Park", value: tableFeatures.typeRatio("2") },
-        { axis: "Green", value: tableFeatures.typeRatio("3") }
+        { axis: "Open", value: tableFeatures.typeRatio("3") },
+        { axis: "1", value: tableFeatures.typeRatio("0") },
+        { axis: "2", value: tableFeatures.typeRatio("1") },
+        { axis: "3", value: tableFeatures.typeRatio("2") },
+        { axis: "Unique", value: tableFeatures.uniqueTypes() }
       ]
     }
   ];
