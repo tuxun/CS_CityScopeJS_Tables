@@ -2,7 +2,6 @@ import * as d3 from "d3";
 console.log("d3 version: ", d3.version);
 import { RadarChart } from "./radarChart";
 import { radarFeatures } from "./radarMath";
-import { Maptastic } from "./maptastic";
 
 //declare as global for both init and update
 // let radarChartMethod;
@@ -43,8 +42,6 @@ export function radarInit() {
   d3.select("#radarDiv").call(radarChartObj);
   //make empty radar without data for now
   radarChartObj.options(radarChartOptions).update();
-
-  Maptastic(radarDiv);
 
   return radarChartObj;
 }

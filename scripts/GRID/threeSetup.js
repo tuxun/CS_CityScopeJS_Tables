@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import OrbitControls from "three-orbitcontrols";
 import { makeGrid } from "./gridSetup";
-import { Maptastic } from "../UI/maptastic";
 
 //
 export function threeInit(cityIOdata) {
@@ -38,10 +37,10 @@ export function threeInit(cityIOdata) {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.setSize(CANVAS_WIDTH, CANVAS_HEIGHT);
 
+  renderer.domElement.id = "THREEcanvas";
+
   //put to div
   threeDiv.appendChild(renderer.domElement);
-  //ONLY WAY TO M/S THREE.JS
-  Maptastic(renderer.domElement);
 
   /////////////// CAMERA ///////////////////////
   if (camera === undefined) {

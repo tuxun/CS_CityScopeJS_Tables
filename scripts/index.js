@@ -38,6 +38,8 @@ import { landUseMap } from "./LOGIC/states";
 import { walkabilityMap } from "./LOGIC/states";
 import { info } from "./UI/ui";
 import { radarInit, radarUpdate } from "./UI/radarSetup";
+import { Maptastic } from "../scripts/UI/maptastic";
+
 //
 // import * as radarChart from "./radar";
 // console.log(radarChart);
@@ -66,6 +68,13 @@ async function init() {
   let radarChartObj = radarInit();
   //send a barebone radar to update function
   stateManager(grid, radarChartObj, cityIOdata);
+
+  //ONLY WAY TO M/S THREE.JS
+  let THREEcanvas = document.querySelector("#THREEcanvas");
+  let radarDiv = document.querySelector("#radarDiv");
+  let infoDiv = document.querySelector("#infoDiv");
+
+  Maptastic(THREEcanvas, radarDiv, infoDiv);
 }
 
 /////////////////////////////////////////////

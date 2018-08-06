@@ -22,7 +22,7 @@ THE SOFTWARE.
 */
 
 export function Maptastic(config) {
-  //////
+  //////////////////////////////////////////////////////
   //   Numeric Javascript
   //   Copyright (C) 2011 by Sébastien Loisel
   function r(t, n, o, e) {
@@ -121,8 +121,6 @@ export function Maptastic(config) {
   var solve = function(r, t, n) {
     return u(f(r, n), t);
   };
-
-  //////
 
   var getProp = function(cfg, key, defaultVal) {
     if (cfg && cfg.hasOwnProperty(key) && cfg[key] !== null) {
@@ -773,10 +771,7 @@ export function Maptastic(config) {
   };
 
   var saveSettings = function() {
-    let saveDat = localStorage.setItem(
-      localStorageKey,
-      JSON.stringify(getLayout(layers))
-    );
+    localStorage.setItem(localStorageKey, JSON.stringify(getLayout(layers)));
   };
   //     var data = {a:1, b:2, c:3};
   // var json = JSON.stringify(data);

@@ -1,5 +1,4 @@
 import * as logoPath from "../../images/logo.png";
-import { Maptastic } from "./maptastic";
 //
 export function info() {
   let infoDiv = document.createElement("div");
@@ -17,7 +16,4 @@ export function info() {
   logo.width = 50;
   logo.height = 50;
   logoDiv.appendChild(logo);
-
-  //
-  Maptastic(infoDiv);
 }
