@@ -116,8 +116,8 @@ export function walkabilityMap(
           continue;
         } else {
           //update size to show results
-          subCell.scale.y = countRes + 0.2;
-          subCell.position.y = (countRes + 0.1) / 2;
+          subCell.scale.y = countRes * 2 + 0.2;
+          subCell.position.y = (countRes * 2 + 0.2) / 2;
 
           //remap neighbors count to color on a scale of green to red
           let cellCol =

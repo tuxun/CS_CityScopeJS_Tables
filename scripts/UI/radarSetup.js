@@ -44,6 +44,8 @@ export function radarInit() {
   //make empty radar without data for now
   radarChartObj.options(radarChartOptions).update();
 
+  Maptastic(radarDiv);
+
   return radarChartObj;
 }
 
