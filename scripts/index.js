@@ -124,28 +124,50 @@ function stateManager(grid, radarChartObj, initalCityIOdata) {
   }
 
   ////////////////////////////////////////////////////////
+  //set an array of states for demo
+  let statesArr = [["LU"], ["L", "W"], ["W", "L"], ["L", "P"], ["W", "P"]];
+  let statesArrCounter = 0;
   //also, set key listener
   document.body.addEventListener("keyup", function(e) {
     switch (e.keyCode) {
       //look for these keys
-      case 71:
-      case 76:
-      case 80:
-      case 87:
-        //put  state details in a stateHolder var,
-        //so we can go back and read them after next cityIO update
-        stateHolder.splice(0, 2, String.fromCharCode(e.keyCode), "P");
 
-        walkabilityMap(
-          String.fromCharCode(e.keyCode),
-          "P",
-          grid,
-          cityIOdata,
-          2000
-        );
+      //case foot pedal
+      case 66:
+        console.log(statesArrCounter, statesArr.length);
+        if (statesArrCounter === 0) {
+          //clean up stateHolder so vext cityIO update will recreate landuse map
+          stateHolder.splice(0, 5);
+          //make the LU map
+          landUseMap(grid, cityIOdata);
+        } else {
+          //put state details in a stateHolder var,
+          //so we can go back and read them after next cityIO update
+          stateHolder.splice(
+            0,
+            2,
+            statesArr[statesArrCounter][0],
+            statesArr[statesArrCounter][1]
+          );
+          //call the map
+          walkabilityMap(
+            statesArr[statesArrCounter][0],
+            statesArr[statesArrCounter][1],
+            grid,
+            cityIOdata,
+            2000
+          );
+        }
+        //move one state forawrd every click
+        if (statesArrCounter === statesArr.length - 1) {
+          statesArrCounter = 0;
+        } else {
+          statesArrCounter++;
+        }
         break;
       default:
         landUseMap(grid, cityIOdata);
+        //clean up stateHolder so vext cityIO update will recreate landuse map
         stateHolder.splice(0, 5);
         break;
     }

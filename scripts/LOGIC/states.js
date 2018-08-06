@@ -29,17 +29,16 @@ export function landUseMap(grid, cityIOdata) {
       // remove old peds from this cell
       if ((subCell.type = "mesh" && subCell.children["0"])) {
         subCell.remove(subCell.children["0"]);
+      }
+      //reset all sizes and positions
+      subCell.position.y = 0;
+      subCell.scale.y = 0.1;
+      // set the land use color for each cell [WIP]
+      subCell.material.color.set(colors[3]);
+      if (cityIOdata.grid[i] === -1) {
+        subCell.material.color.set(colors[2]);
       } else {
-        //reset all sizes and positions
-        subCell.position.y = 0;
-        subCell.scale.y = 0.1;
-        // set the land use color for each cell [WIP]
-        subCell.material.color.set(colors[3]);
-        if (cityIOdata.grid[i] === -1) {
-          subCell.material.color.set(colors[2]);
-        } else {
-          subCell.material.color.set(colors[cityIOdata.grid[i]]);
-        }
+        subCell.material.color.set(colors[cityIOdata.grid[i]]);
       }
     }
   }
