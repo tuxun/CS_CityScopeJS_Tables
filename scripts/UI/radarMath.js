@@ -2,7 +2,7 @@
 //a class to preform math on data arriving from cityIO and return to radar
 ////////////////////////////////////////////////////////////////////////////////////
 
-export class radarFeatures {
+export class RadarMath {
   constructor(data) {
     this.data = data;
   }
@@ -17,6 +17,7 @@ export class radarFeatures {
   typeRatio(type) {
     let ratioCount = 0;
     let d = this.data.grid;
+
     for (let i = 0; i < d.length; i++) {
       if (d[i].toString() === type) {
         ratioCount += 1;

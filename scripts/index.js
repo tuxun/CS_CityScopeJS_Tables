@@ -113,15 +113,12 @@ function stateManager(grid, radarChartObj, initalCityIOdata) {
       //update the grid info
       gridInfo(grid, cityIOdata);
 
-      //update radar
-      radarUpdate(cityIOdata);
-
       //if stateHolder array has no walkabilityMap setup in it
       if (stateHolder.length < 2) {
         landUseMap(grid, cityIOdata);
       } else {
         //read state details and make a map in accordance
-        walkabilityMap(stateHolder[0], stateHolder[1], grid, cityIOdata, 2000);
+        walkabilityMap(stateHolder[0], stateHolder[1], grid, cityIOdata, 10);
       }
     }
   }

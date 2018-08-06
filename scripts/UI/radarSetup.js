@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 console.log("d3 version: ", d3.version);
 import { RadarChart } from "./radarChart";
-import { radarFeatures } from "./radarMath";
+import { RadarMath } from "./radarMath";
 
 //declare as global for both init and update
 // let radarChartMethod;
@@ -53,20 +53,16 @@ export function radarInit() {
  */
 
 export function radarUpdate(cityIOjson, radarChartObj, interval) {
-  const tableFeatures = new radarFeatures(cityIOjson);
+  const radarMath = new RadarMath(cityIOjson);
 
   var data = [
     {
-      key: "Kendall Sq.",
+      key: "Walkability",
       values: [
-        { axis: "Work", value: tableFeatures.typeRatio("0") },
-        { axis: "Live", value: tableFeatures.typeRatio("1") },
-        { axis: "Park", value: tableFeatures.typeRatio("2") },
-        { axis: "Open", value: tableFeatures.typeRatio("3") },
-        { axis: "1", value: tableFeatures.typeRatio("0") },
-        { axis: "2", value: tableFeatures.typeRatio("1") },
-        { axis: "3", value: tableFeatures.typeRatio("2") },
-        { axis: "Unique", value: tableFeatures.uniqueTypes() }
+        { axis: "Work", value: radarMath.typeRatio("0") },
+        { axis: "Live", value: radarMath.typeRatio("1") },
+        { axis: "Park", value: radarMath.typeRatio("2") },
+        { axis: "Open", value: radarMath.typeRatio("3") }
       ]
     }
   ];
