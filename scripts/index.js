@@ -69,10 +69,11 @@ async function init() {
   //send a barebone radar to update function
   stateManager(grid, radarChartObj, cityIOdata);
 
-  //ONLY WAY TO M/S THREE.JS
-  let THREEcanvas = document.querySelector("#THREEcanvas");
+  //Maptastic keystone
   let radarDiv = document.querySelector("#radarDiv");
   let infoDiv = document.querySelector("#infoDiv");
+  //ONLY WAY TO M/S THREE.JS
+  let THREEcanvas = document.querySelector("#THREEcanvas");
 
   Maptastic(THREEcanvas, radarDiv, infoDiv);
 }
@@ -125,7 +126,16 @@ function stateManager(grid, radarChartObj, initalCityIOdata) {
 
   ////////////////////////////////////////////////////////
   //set an array of states for demo
-  let statesArr = [["LU"], ["L", "W"], ["W", "L"], ["L", "P"], ["W", "P"]];
+  let statesArr = [
+    ["LU"],
+    ["G", "L"],
+    ["L", "W"],
+    ["W", "L"],
+    ["L", "P"],
+    ["W", "P"]
+  ];
+  let infoDivState = document.querySelector("#infoDivState");
+
   let statesArrCounter = 0;
   //also, set key listener
   document.body.addEventListener("keyup", function(e) {
@@ -136,10 +146,11 @@ function stateManager(grid, radarChartObj, initalCityIOdata) {
       case 66:
         console.log(statesArrCounter, statesArr.length);
         if (statesArrCounter === 0) {
-          //clean up stateHolder so vext cityIO update will recreate landuse map
+          //clean up stateHolder so next cityIO update will recreate land use map
           stateHolder.splice(0, 5);
           //make the LU map
           landUseMap(grid, cityIOdata);
+          infoDivState.innerHTML = "Land Use Map";
         } else {
           //put state details in a stateHolder var,
           //so we can go back and read them after next cityIO update
@@ -157,8 +168,13 @@ function stateManager(grid, radarChartObj, initalCityIOdata) {
             cityIOdata,
             2000
           );
+          infoDivState.innerHTML =
+            "Walkability Map from " +
+            statesArr[statesArrCounter][0] +
+            " to " +
+            statesArr[statesArrCounter][1];
         }
-        //move one state forawrd every click
+        //move one state forward every click
         if (statesArrCounter === statesArr.length - 1) {
           statesArrCounter = 0;
         } else {
@@ -167,7 +183,7 @@ function stateManager(grid, radarChartObj, initalCityIOdata) {
         break;
       default:
         landUseMap(grid, cityIOdata);
-        //clean up stateHolder so vext cityIO update will recreate landuse map
+        //clean up stateHolder so next cityIO update will recreate land use map
         stateHolder.splice(0, 5);
         break;
     }

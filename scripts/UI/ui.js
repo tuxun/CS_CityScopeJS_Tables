@@ -16,4 +16,9 @@ export function info() {
   logo.width = 50;
   logo.height = 50;
   logoDiv.appendChild(logo);
+  //
+  let infoDivState = document.createElement("div");
+  infoDivState.id = "infoDivState";
+  infoDivState.className = "infoDivState";
+  infoDiv.appendChild(infoDivState);
 }
