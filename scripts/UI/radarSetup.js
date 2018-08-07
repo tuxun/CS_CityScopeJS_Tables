@@ -9,6 +9,9 @@ import { RadarMath } from "./radarMath";
 export function radarInit() {
   var globalColors = [
     "#ED5066",
+    "#80ADA9",
+    "#CCD9CE",
+    "#405654",
     "#F4827D",
     "#F4B99E",
     "#FDCAA2",
@@ -33,8 +36,10 @@ export function radarInit() {
   //size of radar
   let docRatio = window.innerHeight / window.innerWidth;
   var radarChartOptions = {
-    width: window.innerWidth * docRatio,
-    height: window.innerWidth * docRatio,
+    // width: window.innerWidth * docRatio * 0.5,
+    // height: window.innerWidth * docRatio * 0.5,
+    width: 600,
+    height: 600,
     color: color
   };
   //call the radar function for init
@@ -57,12 +62,23 @@ export function radarUpdate(cityIOjson, radarChartObj, interval) {
 
   var data = [
     {
-      key: "Walkability",
+      key: "This Site",
       values: [
         { axis: "Work", value: radarMath.typeRatio("0") },
         { axis: "Live", value: radarMath.typeRatio("1") },
         { axis: "Park", value: radarMath.typeRatio("2") },
-        { axis: "Open", value: radarMath.typeRatio("3") }
+        { axis: "Open", value: radarMath.typeRatio("3") },
+        { axis: "Unique", value: radarMath.uniqueTypes() }
+      ]
+    },
+    {
+      key: "Compared City",
+      values: [
+        { axis: "Work", value: 0.2 },
+        { axis: "Live", value: 0.5 },
+        { axis: "Park", value: 0.2 },
+        { axis: "Open", value: 0.1 },
+        { axis: "Unique", value: radarMath.uniqueTypes() }
       ]
     }
   ];

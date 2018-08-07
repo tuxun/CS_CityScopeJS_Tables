@@ -4,6 +4,8 @@ body {
 }
 .threeDiv {
   background-color: black;
+  width: 1000;
+  height: 1000;
 }
 
 .infoDiv {
@@ -20,5 +22,5 @@ body {
 
 .radarDiv {
   z-index: 10;
-  position: fixed;
-}
+  width: 600;
+  height: 600;
