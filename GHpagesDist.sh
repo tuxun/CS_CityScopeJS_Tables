@@ -13,4 +13,5 @@ git add dist -f
 #commit the GH pages changes 
 git commit -m "gh-pages commit"
 #push to subtree remote 
-git subtree push --prefix dist origin gh-pages
+# git subtree push --prefix dist origin gh-pages
+git push origin `git subtree split --prefix dist master`:gh-pages --force
