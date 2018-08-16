@@ -55,17 +55,23 @@ export function threeInit(cityIOdata) {
 
     /////////////
     var frustumSize = 100;
-    // var aspect = window.innerWidth / window.innerHeight;
     var aspect = CANVAS_WIDTH / CANVAS_HEIGHT;
-    var zoomFactor = 15;
+    var zoomFactor = 12;
     camera = new THREE.OrthographicCamera(
       (frustumSize * aspect) / -zoomFactor,
       (frustumSize * aspect) / zoomFactor,
       frustumSize / zoomFactor,
       frustumSize / -zoomFactor,
       0,
-      1000
+      50
     );
+
+    // camera = new THREE.PerspectiveCamera(
+    //   80,
+    //   CANVAS_WIDTH / CANVAS_HEIGHT,
+    //   1,
+    //   100
+    // );
   }
   //set camera in accordance to grid
   camera.position.set(gridX / 2, 10, gridY / 2);
@@ -80,16 +86,25 @@ export function threeInit(cityIOdata) {
 
   /////////////// LIGHTS ///////////////////////
   //Create a PointLight and turn on shadows for the light
-  var ambLight = new THREE.AmbientLight(0xffffff, 0.25); // soft white light
+  var ambLight = new THREE.AmbientLight(0xffffff, 0.2); // soft white light
   scene.add(ambLight);
   // Spotlight for specific illumination
-  var spotLight = new THREE.SpotLight(0xfffffff, 0.75);
-  spotLight.position.set(gridX * 2, 25, gridY * 2);
+
+  var spotLight = new THREE.DirectionalLight(0xfffffff, 1, 100);
+  spotLight.position.set(gridX * 2, 20, gridY * 2);
+  spotLight.shadow.camera = new THREE.OrthographicCamera(
+    (frustumSize * aspect) / -zoomFactor,
+    (frustumSize * aspect) / zoomFactor,
+    frustumSize / zoomFactor,
+    frustumSize / -zoomFactor,
+    0,
+    50
+  );
 
   spotLight.castShadow = true;
-  spotLight.shadow.bias = 0.00000001;
-  spotLight.shadow.mapSize.width = 1024; // Shadow Quality
-  spotLight.shadow.mapSize.height = 1024; // Shadow Quality
+  spotLight.shadow.bias = 0.000001;
+  spotLight.shadow.mapSize.width = 512; // Shadow Quality
+  spotLight.shadow.mapSize.height = 512; // Shadow Quality
   scene.add(spotLight);
 
   ////AXIS GRID HELPERS
@@ -105,13 +120,15 @@ export function threeInit(cityIOdata) {
 
   //loop
   function animate() {
-    requestAnimationFrame(animate);
     render();
+
+    requestAnimationFrame(animate);
   }
   //render
   function render() {
-    controls.update();
     renderer.render(scene, camera);
+
+    controls.update();
   }
 
   return grid;

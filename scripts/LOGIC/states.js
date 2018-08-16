@@ -21,7 +21,7 @@ export function gridInfo(grid, cityIOdata) {
 
 /////////////// landUseGrid  ///////////////////////
 export function landUseMap(grid, cityIOdata) {
-  var colors = [0xaceaf7, 0xed5085, 0xfdcaa2, 0x76a075];
+  var colors = [0xed5085, 0xfdcaa2, 0x76a075, 0xaceaf7];
   for (let i = 0; i < grid.children.length; i++) {
     //if exist, cleanup peds at state reset
     for (let j = 0; j < grid.children[i].children.length; j++) {
