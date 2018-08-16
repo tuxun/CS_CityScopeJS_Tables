@@ -92,6 +92,7 @@ export function threeInit(cityIOdata) {
 
   var spotLight = new THREE.DirectionalLight(0xfffffff, 1, 100);
   spotLight.position.set(gridX * 2, 20, gridY * 2);
+  //solves shadow issue for ortho cams
   spotLight.shadow.camera = new THREE.OrthographicCamera(
     (frustumSize * aspect) / -zoomFactor,
     (frustumSize * aspect) / zoomFactor,
@@ -102,7 +103,7 @@ export function threeInit(cityIOdata) {
   );
 
   spotLight.castShadow = true;
-  spotLight.shadow.bias = 0.000001;
+  spotLight.shadow.bias = 0.0001;
   spotLight.shadow.mapSize.width = 512; // Shadow Quality
   spotLight.shadow.mapSize.height = 512; // Shadow Quality
   scene.add(spotLight);
