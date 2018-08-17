@@ -20,7 +20,7 @@ export function makeGrid(sizeX, sizeY) {
           //
           geometry = new THREE.BoxBufferGeometry(
             (cellSize * cellGap) / cellObjs,
-            0.5,
+            1,
             (cellSize * cellGap) / cellObjs
           );
           //make material for each cell
@@ -34,7 +34,7 @@ export function makeGrid(sizeX, sizeY) {
           // mesh.position.set(x * cellSize, 0.5, y * cellSize);
           mesh.position.set(
             x * cellSize + i / cellObjs,
-            0.5,
+            -0.5,
             y * cellSize + j / cellObjs
           );
           cellGrp.add(mesh);

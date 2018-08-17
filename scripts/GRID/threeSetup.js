@@ -63,7 +63,7 @@ export function threeInit(cityIOdata) {
       frustumSize / zoomFactor,
       frustumSize / -zoomFactor,
       0,
-      50
+      1000
     );
 
     // camera = new THREE.PerspectiveCamera(
@@ -77,7 +77,7 @@ export function threeInit(cityIOdata) {
   camera.position.set(gridX / 2, 10, gridY / 2);
   //
   //rotate camera around axis if needed
-  // camera.up.set(-1, -1, 0);
+  camera.up.set(-1, -1, 0);
   //
   //IMPORTANT: renderer.domElement solves DAT.GUI
   //issue with drop down-menu not responding
@@ -86,27 +86,49 @@ export function threeInit(cityIOdata) {
 
   /////////////// LIGHTS ///////////////////////
   //Create a PointLight and turn on shadows for the light
-  var ambLight = new THREE.AmbientLight(0xffffff, 0.2); // soft white light
-  scene.add(ambLight);
-  // Spotlight for specific illumination
+  // var ambLight = new THREE.AmbientLight(0xffffff, 0.3); // soft white light
+  // scene.add(ambLight);
+  // // Spotlight for specific illumination
 
-  var spotLight = new THREE.DirectionalLight(0xfffffff, 1, 100);
-  spotLight.position.set(gridX * 2, 20, gridY * 2);
-  //solves shadow issue for ortho cams
-  spotLight.shadow.camera = new THREE.OrthographicCamera(
-    (frustumSize * aspect) / -zoomFactor,
-    (frustumSize * aspect) / zoomFactor,
-    frustumSize / zoomFactor,
-    frustumSize / -zoomFactor,
-    0,
-    50
-  );
+  // var spotLight = new THREE.SpotLight(0xffffff, 0.7, 200);
+  // spotLight.castShadow = true;
+  // spotLight.shadow.bias = 0.0000001;
+  // spotLight.shadow.mapSize.width = 1024; // Shadow Quality
+  // spotLight.shadow.mapSize.height = 1024; // Shadow Quality
+  // //solves shadow issue for ortho cams
+  // spotLight.shadow.camera.left = -3000;
+  // spotLight.shadow.camera.top = -3000;
+  // spotLight.shadow.camera.right = 3000;
+  // spotLight.shadow.camera.bottom = 3000;
+  // spotLight.position.set(gridX / 2, 30, 0);
+  // scene.add(spotLight);
 
-  spotLight.castShadow = true;
-  spotLight.shadow.bias = 0.0001;
-  spotLight.shadow.mapSize.width = 512; // Shadow Quality
-  spotLight.shadow.mapSize.height = 512; // Shadow Quality
-  scene.add(spotLight);
+  // LIGHTS
+  var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.3);
+  hemiLight.color.setHSL(1, 1, 0.9);
+  hemiLight.groundColor.setHSL(0.095, 1, 0.75);
+  hemiLight.position.set(0, 10, 0);
+  scene.add(hemiLight);
+  // var hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
+  // scene.add(hemiLightHelper);
+  //
+  var dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
+  dirLight.color.setHSL(1, 1, 0.95);
+  dirLight.position.set(-gridX / 2, 20, -gridY / 2);
+  // dirLight.position.multiplyScalar(3);
+  scene.add(dirLight);
+  dirLight.castShadow = true;
+  dirLight.shadow.mapSize.width = 2048;
+  dirLight.shadow.mapSize.height = 2048;
+  var d = 30;
+  dirLight.shadow.camera.left = -d;
+  dirLight.shadow.camera.right = d;
+  dirLight.shadow.camera.top = d;
+  dirLight.shadow.camera.bottom = -d;
+  dirLight.shadow.camera.far = 300;
+  dirLight.shadow.bias = -0.000001;
+  // var dirLightHeper = new THREE.DirectionalLightHelper(dirLight, 10);
+  // scene.add(dirLightHeper);
 
   ////AXIS GRID HELPERS
   // let axes = new THREE.AxesHelper(100);

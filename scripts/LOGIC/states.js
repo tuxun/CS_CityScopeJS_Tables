@@ -6,13 +6,13 @@ import { countNeigbhors, drawCell } from "./modules";
 import * as PEDS from "../GRID/peds";
 
 export function gridInfo(grid, cityIOdata) {
-  var names = ["P", "W", "L", "G"];
+  var names = ["P", "W", "L", "G", "Z"];
+
   for (let i = 0; i < grid.children.length; i++) {
     //base type
-    grid.children[i].name = "G";
-    //then
-    if (cityIOdata.grid[i] === -1) {
-      grid.children[i].name = "G";
+
+    if (cityIOdata.grid[i] === -1 || cityIOdata.grid[i] === 4) {
+      grid.children[i].name = "Z";
     } else {
       grid.children[i].name = names[cityIOdata.grid[i]];
     }
@@ -21,7 +21,8 @@ export function gridInfo(grid, cityIOdata) {
 
 /////////////// landUseGrid  ///////////////////////
 export function landUseMap(grid, cityIOdata) {
-  var colors = [0xed5085, 0xfdcaa2, 0x76a075, 0xaceaf7];
+  var colors = [0xed5085, 0xfdcaa2, 0x76a075, 0xaceaf7, 0xafafaf];
+  var heights = [1, 2, 3, 4, 5];
   for (let i = 0; i < grid.children.length; i++) {
     //if exist, cleanup peds at state reset
     for (let j = 0; j < grid.children[i].children.length; j++) {
@@ -30,15 +31,16 @@ export function landUseMap(grid, cityIOdata) {
       if ((subCell.type = "mesh" && subCell.children["0"])) {
         subCell.remove(subCell.children["0"]);
       }
-      //reset all sizes and positions
-      subCell.position.y = 0;
-      subCell.scale.y = 0.1;
       // set the land use color for each cell [WIP]
-      subCell.material.color.set(colors[3]);
-      if (cityIOdata.grid[i] === -1) {
-        subCell.material.color.set(colors[2]);
+      subCell.material.color.set(colors[4]);
+      if (cityIOdata.grid[i] === -1 || cityIOdata.grid[i] === 4) {
+        subCell.material.color.set(colors[4]);
+        subCell.scale.y = 0.1;
+        subCell.position.y = 0.05;
       } else {
         subCell.material.color.set(colors[cityIOdata.grid[i]]);
+        subCell.scale.y = heights[cityIOdata.grid[i]];
+        subCell.position.y = heights[cityIOdata.grid[i]] / 2;
       }
     }
   }
@@ -62,8 +64,8 @@ export function walkabilityMap(
 
       //draw all in gray and reset scale/pos
       subCell.material.color.set(0x454d4e);
-      subCell.position.y = 0;
-      subCell.scale.y = 0.1;
+      // subCell.position.y = 0;
+      // subCell.scale.y = 0.1;
 
       //remove peds from each cell children
       if ((subCell.type = "mesh" && subCell.children["0"])) {
@@ -91,11 +93,11 @@ export function walkabilityMap(
       for (let j = 0; j < grid.children[i].children.length; j++) {
         let subCell = grid.children[i].children[j];
 
-        //update size to show results
-        if (countRes > 0) {
-          subCell.scale.y = countRes * 2;
-          subCell.position.y = subCell.scale.y / 4;
-        }
+        // //update size to show results
+        // if (countRes > 0) {
+        //   subCell.scale.y = countRes * 2;
+        //   subCell.position.y = subCell.scale.y / 4;
+        // }
 
         //remap neighbors count to color on a scale of green to red
         let cellCol =
