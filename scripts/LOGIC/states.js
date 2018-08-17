@@ -19,10 +19,12 @@ export function gridInfo(grid, cityIOdata) {
   }
 }
 
+var colorsHold = ["#ed5085", "#fdcaa2", "#76a075", "#aceaf7", "#afafaf"];
 /////////////// landUseGrid  ///////////////////////
 export function landUseMap(grid, cityIOdata) {
   var colors = [0xed5085, 0xfdcaa2, 0x76a075, 0xaceaf7, 0xafafaf];
-  var heights = [1, 2, 3, 4, 5];
+
+  var heights = [1, 5, 4, 3, 0.1];
   for (let i = 0; i < grid.children.length; i++) {
     //if exist, cleanup peds at state reset
     for (let j = 0; j < grid.children[i].children.length; j++) {
