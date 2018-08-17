@@ -114,7 +114,7 @@ export function threeInit(cityIOdata) {
   //
   var dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
   dirLight.color.setHSL(1, 1, 0.95);
-  dirLight.position.set(-gridX, 20, -gridY);
+  dirLight.position.set(-gridX / 2, 20, -gridY / 2);
   // dirLight.position.multiplyScalar(3);
   scene.add(dirLight);
   dirLight.castShadow = true;
@@ -149,13 +149,12 @@ export function threeInit(cityIOdata) {
   }
   //render
   function render() {
-    var x = dirLight.position.x,
-      z = dirLight.position.z,
-      rotSpeed = 0.0005;
-    dirLight.position.x = x * Math.cos(rotSpeed) + z * Math.sin(rotSpeed);
-    dirLight.position.z = z * Math.cos(rotSpeed) - x * Math.sin(rotSpeed);
+    // var x = dirLight.position.x,
+    //   z = dirLight.position.z,
+    //   rotSpeed = 0.005;
+    // dirLight.position.x = x * Math.cos(rotSpeed) + z * Math.sin(rotSpeed);
+    // dirLight.position.z = z * Math.cos(rotSpeed) - x * Math.sin(rotSpeed);
     renderer.render(scene, camera);
-
     controls.update();
   }
 
