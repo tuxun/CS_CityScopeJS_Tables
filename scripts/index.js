@@ -127,12 +127,12 @@ function stateManager(grid, radarChartObj, initalCityIOdata) {
   ////////////////////////////////////////////////////////
   //set an array of states for demo
   let statesArr = [
+    ["LU"],
     ["L", "W"],
     ["W", "L"],
     ["L", "P"],
     ["W", "P"],
-    ["G", "L"],
-    ["LU"]
+    ["G", "L"]
   ];
   let infoDivState = document.querySelector("#infoDivState");
 

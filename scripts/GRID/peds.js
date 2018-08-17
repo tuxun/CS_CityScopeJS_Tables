@@ -3,13 +3,18 @@ import * as THREE from "three";
 import * as texPath from "../../images/ball.png";
 import { rndInt } from "../LOGIC/modules";
 
-export function makePeds(cellColor, NeigbhorsArr, countRes) {
+export function makePeds(
+  cellColor,
+  NeigbhorsArr,
+  countRes,
+  maxparticles,
+  particleSize
+) {
   var cellPeds;
   var geometry = new THREE.BufferGeometry();
   var positions = [];
   var colArr = [];
   var texture = new THREE.TextureLoader().load(texPath.default);
-  var maxparticles = 500;
 
   //ratio of particles to num of neighbors
   var particles = (maxparticles * countRes) / NeigbhorsArr.length;
@@ -42,7 +47,7 @@ export function makePeds(cellColor, NeigbhorsArr, countRes) {
   geometry.addAttribute("color", colBuffer);
   //
   var material = new THREE.PointsMaterial({
-    size: 3,
+    size: particleSize,
     transparent: true,
     opacity: 0.8,
     blending: THREE.AdditiveBlending,

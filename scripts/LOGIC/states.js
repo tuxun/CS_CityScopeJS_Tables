@@ -114,7 +114,9 @@ export function walkabilityMap(
         let peds = PEDS.makePeds(
           [remapCol(countRes)[0], remapCol(countRes)[1], remapCol(countRes)[2]],
           NeigbhorsArr,
-          countRes
+          countRes,
+          100,
+          10
         );
         //add peds to cell
         subCell.add(peds);

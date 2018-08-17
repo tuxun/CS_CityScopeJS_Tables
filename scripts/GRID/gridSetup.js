@@ -4,7 +4,7 @@ import { SpriteText2D, textAlign } from "three-text2d";
 /////////////// GEOMETRY  ///////////////////////
 export function makeGrid(sizeX, sizeY) {
   var cellSize = 1;
-  var cellGap = 0.95;
+  var cellGap = 1;
   var mesh = null;
   var grid = new THREE.Object3D();
   var geometry = null;
