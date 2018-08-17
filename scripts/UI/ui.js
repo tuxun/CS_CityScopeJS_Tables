@@ -8,14 +8,16 @@ export function info() {
   infoDiv.innerHTML = "CityScopeJS" + "<p>" + "Walkability Simulation";
   //
   let logoDiv = document.createElement("div");
+  document.body.appendChild(logoDiv);
+
   logoDiv.id = "logoDiv";
   logoDiv.className = "logoDiv";
-  infoDiv.appendChild(logoDiv);
   var logo = document.createElement("img");
   logo.src = logoPath.default;
-  logo.width = 50;
-  logo.height = 50;
   logoDiv.appendChild(logo);
+  logo.width = 100;
+  logo.height = 100;
+
   //
   let infoDivState = document.createElement("div");
   infoDivState.id = "infoDivState";

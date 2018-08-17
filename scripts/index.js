@@ -72,10 +72,11 @@ async function init() {
   //Maptastic keystone
   let radarDiv = document.querySelector("#radarDiv");
   let infoDiv = document.querySelector("#infoDiv");
+  let logoDiv = document.querySelector("#logoDiv");
   //ONLY WAY TO M/S THREE.JS
   let THREEcanvas = document.querySelector("#THREEcanvas");
 
-  Maptastic(THREEcanvas, radarDiv, infoDiv);
+  Maptastic(THREEcanvas, radarDiv, infoDiv, logoDiv);
 }
 
 /////////////////////////////////////////////

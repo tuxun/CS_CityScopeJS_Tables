@@ -77,7 +77,7 @@ export function threeInit(cityIOdata) {
   camera.position.set(gridX / 2, 10, gridY / 2);
   //
   //rotate camera around axis if needed
-  camera.up.set(-1, 1, 0);
+  camera.up.set(1, -1, 0);
   //
   //IMPORTANT: renderer.domElement solves DAT.GUI
   //issue with drop down-menu not responding
@@ -114,19 +114,19 @@ export function threeInit(cityIOdata) {
   //
   var dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
   dirLight.color.setHSL(1, 1, 0.95);
-  dirLight.position.set(-gridX / 2, 20, -gridY / 2);
+  dirLight.position.set(-gridX, 20, -gridY);
   // dirLight.position.multiplyScalar(3);
   scene.add(dirLight);
   dirLight.castShadow = true;
-  dirLight.shadow.mapSize.width = 2048;
-  dirLight.shadow.mapSize.height = 2048;
+  dirLight.shadow.mapSize.width = 2000;
+  dirLight.shadow.mapSize.height = 2000;
   var d = 30;
   dirLight.shadow.camera.left = -d;
   dirLight.shadow.camera.right = d;
   dirLight.shadow.camera.top = d;
   dirLight.shadow.camera.bottom = -d;
   dirLight.shadow.camera.far = 300;
-  dirLight.shadow.bias = -0.000001;
+  dirLight.shadow.bias = 0.000001;
   // var dirLightHeper = new THREE.DirectionalLightHelper(dirLight, 10);
   // scene.add(dirLightHeper);
 
@@ -149,6 +149,11 @@ export function threeInit(cityIOdata) {
   }
   //render
   function render() {
+    var x = dirLight.position.x,
+      z = dirLight.position.z,
+      rotSpeed = 0.0005;
+    dirLight.position.x = x * Math.cos(rotSpeed) + z * Math.sin(rotSpeed);
+    dirLight.position.z = z * Math.cos(rotSpeed) - x * Math.sin(rotSpeed);
     renderer.render(scene, camera);
 
     controls.update();

@@ -23,7 +23,6 @@ var colorsHold = ["#ed5085", "#fdcaa2", "#76a075", "#aceaf7", "#afafaf"];
 /////////////// landUseGrid  ///////////////////////
 export function landUseMap(grid, cityIOdata) {
   var colors = [0xed5085, 0xfdcaa2, 0x76a075, 0xaceaf7, 0xafafaf];
-
   var heights = [1, 5, 4, 3, 0.1];
   for (let i = 0; i < grid.children.length; i++) {
     //if exist, cleanup peds at state reset
@@ -66,8 +65,6 @@ export function walkabilityMap(
 
       //draw all in gray and reset scale/pos
       subCell.material.color.set(0x454d4e);
-      // subCell.position.y = 0;
-      // subCell.scale.y = 0.1;
 
       //remove peds from each cell children
       if ((subCell.type = "mesh" && subCell.children["0"])) {
