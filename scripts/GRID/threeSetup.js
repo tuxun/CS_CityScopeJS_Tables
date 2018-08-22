@@ -65,19 +65,12 @@ export function threeInit(cityIOdata) {
       0,
       1000
     );
-
-    // camera = new THREE.PerspectiveCamera(
-    //   80,
-    //   CANVAS_WIDTH / CANVAS_HEIGHT,
-    //   1,
-    //   100
-    // );
   }
   //set camera in accordance to grid
   camera.position.set(gridX / 2, 10, gridY / 2);
   //
   //rotate camera around axis if needed
-  camera.up.set(1, -1, 0);
+  camera.up.set(0, 1, 0);
   //
   //IMPORTANT: renderer.domElement solves DAT.GUI
   //issue with drop down-menu not responding
@@ -85,23 +78,6 @@ export function threeInit(cityIOdata) {
   controls.target.set(gridX / 2, 0, gridY / 2);
 
   /////////////// LIGHTS ///////////////////////
-  //Create a PointLight and turn on shadows for the light
-  // var ambLight = new THREE.AmbientLight(0xffffff, 0.3); // soft white light
-  // scene.add(ambLight);
-  // // Spotlight for specific illumination
-
-  // var spotLight = new THREE.SpotLight(0xffffff, 0.7, 200);
-  // spotLight.castShadow = true;
-  // spotLight.shadow.bias = 0.0000001;
-  // spotLight.shadow.mapSize.width = 1024; // Shadow Quality
-  // spotLight.shadow.mapSize.height = 1024; // Shadow Quality
-  // //solves shadow issue for ortho cams
-  // spotLight.shadow.camera.left = -3000;
-  // spotLight.shadow.camera.top = -3000;
-  // spotLight.shadow.camera.right = 3000;
-  // spotLight.shadow.camera.bottom = 3000;
-  // spotLight.position.set(gridX / 2, 30, 0);
-  // scene.add(spotLight);
 
   // LIGHTS
   var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.3);
@@ -127,6 +103,7 @@ export function threeInit(cityIOdata) {
   dirLight.shadow.camera.bottom = -d;
   dirLight.shadow.camera.far = 300;
   dirLight.shadow.bias = 0.000001;
+
   // var dirLightHeper = new THREE.DirectionalLightHelper(dirLight, 10);
   // scene.add(dirLightHeper);
 
@@ -135,8 +112,10 @@ export function threeInit(cityIOdata) {
   // scene.add(axes);
 
   //make grid geom
-  let grid = makeGrid(gridX, gridY);
-  scene.add(grid);
+  let makeGridAndText = makeGrid(gridX, gridY);
+  let grid = makeGridAndText[0];
+  let textHolder = makeGridAndText[1];
+  scene.add(grid, textHolder);
 
   //call loop when done
   animate();
@@ -158,5 +137,5 @@ export function threeInit(cityIOdata) {
     controls.update();
   }
 
-  return grid;
+  return [grid, textHolder];
 }

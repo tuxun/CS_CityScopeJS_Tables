@@ -8,7 +8,9 @@ export function makePeds(
   NeigbhorsArr,
   countRes,
   maxparticles,
-  particleSize
+  particleSize,
+  spdDev,
+  distance
 ) {
   var cellPeds;
   var geometry = new THREE.BufferGeometry();
@@ -83,22 +85,22 @@ export function makePeds(
     //of all peds in this cell
 
     for (let i = 0; i < posArr.length; i = i + 3) {
-      //set fix Y
-      posArr[i + 1] = 0;
-
-      //set X NeigbhorsArr.length / 4
-      if (posArr[i] >= 1 || posArr[i] <= -1) {
+      //set X
+      if (posArr[i] >= distance || posArr[i] <= -distance) {
         posArr[i] = 0;
-      } else if (posArr[i] < 1 || posArr[i] > -1) {
+      } else if (posArr[i] < distance || posArr[i] > -distance) {
         //speed and dir of move
-        posArr[i] += Math.cos(angle) / 200;
+        posArr[i] += Math.cos(angle) / spdDev;
       }
 
+      //set a fix Y
+      posArr[i + 1] = 0;
+
       //set Z
-      if (posArr[i + 2] >= 1 || posArr[i + 2] <= -1) {
+      if (posArr[i + 2] >= distance || posArr[i + 2] <= -distance) {
         posArr[i + 2] = 0;
-      } else if (posArr[i + 2] < 1 || posArr[i + 2] > -1) {
-        posArr[i + 2] += Math.sin(angle) / 200;
+      } else if (posArr[i + 2] < distance || posArr[i + 2] > -distance) {
+        posArr[i + 2] += Math.sin(angle) / spdDev;
       }
 
       if (angle < countRes * 360) {

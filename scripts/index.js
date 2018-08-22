@@ -48,7 +48,6 @@ import { Maptastic } from "../scripts/UI/maptastic";
 let tableName = "cityscopeJSwalk";
 let cityIOtableURL =
   "https://cityio.media.mit.edu/api/table/" + tableName.toString();
-console.log(cityIOtableURL);
 
 //update interval
 let interval = 500;
@@ -60,9 +59,12 @@ async function init() {
   let cityIOdata = await getCityIO(cityIOtableURL);
 
   //build threejs initial grid on load
-  var grid = threeSetup.threeInit(cityIOdata);
+  var initMethod = threeSetup.threeInit(cityIOdata);
+  var grid = initMethod[0];
+  var textHolder = initMethod[1];
+
   //populate grid with data from cityIO
-  gridInfo(grid, cityIOdata);
+  gridInfo(grid, cityIOdata, textHolder);
 
   //init the radar
   let radarChartObj = radarInit();

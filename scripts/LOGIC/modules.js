@@ -101,5 +101,5 @@ export function countNeigbhors(NeigbhorsArr, thisType, searchType) {
       counter++;
     }
   }
-  return [counter / NeigbhorsArr.length, foundArr];
+  return [counter / NeigbhorsArr.length];
 }
