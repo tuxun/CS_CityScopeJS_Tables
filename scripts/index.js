@@ -69,7 +69,7 @@ async function init() {
   //init the radar
   let radarChartObj = radarInit();
   //send a barebone radar to update function
-  stateManager(grid, radarChartObj, cityIOdata);
+  stateManager(grid, radarChartObj, cityIOdata, textHolder);
 
   //Maptastic keystone
   let radarDiv = document.querySelector("#radarDiv");
@@ -80,7 +80,6 @@ async function init() {
 
   Maptastic(THREEcanvas, radarDiv, infoDiv, logoDiv);
 }
-
 /////////////////////////////////////////////
 /**
  * state Manager for keyboard input
@@ -122,7 +121,7 @@ function stateManager(grid, radarChartObj, initalCityIOdata) {
         landUseMap(grid, cityIOdata);
       } else {
         //read state details and make a map in accordance
-        walkabilityMap(stateHolder[0], stateHolder[1], grid, cityIOdata, 10);
+        walkabilityMap(grid, stateHolder[0], stateHolder[1], 5);
       }
     }
   }
@@ -165,11 +164,10 @@ function stateManager(grid, radarChartObj, initalCityIOdata) {
           );
           //call the map
           walkabilityMap(
+            grid,
             statesArr[statesArrCounter][0],
             statesArr[statesArrCounter][1],
-            grid,
-            cityIOdata,
-            2000
+            5
           );
           infoDivState.innerHTML =
             "Walkability Map from " +

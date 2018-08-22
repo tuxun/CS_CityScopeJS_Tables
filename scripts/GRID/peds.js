@@ -5,7 +5,7 @@ import { rndInt } from "../LOGIC/modules";
 
 export function makePeds(
   cellColor,
-  NeigbhorsArr,
+  NeigbhorsLen,
   countRes,
   maxparticles,
   particleSize,
@@ -19,7 +19,7 @@ export function makePeds(
   var texture = new THREE.TextureLoader().load(texPath.default);
 
   //ratio of particles to num of neighbors
-  var particles = (maxparticles * countRes) / NeigbhorsArr.length;
+  var particles = (maxparticles * countRes) / NeigbhorsLen.length;
 
   //size of bounding box in THREE units
   var n = 1;
