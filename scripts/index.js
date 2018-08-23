@@ -107,7 +107,7 @@ function stateManager(grid, initalCityIOdata, textHolder) {
       lastUpdateDate = cityIOdata.meta.timestamp;
       // console.log("New CityIO data");
       //update the grid info
-      gridInfo(grid, cityIOdata);
+      gridInfo(grid, cityIOdata, textHolder);
 
       //if stateHolder array has no walkabilityMap setup in it
       if (stateHolder.length < 2) {

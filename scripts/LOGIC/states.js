@@ -17,7 +17,7 @@ export function gridInfo(grid, cityIOdata, textHolder) {
     } else {
       grid.children[i].name = names[cityIOdata.grid[i]];
     }
-    textHolder.children[i].text = i + "_" + grid.children[i].name;
+    textHolder.children[i].text = grid.children[i].name + "_" + i;
   }
 }
 
@@ -70,7 +70,7 @@ export function walkabilityMap(grid, thisType, searchType, NeigbhorsLen) {
       1000,
       5,
       100,
-      3
+      2
     );
     //add peds to cell
     thisCell.add(peds);

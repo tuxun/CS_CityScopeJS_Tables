@@ -20,7 +20,6 @@
     "@tweenjs/tween.js": "^17.2.0",
     "babel-polyfill": "^6.26.0",
     "core-js": "^2.5.7",
-    "d3": "^3.5.17",
     "regenerator-runtime": "^0.12.0",
     "three": "^0.94.0",
     "three-orbitcontrols": "^2.1.2",

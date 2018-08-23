@@ -70,7 +70,7 @@ export function threeInit(cityIOdata) {
   camera.position.set(gridX / 2, 10, gridY / 2);
   //
   //rotate camera around axis if needed
-  camera.up.set(0, 1, 0);
+  camera.up.set(-1, 1, 0);
   //
   //IMPORTANT: renderer.domElement solves DAT.GUI
   //issue with drop down-menu not responding
