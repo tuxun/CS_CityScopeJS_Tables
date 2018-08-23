@@ -25,8 +25,6 @@ var colorsHold = ["#ed5085", "#fdcaa2", "#76a075", "#aceaf7", "#afafaf"];
 /////////////// searchNearest  ///////////////////////
 
 export function walkabilityMap(grid, thisType, searchType, NeigbhorsLen) {
-  var allGridArr = [];
-
   // go through all grid cells
   for (let i = 0; i < grid.children.length; i++) {
     //reset size, color, pos of all children
@@ -40,17 +38,12 @@ export function walkabilityMap(grid, thisType, searchType, NeigbhorsLen) {
       //remove old peds from this cell
       thisCell.remove(thisCell.children["0"]);
     }
-    allGridArr[i] = 0;
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-
     //check if grid cell is NOT our current search type
     if (thisCell.name !== thisType) {
       //return values for neighboring cells
       countResults = (function() {
         let counter = 0;
         let resCount = 0;
-
         for (let j = -NeigbhorsLen; j < NeigbhorsLen; j++) {
           if (
             grid.children[j + i] != null &&
@@ -62,32 +55,20 @@ export function walkabilityMap(grid, thisType, searchType, NeigbhorsLen) {
         }
         return resCount / counter;
       })();
-      allGridArr[i] += countResults;
     }
-
+    let thisRGB = remapCol(countResults);
     // remap neighbors count to color on a scale of green to red
     let cellCol =
-      "rgb(" +
-      remapCol(countResults)[0] +
-      "," +
-      remapCol(countResults)[1] +
-      "," +
-      remapCol(countResults)[2] +
-      ")";
+      "rgb(" + thisRGB[0] + "," + thisRGB[1] + "," + thisRGB[2] + ")";
     //recolor the cells with TWEEN
     drawCell(thisCell, cellCol, 5000);
-
     //add pedestrians per grid object
     let peds = PEDS.makePeds(
-      [
-        remapCol(countResults)[0],
-        remapCol(countResults)[1],
-        remapCol(countResults)[2]
-      ],
+      [thisRGB[0], thisRGB[1], thisRGB[2]],
       NeigbhorsLen,
       countResults,
       1000,
-      10,
+      5,
       100,
       3
     );

@@ -31,10 +31,3 @@ body {
   font-size: 1rem;
   font-weight: 10;
 }
-
-.radarDiv {
-  position: fixed;
-  z-index: 10;
-  width: 600;
-  height: 600;
-}

@@ -9,7 +9,7 @@ export function makePeds(
   countRes,
   maxparticles,
   particleSize,
-  spdDev,
+  speed,
   distance
 ) {
   var cellPeds;
@@ -19,7 +19,7 @@ export function makePeds(
   var texture = new THREE.TextureLoader().load(texPath.default);
 
   //ratio of particles to num of neighbors
-  var particles = (maxparticles * countRes) / NeigbhorsLen.length;
+  var particles = (maxparticles * countRes) / NeigbhorsLen;
 
   //size of bounding box in THREE units
   var n = 1;
@@ -60,10 +60,14 @@ export function makePeds(
   });
 
   cellPeds = new THREE.Points(geometry, material);
+  //set name for peds to delete after
   cellPeds.name = "peds";
 
   //grab the peds pos array for animation
   var posArr = posBuffer.array;
+
+  //call anim looper
+  animate();
 
   // animate
   function animate() {
@@ -73,8 +77,6 @@ export function makePeds(
     cellPeds.geometry.attributes.color.needsUpdate = true;
   }
 
-  //call anim looper
-  animate();
   //send back to scene
   return cellPeds;
 
@@ -85,22 +87,22 @@ export function makePeds(
     //of all peds in this cell
 
     for (let i = 0; i < posArr.length; i = i + 3) {
-      //set X
+      //set fix Y
+      posArr[i + 1] = 0;
+
+      //set X NeigbhorsArr.length / 4
       if (posArr[i] >= distance || posArr[i] <= -distance) {
         posArr[i] = 0;
       } else if (posArr[i] < distance || posArr[i] > -distance) {
         //speed and dir of move
-        posArr[i] += Math.cos(angle) / spdDev;
+        posArr[i] += Math.cos(angle) / speed;
       }
-
-      //set a fix Y
-      posArr[i + 1] = 0;
 
       //set Z
       if (posArr[i + 2] >= distance || posArr[i + 2] <= -distance) {
         posArr[i + 2] = 0;
       } else if (posArr[i + 2] < distance || posArr[i + 2] > -distance) {
-        posArr[i + 2] += Math.sin(angle) / spdDev;
+        posArr[i + 2] += Math.sin(angle) / speed;
       }
 
       if (angle < countRes * 360) {

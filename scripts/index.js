@@ -37,7 +37,6 @@ import { gridInfo } from "./LOGIC/states";
 import { landUseMap } from "./LOGIC/states";
 import { walkabilityMap } from "./LOGIC/states";
 import { info } from "./UI/ui";
-import { radarInit, radarUpdate } from "./UI/radarSetup";
 import { Maptastic } from "../scripts/UI/maptastic";
 
 //
@@ -66,19 +65,16 @@ async function init() {
   //populate grid with data from cityIO
   gridInfo(grid, cityIOdata, textHolder);
 
-  //init the radar
-  let radarChartObj = radarInit();
   //send a barebone radar to update function
-  stateManager(grid, radarChartObj, cityIOdata, textHolder);
+  stateManager(grid, cityIOdata, textHolder);
 
   //Maptastic keystone
-  let radarDiv = document.querySelector("#radarDiv");
   let infoDiv = document.querySelector("#infoDiv");
   let logoDiv = document.querySelector("#logoDiv");
   //ONLY WAY TO M/S THREE.JS
   let THREEcanvas = document.querySelector("#THREEcanvas");
 
-  Maptastic(THREEcanvas, radarDiv, infoDiv, logoDiv);
+  Maptastic(THREEcanvas, infoDiv, logoDiv);
 }
 /////////////////////////////////////////////
 /**
@@ -87,7 +83,7 @@ async function init() {
  * @param initalCityIOdata the results of the init call to cityIO.
  */
 
-function stateManager(grid, radarChartObj, initalCityIOdata) {
+function stateManager(grid, initalCityIOdata, textHolder) {
   //paint land use grid at start
   landUseMap(grid, initalCityIOdata);
 
@@ -100,9 +96,6 @@ function stateManager(grid, radarChartObj, initalCityIOdata) {
   async function updateCityIO() {
     //get the data through promise
     cityIOdata = await getCityIO(cityIOtableURL);
-
-    // update to radar
-    radarUpdate(cityIOdata, radarChartObj, interval / 2);
 
     //check for new cityIO update using a timestamp
     if (lastUpdateDate == cityIOdata.meta.timestamp) {
