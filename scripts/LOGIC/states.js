@@ -4,6 +4,7 @@ import { remapCol } from "./modules";
 import { drawCell } from "./modules";
 import * as PEDS from "../GRID/peds";
 
+var colorsHold = ["#ed5085", "#fdcaa2", "#76a075", "#aceaf7", "#afafaf"];
 /////////////// grid info  ///////////////////////
 
 export function gridInfo(grid, cityIOdata, textHolder) {
@@ -16,23 +17,21 @@ export function gridInfo(grid, cityIOdata, textHolder) {
     } else {
       grid.children[i].name = names[cityIOdata.grid[i]];
     }
-    textHolder.children[i].text = grid.children[i].name;
+    textHolder.children[i].text = i + "_" + grid.children[i].name;
   }
 }
-
-var colorsHold = ["#ed5085", "#fdcaa2", "#76a075", "#aceaf7", "#afafaf"];
 
 /////////////// searchNearest  ///////////////////////
 
 export function walkabilityMap(grid, thisType, searchType, NeigbhorsLen) {
   // go through all grid cells
   for (let i = 0; i < grid.children.length; i++) {
-    //reset size, color, pos of all children
+    //reset  color
     let thisCell = grid.children[i];
     //check if not text
     let countResults = 0;
     //draw all in gray and reset scale/pos
-    thisCell.material.color.set(0x454d4e);
+    thisCell.material.color.set(0x000000);
     //remove peds from each cell children
     if (thisCell.children["0"]) {
       //remove old peds from this cell
@@ -44,10 +43,10 @@ export function walkabilityMap(grid, thisType, searchType, NeigbhorsLen) {
       countResults = (function() {
         let counter = 0;
         let resCount = 0;
-        for (let j = -NeigbhorsLen; j < NeigbhorsLen; j++) {
+        for (let x = i - NeigbhorsLen; x < i + NeigbhorsLen; x++) {
           if (
-            grid.children[j + i] != null &&
-            grid.children[j + i].name === searchType
+            grid.children[x] != null &&
+            grid.children[x].name === searchType
           ) {
             resCount++;
           }
@@ -62,6 +61,7 @@ export function walkabilityMap(grid, thisType, searchType, NeigbhorsLen) {
       "rgb(" + thisRGB[0] + "," + thisRGB[1] + "," + thisRGB[2] + ")";
     //recolor the cells with TWEEN
     drawCell(thisCell, cellCol, 5000);
+
     //add pedestrians per grid object
     let peds = PEDS.makePeds(
       [thisRGB[0], thisRGB[1], thisRGB[2]],

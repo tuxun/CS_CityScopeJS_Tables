@@ -130,7 +130,6 @@ function stateManager(grid, initalCityIOdata, textHolder) {
     ["G", "L"]
   ];
   let infoDivState = document.querySelector("#infoDivState");
-
   let statesArrCounter = 0;
   //also, set key listener
   document.body.addEventListener("keyup", function(e) {
