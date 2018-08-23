@@ -58,9 +58,10 @@ async function init() {
   let cityIOdata = await getCityIO(cityIOtableURL);
 
   //build threejs initial grid on load
-  var initMethod = threeSetup.threeInit(cityIOdata);
-  var grid = initMethod[0];
-  var textHolder = initMethod[1];
+  var initCityIOdata = threeSetup.threeInit(cityIOdata);
+  var grid = initCityIOdata[0];
+
+  var textHolder = initCityIOdata[1];
 
   //populate grid with data from cityIO
   gridInfo(grid, cityIOdata, textHolder);

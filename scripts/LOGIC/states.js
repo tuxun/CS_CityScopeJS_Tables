@@ -67,8 +67,8 @@ export function walkabilityMap(grid, thisType, searchType, NeigbhorsLen) {
       [thisRGB[0], thisRGB[1], thisRGB[2]],
       NeigbhorsLen,
       countResults,
-      1000,
-      5,
+      200,
+      10,
       100,
       2
     );
