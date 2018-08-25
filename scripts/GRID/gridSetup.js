@@ -4,7 +4,7 @@ import { SpriteText2D, textAlign } from "three-text2d";
 /////////////// GEOMETRY  ///////////////////////
 export function makeGrid(sizeX, sizeY) {
   var cellSize = 1;
-  var cellScale = 0.9;
+  var cellScale = 0.98;
   var mesh = null;
   var grid = new THREE.Object3D();
   var textHolder = new THREE.Object3D();
@@ -33,8 +33,8 @@ export function makeGrid(sizeX, sizeY) {
       // // // make text over cell
       let text = textMaker("_", "white");
       text.name = "text";
-      text.scale.set(0.005, 0.005, 0.005);
-      text.position.set(x * cellSize, 10, y * cellSize);
+      text.scale.set(0.003, 0.003, 0.003);
+      text.position.set(x * cellSize, 6, y * cellSize - 0.2);
       textHolder.add(text);
     }
   }

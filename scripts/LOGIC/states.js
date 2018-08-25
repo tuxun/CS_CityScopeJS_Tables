@@ -60,20 +60,22 @@ export function walkabilityMap(grid, thisType, searchType, NeigbhorsLen) {
     let cellCol =
       "rgb(" + thisRGB[0] + "," + thisRGB[1] + "," + thisRGB[2] + ")";
     //recolor the cells with TWEEN
-    drawCell(thisCell, cellCol, 5000);
+    drawCell(thisCell, cellCol, 5000, makePeds);
 
-    //add pedestrians per grid object
-    let peds = PEDS.makePeds(
-      [thisRGB[0], thisRGB[1], thisRGB[2]],
-      NeigbhorsLen,
-      countResults,
-      200,
-      10,
-      100,
-      2
-    );
-    //add peds to cell
-    thisCell.add(peds);
+    function makePeds() {
+      //add pedestrians per grid object
+      let peds = PEDS.makePeds(
+        [thisRGB[0], thisRGB[1], thisRGB[2]],
+        NeigbhorsLen,
+        countResults,
+        1000,
+        5,
+        100,
+        2
+      );
+      //add peds to cell
+      thisCell.add(peds);
+    }
   }
 }
 

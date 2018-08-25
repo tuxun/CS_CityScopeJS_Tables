@@ -38,12 +38,15 @@ export function remapCol(countRes) {
 ////////////////////////////////////////////////////////////////////
 //color each cell
 //https://sole.github.io/tween.js/examples/03_graphs.html
-export function drawCell(obj, color, duration) {
-  var target = new THREE.Color(color);
-  tweenCol(obj.material.color, target, {
-    duration: rndInt(0, duration),
-    easing: TWEEN.Easing.Bounce.In
-  });
+export function drawCell(obj, color, duration, callback) {
+  obj.material.color.set(color);
+  callback();
+
+  // var target = new THREE.Color(color);
+  // tweenCol(obj.material.color, target, {
+  //   duration: rndInt(0, duration),
+  //   easing: TWEEN.Easing.Bounce.In
+  // });
 }
 
 ////////////////////////////////////////////////////////////////////
