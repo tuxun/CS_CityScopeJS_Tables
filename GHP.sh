@@ -4,7 +4,7 @@ sudo rm -rf dist
 # build the dist for public url 
 sudo parcel build index.html --public-url https://cityscope.media.mit.edu/CS_CityScopeJS_Tables/
 # make sure to add dist 
-git add dist -f
+git add CSjs_MobCho/dist -f
 #commit the GH pages changes 
 git commit -m "gh-pages commit"
 #push to subtree remote [Force] 
