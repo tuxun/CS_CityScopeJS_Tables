@@ -8,54 +8,16 @@ Each module should include at least:
 - Visual rep. of cityIO data feature [3d model, land use or other]
 - Analysis of grid+spatial data, such as: walkability, energy, mobility etc.
 
----
+#### how to build a table module with `parcel` into GitHub pages
 
-## how to build with `parcel` for GitHub pages
+- make an empty `gh-pages` branch and push it to GH
 
-### Building production into `dist` folder
+- Build production into `dist` folder:
 
-`sudo parcel build index.html --public-url https://cityscope.media.mit.edu/CS_CityScopeJS_Tables/`
+  - use `build.sh` to build the a local `dist` folder
+  - make changes to `.sh` to fit static `https` location
 
-## Deploying `dist` to GitHub Pages
+- Use subtree push to send it to the `gh-pages` branch on GitHub:
 
-### Step 1
-
-Remove the `dist` directory from the project’s `.gitignore` (or skip and force-add afterwards).
-
-### Step 2
-
-Make sure git knows about your subtree (the subfolder with your site).
-
-```sh
-git add dist
-```
-
-or force-add it if you don't want to change your `.gitignore`
-
-```sh
-git add dist -f
-```
-
-### Step 3
-
-Commit!
-
-```sh
-git commit -m "gh-pages commit"
-```
-
-### Step 4
-
-Use subtree push to send it to the `gh-pages` branch on GitHub.
-
-```sh
-git subtree push --prefix dist origin gh-pages
-```
-
-### Step 4.1
-
-If this gets an error [see below], try `force` push:
-
-```sh
-git push origin `git subtree split --prefix dist master`:gh-pages --force
-```
+  - move [cut-paste] the new `dist` folder to the upper most folder
+  - use `deploy.sh` to FORCE push the `dist` folder to `gh-pages`
