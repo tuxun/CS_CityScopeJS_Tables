@@ -54,7 +54,7 @@ export function makeGrid(gridDIV, gridSizeCols, gridSizeRows) {
 export async function update() {
   let cityIOtableURL = Storage.cityIOurl;
   const cityIOjson = await getCityIO(cityIOtableURL);
-  slider(cityIOjson.grid);
+  // slider(cityIOjson.grid);
   renderUpdate(cityIOjson);
 }
 
@@ -68,8 +68,8 @@ async function renderUpdate(jsonData) {
   for (let i = 0; i < jsonData.grid.length; i++) {
     switch (jsonData.grid[i]) {
       case 0:
-        gridCellsArray[i].innerHTML = "Open";
-        gridCellsArray[i].style.backgroundColor = "rgba(0,0,0,0.5)";
+        // gridCellsArray[i].innerHTML = "Open";
+        gridCellsArray[i].style.backgroundColor = "rgba(0,0,0,0)";
         break;
 
       case 1:
@@ -92,7 +92,7 @@ async function renderUpdate(jsonData) {
         gridCellsArray[i].innerHTML = "Work";
         break;
       default:
-        gridCellsArray[i].style.backgroundColor = "rgba(0, 0, 0, 0)";
+        gridCellsArray[i].style.backgroundColor = "rgba(0, 0, 0, 0.5)";
         gridCellsArray[i].innerHTML = "null";
         break;
     }
@@ -105,9 +105,11 @@ async function renderUpdate(jsonData) {
  * @param jsonData cityIO API endpoint data
  */
 async function slider(grid) {
-  for (let i = 15; i < grid.length; i = i + 16) {
-    if (grid[i] != -1 && grid[i] != 4) {
-      console.log(i, grid[i]);
-    }
-  }
+  console.log(grid[15]);
+
+  // for (let i = 0; i < grid.length; i = i + 16) {
+  //   if (grid[i] != -1 && grid[i] != 4) {
+  //     console.log(i, grid[i]);
+  //   }
+  // }
 }
