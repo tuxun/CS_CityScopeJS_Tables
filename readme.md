@@ -14,10 +14,6 @@ Each module should include at least:
 
 - Build production into `dist` folder:
 
-  - use `build.sh` to build the a local `dist` folder
-  - make changes to `.sh` to fit static `https` location
+  - use `GH.sh` to build the a local `dist` folder
+  - make changes to `.sh` to fit static `https` and Table location
 
-- Use subtree push to send it to the `gh-pages` branch on GitHub:
-
-  - move [cut-paste] the new `dist` folder to the upper most folder
-  - use `deploy.sh` to FORCE push the `dist` folder to `gh-pages`
