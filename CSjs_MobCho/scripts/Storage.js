@@ -21,6 +21,14 @@ class Storage {
   set gridCellsArray(value) {
     this._gridCellsArray = value;
   }
+
+  //map obj
+  get map() {
+    return this._map;
+  }
+  set map(value) {
+    this._map = value;
+  }
 }
 
 export default new Storage();

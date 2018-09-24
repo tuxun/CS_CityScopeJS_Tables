@@ -92,6 +92,10 @@ async function setup() {
     bearing: 30,
     zoom: 17.5
   });
+
+  var infoDiv = document.createElement("div");
+  document.body.appendChild(infoDiv);
+  Storage.map = map;
 }
 
 //start applet

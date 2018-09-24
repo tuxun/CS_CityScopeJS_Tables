@@ -54,7 +54,6 @@ export function makeGrid(gridDIV, gridSizeCols, gridSizeRows) {
 export async function update() {
   let cityIOtableURL = Storage.cityIOurl;
   const cityIOjson = await getCityIO(cityIOtableURL);
-  // slider(cityIOjson.grid);
   renderUpdate(cityIOjson);
 }
 
@@ -64,52 +63,61 @@ export async function update() {
  * @param jsonData cityIO API endpoint data
  */
 async function renderUpdate(jsonData) {
+  // console.log(Storage.map.transform._zoom);
+
   let gridCellsArray = Storage.gridCellsArray;
   for (let i = 0; i < jsonData.grid.length; i++) {
+    // gridCellsArray[i].innerHTML = i;
+
     switch (jsonData.grid[i]) {
       case 0:
-        // gridCellsArray[i].innerHTML = "Open";
-        gridCellsArray[i].style.backgroundColor = "rgba(0,0,0,0)";
+        gridCellsArray[i].style.backgroundColor = "rgba(100,0,0,0)";
         break;
 
       case 1:
         gridCellsArray[i].style.backgroundColor = "rgba(50,150,255,0.5)";
         gridCellsArray[i].innerHTML = "Live";
+        gridCellsArray[i].style.boxShadow = "-10px -10px 20px rgba(0,0,0,.7)";
         break;
 
       case 2:
         gridCellsArray[i].style.backgroundColor = "rgba(0, 50, 170,0.5)";
         gridCellsArray[i].innerHTML = "Live";
+        gridCellsArray[i].style.boxShadow = "-20px -20px 40px rgba(0,0,0,.7)";
+
         break;
 
       case 3:
         gridCellsArray[i].style.backgroundColor = "rgba(244,0,255,0.5)";
         gridCellsArray[i].innerHTML = "Work";
+        gridCellsArray[i].style.boxShadow = "-20px -20px 20px rgba(0,0,0,.7)";
+
         break;
 
       case 4:
         gridCellsArray[i].style.backgroundColor = "rgba(255,0,150,0.5)";
         gridCellsArray[i].innerHTML = "Work";
+        gridCellsArray[i].style.boxShadow = "-25px -25px 20px rgba(0,0,0,.7)";
+
         break;
       default:
         gridCellsArray[i].style.backgroundColor = "rgba(0, 0, 0, 0.5)";
         gridCellsArray[i].innerHTML = "";
         break;
     }
+    // slider
+    switch (i) {
+      case 191:
+      case 207:
+      case 223:
+      case 239:
+      case 255:
+        if (jsonData.grid[i] != -1 && jsonData.grid[i] != 4) {
+          gridCellsArray[i].style.backgroundColor = "rgba(255, 255, 0, 0.5)";
+          gridCellsArray[i].innerHTML =
+            "type: " + jsonData.grid[i] + " val: " + i;
+        }
+        break;
+    }
   }
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * looks for slider in designated grid area
- * @param jsonData cityIO API endpoint data
- */
-async function slider(grid) {
-  console.log(grid[15]);
-
-  // for (let i = 0; i < grid.length; i = i + 16) {
-  //   if (grid[i] != -1 && grid[i] != 4) {
-  //     console.log(i, grid[i]);
-  //   }
-  // }
 }
