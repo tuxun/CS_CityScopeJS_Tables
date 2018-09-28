@@ -1,9 +1,14 @@
-// https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry_drawcalls.html
 import * as THREE from "three";
-import * as texPath from "../../images/ball.png";
-import { rndInt } from "./modules";
+import * as texPath from "../ThreeJS/ball.png";
+import "../Storage";
 
-export function makePeds(
+export function callAgents(scene) {
+  //add pedestrians per grid object
+  let peds = makeAgents([255, 0, 0], 10, 10, 500, 5, 100, 2);
+  scene.add(peds);
+}
+
+function makeAgents(
   cellColor,
   NeigbhorsLen,
   countRes,
@@ -12,7 +17,7 @@ export function makePeds(
   speed,
   distance
 ) {
-  var cellPeds;
+  var agents;
   var geometry = new THREE.BufferGeometry();
   var positions = [];
   var colArr = [];
@@ -27,9 +32,9 @@ export function makePeds(
   var n2 = n / 2;
 
   //FIXED COLORS -- MUST BE REMAPPED to 0-1 range!!
-  let colR = rndInt(cellColor[0], cellColor[0] + 50) / 255;
-  let colG = rndInt(cellColor[1], cellColor[1] + 50) / 255;
-  let colB = rndInt(cellColor[2], cellColor[2] + 50) / 255;
+  let colR = cellColor[0] / 255;
+  let colG = cellColor[1] / 255;
+  let colB = cellColor[2] / 255;
 
   for (var i = 0; i < particles; i++) {
     colArr.push(colR, colG, colB);
@@ -59,9 +64,9 @@ export function makePeds(
     vertexColors: THREE.VertexColors
   });
 
-  cellPeds = new THREE.Points(geometry, material);
+  agents = new THREE.Points(geometry, material);
   //set name for peds to delete after
-  cellPeds.name = "peds";
+  agents.name = "agents";
 
   //grab the peds pos array for animation
   var posArr = posBuffer.array;
@@ -72,24 +77,21 @@ export function makePeds(
   // animate
   function animate() {
     requestAnimationFrame(animate);
-    updatePositions();
-    cellPeds.geometry.attributes.position.needsUpdate = true;
-    cellPeds.geometry.attributes.color.needsUpdate = true;
+    updateAgentsPositions();
+    agents.geometry.attributes.position.needsUpdate = true;
+    agents.geometry.attributes.color.needsUpdate = true;
   }
 
-  //send back to scene
-  return cellPeds;
+  return agents;
 
   ////////////////////////////////////////
-  function updatePositions() {
+  function updateAgentsPositions() {
     let angle = 0;
     //run through location array [x,y,z,x,y,z..]
     //of all peds in this cell
-
     for (let i = 0; i < posArr.length; i = i + 3) {
       //set fix Y
       posArr[i + 1] = 0;
-
       //set X NeigbhorsArr.length / 4
       if (posArr[i] >= distance || posArr[i] <= -distance) {
         posArr[i] = 0;
@@ -97,14 +99,12 @@ export function makePeds(
         //speed and dir of move
         posArr[i] += Math.cos(angle) / speed;
       }
-
       //set Z
       if (posArr[i + 2] >= distance || posArr[i + 2] <= -distance) {
         posArr[i + 2] = 0;
       } else if (posArr[i + 2] < distance || posArr[i + 2] > -distance) {
         posArr[i + 2] += Math.sin(angle) / speed;
       }
-
       if (angle < countRes * 360) {
         angle++;
       } else {

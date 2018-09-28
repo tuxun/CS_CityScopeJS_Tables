@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { SpriteText2D, textAlign } from "three-text2d";
 import OrbitControls from "three-orbitcontrols";
+import { callAgents } from "./agents";
+import "../Storage";
 
 ////////////////////////////////////////
 export function threeInit() {
@@ -109,8 +111,10 @@ export function threeInit() {
     renderer.render(scene, camera);
     controls.update();
   }
-
   threeGridProp(grid, textHolder);
+
+  //add agents to scene
+  callAgents(scene);
 }
 
 /////////////// GEOMETRY  ///////////////////////
