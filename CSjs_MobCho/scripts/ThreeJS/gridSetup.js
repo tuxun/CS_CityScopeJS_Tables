@@ -209,6 +209,9 @@ export function threeGridProp() {
       case 239:
       case 255:
         if (cityIOdata.grid[i] != -1 && cityIOdata.grid[i] != 4) {
+          //set storgae with slider location
+          Storage.slider = { position: i, type: cityIOdata.grid[i] };
+
           thisCell.material.color.set("rgb(255, 255, 0)");
           thisCell.scale.set(1, 1, 1);
           textHolder.children[i].text = "slider" + cityIOdata.grid[i];

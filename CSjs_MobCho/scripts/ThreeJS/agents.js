@@ -3,17 +3,19 @@ import * as texPath from "../ThreeJS/ball.png";
 
 export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(sizeX, sizeY, [255, 255, 255], 1000, 2.5, 50);
+  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 10000, 2.5, 50);
   scene.add(agents);
 }
 function makeAgents(
   sizeX,
   sizeY,
-  cellColor,
+  colorRatioArr,
   maxparticles,
   particleSize,
   speed
 ) {
+  var colors = [[50, 150, 255], [0, 50, 170], [244, 0, 255], [255, 0, 150]];
+
   var agents;
   var geometry = new THREE.BufferGeometry();
   var positions = [];
@@ -22,12 +24,14 @@ function makeAgents(
   //ratio of particles to num of neighbors
   var particles = maxparticles;
 
-  //FIXED COLORS -- MUST BE REMAPPED to 0-1 range!!
-  let colR = cellColor[0] / 255;
-  let colG = cellColor[1] / 255;
-  let colB = cellColor[2] / 255;
-
   for (var i = 0; i < particles; i++) {
+    //colors from array
+    let rndCol = colors[Math.floor(Math.random() * colors.length)];
+    //MUST BE REMAPPED to 0-1 range!!
+    let colR = rndCol[0] / 255;
+    let colG = rndCol[1] / 255;
+    let colB = rndCol[2] / 255;
+
     colArr.push(colR, colG, colB);
     // positions
     var x = Math.random() * sizeX;
@@ -38,7 +42,7 @@ function makeAgents(
   let posBuffer = new THREE.Float32BufferAttribute(positions, 3).setDynamic(
     true
   );
-  let colBuffer = new THREE.Float32BufferAttribute(colArr, 3);
+  let colBuffer = new THREE.Float32BufferAttribute(colArr, 3).setDynamic(true);
   //
   geometry.addAttribute("position", posBuffer);
   geometry.addAttribute("color", colBuffer);
@@ -59,6 +63,7 @@ function makeAgents(
 
   //grab the agents pos array for animation
   var posArr = posBuffer.array;
+  var colBufferArr = colBuffer.array;
 
   //call anim looper
   animate();
@@ -75,12 +80,20 @@ function makeAgents(
   ////////////////////////////////////////
 
   function updateAgentsPositions() {
+    let slider = Storage.slider;
+
     let angle = 0;
     //run through location array [x,y,z,x,y,z..]
     //of all agents in this cell
     for (let i = 0; i < posArr.length; i = i + 3) {
+      // //WIP colors update in runtime
+      // colBufferArr[i] = slider.type / 3;
+      // colBufferArr[i + 1] = slider.type / 2;
+      // colBufferArr[i + 2] = slider.type / 2;
+      // //
+
       //set X
-      if (posArr[i] >= sizeX || posArr[i] <= -0.5) {
+      if (posArr[i] >= sizeX + 5 || posArr[i] <= -5) {
         posArr[i] = (sizeX / 2) * Math.random();
       } else {
         //speed and dir of move
@@ -88,7 +101,7 @@ function makeAgents(
       }
 
       //set Z
-      if (posArr[i + 2] >= sizeY || posArr[i + 2] <= -0.5) {
+      if (posArr[i + 2] >= sizeY + 5 || posArr[i + 2] <= -5) {
         posArr[i + 2] = (sizeY / 2) * Math.random();
       } else {
         posArr[i + 2] += Math.sin(angle) / speed;

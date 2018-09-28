@@ -14,6 +14,14 @@ class Storage {
     this._cityIOurl = value;
   }
 
+  //cityIO url
+  get slider() {
+    return this._slider;
+  }
+  set slider(value) {
+    this._slider = value;
+  }
+
   //map obj
   get map() {
     return this._map;
