@@ -3,7 +3,10 @@ import { SpriteText2D, textAlign } from "three-text2d";
 import OrbitControls from "three-orbitcontrols";
 
 ////////////////////////////////////////
-export function createScene(cityIOdata) {
+export function threeInit() {
+  let cityIOdata = Storage.cityIOdata;
+  //build threejs initial grid on load
+
   //get table dims
   var gridX = cityIOdata.header.spatial.ncols;
   var gridY = cityIOdata.header.spatial.nrows;
@@ -107,11 +110,11 @@ export function createScene(cityIOdata) {
     controls.update();
   }
 
-  return [grid, textHolder];
+  landUseMap(grid, textHolder);
 }
 
 /////////////// GEOMETRY  ///////////////////////
-export function makeGrid(sizeX, sizeY) {
+function makeGrid(sizeX, sizeY) {
   var cellSize = 1;
   var cellScale = 0.98;
   var mesh = null;
@@ -162,7 +165,8 @@ function textMaker(string, thisCol) {
 }
 
 /////////////// landUseGrid  ///////////////////////
-export function landUseMap(grid, cityIOdata, textHolder) {
+export function landUseMap(grid, textHolder) {
+  let cityIOdata = Storage.cityIOdata;
   var colors = [
     "rgb(50,50,50)",
     "rgb(50,150,255)",
@@ -175,10 +179,6 @@ export function landUseMap(grid, cityIOdata, textHolder) {
     textHolder.children[i].text = cityIOdata.grid[i] + "_" + i;
     //if exist, cleanup peds at state reset
     let subCell = grid.children[i];
-
-    // set the land use color for each cell [WIP]
-    subCell.material.color.set(colors[4]);
-
     subCell.material.color.set(colors[cityIOdata.grid[i]]);
     subCell.scale.y = cityIOdata.grid[i] + 0.1;
     subCell.position.y = [cityIOdata.grid[i] + 0.1] / 2;
