@@ -1,20 +1,18 @@
 import * as THREE from "three";
 import * as texPath from "../ThreeJS/ball.png";
-import "../Storage";
 
-export function callAgents(scene) {
+export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(1, [255, 0, 0], 1000, 10, 50, 2);
+  let agents = makeAgents(sizeX, sizeY, [255, 255, 255], 1000, 2.5, 50);
   scene.add(agents);
 }
-
 function makeAgents(
-  boxSize,
+  sizeX,
+  sizeY,
   cellColor,
   maxparticles,
   particleSize,
-  speed,
-  distance
+  speed
 ) {
   var agents;
   var geometry = new THREE.BufferGeometry();
@@ -24,8 +22,6 @@ function makeAgents(
   //ratio of particles to num of neighbors
   var particles = maxparticles;
 
-  // particles spread in the cube
-  var halfBox = boxSize / 2;
   //FIXED COLORS -- MUST BE REMAPPED to 0-1 range!!
   let colR = cellColor[0] / 255;
   let colG = cellColor[1] / 255;
@@ -34,9 +30,9 @@ function makeAgents(
   for (var i = 0; i < particles; i++) {
     colArr.push(colR, colG, colB);
     // positions
-    var x = Math.random() * boxSize - halfBox;
-    var z = Math.random() * boxSize - halfBox;
-    positions.push(x, 2, z);
+    var x = Math.random() * sizeX;
+    var z = Math.random() * sizeY;
+    positions.push(x, 0.5, z);
   }
   //
   let posBuffer = new THREE.Float32BufferAttribute(positions, 3).setDynamic(
@@ -57,7 +53,6 @@ function makeAgents(
     // depthTest: false,
     vertexColors: THREE.VertexColors
   });
-
   agents = new THREE.Points(geometry, material);
   //set name for agents to delete after
   agents.name = "agents";
@@ -67,7 +62,8 @@ function makeAgents(
 
   //call anim looper
   animate();
-
+  // return agents for adding to scene
+  return agents;
   // animate
   function animate() {
     requestAnimationFrame(animate);
@@ -76,30 +72,28 @@ function makeAgents(
     agents.geometry.attributes.color.needsUpdate = true;
   }
 
-  return agents;
-
   ////////////////////////////////////////
+
   function updateAgentsPositions() {
     let angle = 0;
     //run through location array [x,y,z,x,y,z..]
     //of all agents in this cell
     for (let i = 0; i < posArr.length; i = i + 3) {
-      //set fix Y
-      posArr[i + 1] = 0.5;
-
-      //set X NeigbhorsArr.length / 4
-      if (posArr[i] >= distance || posArr[i] <= -distance) {
-        posArr[i] = 0;
-      } else if (posArr[i] < distance || posArr[i] > -distance) {
+      //set X
+      if (posArr[i] >= sizeX || posArr[i] <= -0.5) {
+        posArr[i] = (sizeX / 2) * Math.random();
+      } else {
         //speed and dir of move
         posArr[i] += Math.cos(angle) / speed;
       }
+
       //set Z
-      if (posArr[i + 2] >= distance || posArr[i + 2] <= -distance) {
-        posArr[i + 2] = 0;
-      } else if (posArr[i + 2] < distance || posArr[i + 2] > -distance) {
+      if (posArr[i + 2] >= sizeY || posArr[i + 2] <= -0.5) {
+        posArr[i + 2] = (sizeY / 2) * Math.random();
+      } else {
         posArr[i + 2] += Math.sin(angle) / speed;
       }
+
       if (angle < 360) {
         angle++;
       } else {

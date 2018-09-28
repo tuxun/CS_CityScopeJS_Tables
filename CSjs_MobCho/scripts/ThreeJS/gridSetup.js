@@ -46,7 +46,7 @@ export function threeInit() {
   threeDiv.appendChild(renderer.domElement);
   /////////////// CAMERA ///////////////////////
   if (camera === undefined) {
-    var frustumSize = 100;
+    var frustumSize = 150;
     var aspect = CANVAS_WIDTH / CANVAS_HEIGHT;
     var zoomFactor = 12;
     camera = new THREE.OrthographicCamera(
@@ -82,7 +82,7 @@ export function threeInit() {
   // scene.add(hemiLightHelper);
   var dirLight = new THREE.DirectionalLight("rgb(255,255,255)", 0.7);
   dirLight.color.setHSL(1, 1, 0.95);
-  dirLight.position.set(-gridX / 2, 20, -gridY / 2);
+  dirLight.position.set(gridX / 2, 20, -gridY / 2);
   // dirLight.position.multiplyScalar(3);
   scene.add(dirLight);
   dirLight.castShadow = true;
@@ -101,9 +101,6 @@ export function threeInit() {
   let grid = makeGridAndText[0];
   let textHolder = makeGridAndText[1];
   scene.add(grid, textHolder);
-
-  console.log(renderer);
-
   //call loop when done
   animate();
   //loop
@@ -119,7 +116,7 @@ export function threeInit() {
   threeGridProp(grid, textHolder);
 
   //add agents to scene
-  callAgents(scene);
+  callAgents(scene, gridX, gridY);
 }
 
 /////////////// GEOMETRY  ///////////////////////
@@ -152,7 +149,7 @@ function makeGrid(sizeX, sizeY) {
       grid.add(mesh);
 
       // // // make text over cell
-      let text = textMaker("*", "white");
+      let text = textMaker("null", "black");
       text.name = "text";
       text.scale.set(0.003, 0.003, 0.003);
       text.position.set(x * cellSize, 6, y * cellSize - 0.2);
