@@ -14,14 +14,6 @@ class Storage {
     this._cityIOurl = value;
   }
 
-  //gridCellsArray
-  get gridCellsArray() {
-    return this._gridCellsArray;
-  }
-  set gridCellsArray(value) {
-    this._gridCellsArray = value;
-  }
-
   //map obj
   get map() {
     return this._map;
@@ -36,6 +28,22 @@ class Storage {
   }
   set cityIOdata(value) {
     this._cityIOdata = value;
+  }
+
+  //threeJs grid
+  get threeGrid() {
+    return this._threeGrid;
+  }
+  set threeGrid(value) {
+    this._threeGrid = value;
+  }
+
+  //threeJs text
+  get threeText() {
+    return this._threeText;
+  }
+  set threeText(value) {
+    this._threeText = value;
   }
 }
 

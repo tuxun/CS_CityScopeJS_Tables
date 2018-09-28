@@ -110,7 +110,7 @@ export function threeInit() {
     controls.update();
   }
 
-  landUseMap(grid, textHolder);
+  threeGridProp(grid, textHolder);
 }
 
 /////////////// GEOMETRY  ///////////////////////
@@ -145,11 +145,13 @@ function makeGrid(sizeX, sizeY) {
       // // // make text over cell
       let text = textMaker("*", "white");
       text.name = "text";
-      text.scale.set(0.005, 0.005, 0.005);
+      text.scale.set(0.003, 0.003, 0.003);
       text.position.set(x * cellSize, 6, y * cellSize - 0.2);
       textHolder.add(text);
     }
   }
+  Storage.threeGrid = grid;
+  Storage.threeText = textHolder;
   return [grid, textHolder];
 }
 
@@ -165,8 +167,11 @@ function textMaker(string, thisCol) {
 }
 
 /////////////// landUseGrid  ///////////////////////
-export function landUseMap(grid, textHolder) {
+export function threeGridProp() {
   let cityIOdata = Storage.cityIOdata;
+  let grid = Storage.threeGrid;
+  let textHolder = Storage.threeText;
+
   var colors = [
     "rgb(50,50,50)",
     "rgb(50,150,255)",
@@ -177,10 +182,37 @@ export function landUseMap(grid, textHolder) {
 
   for (let i = 0; i < grid.children.length; i++) {
     textHolder.children[i].text = cityIOdata.grid[i] + "_" + i;
+
     //if exist, cleanup peds at state reset
-    let subCell = grid.children[i];
-    subCell.material.color.set(colors[cityIOdata.grid[i]]);
-    subCell.scale.y = cityIOdata.grid[i] + 0.1;
-    subCell.position.y = [cityIOdata.grid[i] + 0.1] / 2;
+    let thisCell = grid.children[i];
+    thisCell.material.color.set(colors[cityIOdata.grid[i]]);
+    thisCell.scale.y = cityIOdata.grid[i] + 0.1;
+    thisCell.position.y = [cityIOdata.grid[i] + 0.1] / 2;
+
+    if (cityIOdata.grid[i] == 0) {
+      thisCell.material.opacity = 0.1;
+    } else {
+      thisCell.material.opacity = 0.9;
+    }
+
+    // slider visuals
+    switch (i) {
+      case 191:
+      case 207:
+      case 223:
+      case 239:
+      case 255:
+        if (cityIOdata.grid[i] != -1 && cityIOdata.grid[i] != 4) {
+          thisCell.material.color.set("rgb(255, 255, 0)");
+          thisCell.scale.set(1, 1, 1);
+          textHolder.children[i].text = "slider" + cityIOdata.grid[i];
+          thisCell.material.opacity = 1;
+        } else {
+          thisCell.material.opacity = 0.1;
+          thisCell.scale.set(0.1, 0.1, 0.1);
+          textHolder.children[i].text = " ";
+        }
+        break;
+    }
   }
 }

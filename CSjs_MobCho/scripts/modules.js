@@ -1,40 +1,8 @@
 import "babel-polyfill";
 import "./Storage";
 var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
+import { threeGridProp } from "./ThreeJS/gridSetup";
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * get cityIO method [uses polyfill]
- * @param cityIOtableURL cityIO API endpoint URL
- */
-export async function getCityIO() {
-  let cityIOtableURL = Storage.cityIOurl;
-  console.log("trying to fetch " + cityIOtableURL);
-  return fetch(cityIOtableURL)
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(cityIOdata) {
-      console.log("got cityIO table at " + cityIOdata.meta.timestamp);
-      return cityIOdata;
-    });
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * controls the update sequence
- */
-export async function update() {
-  let cityIOtableURL = Storage.cityIOurl;
-  const cityIOjson = await getCityIO(cityIOtableURL);
-  console.log(cityIOjson);
-
-  // threeUpdate(cityIOjson);
-}
-
-function threeUpdate(cityIOdata) {
-  landUseMap(grid, cityIOdata, textHolder);
-}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export function makeMap() {
@@ -56,20 +24,31 @@ export function makeMap() {
   Storage.map = map;
 }
 
-/*
-    // slider
-    switch (i) {
-      case 191:
-      case 207:
-      case 223:
-      case 239:
-      case 255:
-        if (jsonData.grid[i] != -1 && jsonData.grid[i] != 4) {
-          gridCellsArray[i].style.backgroundColor = "rgba(255, 255, 0, 0.5)";
-          gridCellsArray[i].innerHTML =
-            "type: " + jsonData.grid[i] + " val: " + i;
-        }
-        break;
-    }
-  
-    */
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * get cityIO method [uses polyfill]
+ * @param cityIOtableURL cityIO API endpoint URL
+ */
+export async function getCityIO() {
+  let cityIOtableURL = Storage.cityIOurl;
+  // console.log("trying to fetch " + cityIOtableURL);
+  return fetch(cityIOtableURL)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(cityIOdata) {
+      // console.log("got cityIO table at " + cityIOdata.meta.timestamp);
+      return cityIOdata;
+    });
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * controls the cityIO streeam
+ */
+export async function update() {
+  let cityIOtableURL = Storage.cityIOurl;
+  Storage.cityIOdata = await getCityIO(cityIOtableURL);
+  //update the grid props
+  threeGridProp();
+}
