@@ -1,17 +1,18 @@
+// https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry_drawcalls.html
 import * as THREE from "three";
+
 import * as texPath from "../ThreeJS/ball.png";
 import "../Storage";
 
 export function callAgents(scene) {
   //add pedestrians per grid object
-  let peds = makeAgents([255, 0, 0], 10, 10, 500, 5, 100, 2);
-  scene.add(peds);
+  let agents = makeAgents(1, [255, 0, 0], 1000, 10, 50, 2);
+  scene.add(agents);
 }
 
 function makeAgents(
+  boxSize,
   cellColor,
-  NeigbhorsLen,
-  countRes,
   maxparticles,
   particleSize,
   speed,
@@ -24,10 +25,10 @@ function makeAgents(
   var texture = new THREE.TextureLoader().load(texPath.default);
 
   //ratio of particles to num of neighbors
-  var particles = (maxparticles * countRes) / NeigbhorsLen;
+  var particles = maxparticles;
 
   //size of bounding box in THREE units
-  var n = 1;
+  var n = boxSize;
   // particles spread in the cube
   var n2 = n / 2;
 
@@ -38,7 +39,6 @@ function makeAgents(
 
   for (var i = 0; i < particles; i++) {
     colArr.push(colR, colG, colB);
-
     // positions
     var x = Math.random() * n - n2;
     var z = Math.random() * n - n2;
@@ -60,15 +60,15 @@ function makeAgents(
     blending: THREE.AdditiveBlending,
     sizeAttenuation: false,
     map: texture,
-    depthTest: false,
+    // depthTest: false,
     vertexColors: THREE.VertexColors
   });
 
   agents = new THREE.Points(geometry, material);
-  //set name for peds to delete after
+  //set name for agents to delete after
   agents.name = "agents";
 
-  //grab the peds pos array for animation
+  //grab the agents pos array for animation
   var posArr = posBuffer.array;
 
   //call anim looper
@@ -88,10 +88,11 @@ function makeAgents(
   function updateAgentsPositions() {
     let angle = 0;
     //run through location array [x,y,z,x,y,z..]
-    //of all peds in this cell
+    //of all agents in this cell
     for (let i = 0; i < posArr.length; i = i + 3) {
       //set fix Y
-      posArr[i + 1] = 0;
+      posArr[i + 1] = 0.5;
+
       //set X NeigbhorsArr.length / 4
       if (posArr[i] >= distance || posArr[i] <= -distance) {
         posArr[i] = 0;
@@ -105,7 +106,7 @@ function makeAgents(
       } else if (posArr[i + 2] < distance || posArr[i + 2] > -distance) {
         posArr[i + 2] += Math.sin(angle) / speed;
       }
-      if (angle < countRes * 360) {
+      if (angle < 360) {
         angle++;
       } else {
         angle = 0;
