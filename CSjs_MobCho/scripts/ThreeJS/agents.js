@@ -1,6 +1,4 @@
-// https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry_drawcalls.html
 import * as THREE from "three";
-
 import * as texPath from "../ThreeJS/ball.png";
 import "../Storage";
 
@@ -23,15 +21,11 @@ function makeAgents(
   var positions = [];
   var colArr = [];
   var texture = new THREE.TextureLoader().load(texPath.default);
-
   //ratio of particles to num of neighbors
   var particles = maxparticles;
 
-  //size of bounding box in THREE units
-  var n = boxSize;
   // particles spread in the cube
-  var n2 = n / 2;
-
+  var halfBox = boxSize / 2;
   //FIXED COLORS -- MUST BE REMAPPED to 0-1 range!!
   let colR = cellColor[0] / 255;
   let colG = cellColor[1] / 255;
@@ -40,8 +34,8 @@ function makeAgents(
   for (var i = 0; i < particles; i++) {
     colArr.push(colR, colG, colB);
     // positions
-    var x = Math.random() * n - n2;
-    var z = Math.random() * n - n2;
+    var x = Math.random() * boxSize - halfBox;
+    var z = Math.random() * boxSize - halfBox;
     positions.push(x, 2, z);
   }
   //

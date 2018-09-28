@@ -17,12 +17,14 @@ export function threeInit() {
   var scene;
   var renderer;
   var controls;
+
   //could be edited
   // var CANVAS_WIDTH = window.innerWidth;
   // var CANVAS_HEIGHT = window.innerHeight;
   //fixed resolution for canvas
   var CANVAS_WIDTH = 1000;
   var CANVAS_HEIGHT = 1000;
+
   ///////////////SETUP SCENE///////////////////////
   let threeDiv = document.createElement("div");
   document.body.appendChild(threeDiv);
@@ -99,6 +101,9 @@ export function threeInit() {
   let grid = makeGridAndText[0];
   let textHolder = makeGridAndText[1];
   scene.add(grid, textHolder);
+
+  console.log(renderer);
+
   //call loop when done
   animate();
   //loop
@@ -120,7 +125,7 @@ export function threeInit() {
 /////////////// GEOMETRY  ///////////////////////
 function makeGrid(sizeX, sizeY) {
   var cellSize = 1;
-  var cellScale = 0.98;
+  var cellScale = 0.99;
   var mesh = null;
   var grid = new THREE.Object3D();
   var textHolder = new THREE.Object3D();
