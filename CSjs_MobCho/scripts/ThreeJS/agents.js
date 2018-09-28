@@ -14,7 +14,7 @@ function makeAgents(
   particleSize,
   speed
 ) {
-  var colors = [[50, 150, 255], [0, 50, 170], [244, 0, 255], [255, 0, 150]];
+  var colors = [[50, 150, 255], [0, 50, 170], [124, 252, 0], [255, 0, 150]];
 
   var agents;
   var geometry = new THREE.BufferGeometry();
@@ -93,7 +93,7 @@ function makeAgents(
       // //
 
       //set X
-      if (posArr[i] >= sizeX + 5 || posArr[i] <= -5) {
+      if (posArr[i] >= sizeX + 2 || posArr[i] <= -2) {
         posArr[i] = (sizeX / 2) * Math.random();
       } else {
         //speed and dir of move
@@ -101,7 +101,7 @@ function makeAgents(
       }
 
       //set Z
-      if (posArr[i + 2] >= sizeY + 5 || posArr[i + 2] <= -5) {
+      if (posArr[i + 2] >= sizeY + 2 || posArr[i + 2] <= -2) {
         posArr[i + 2] = (sizeY / 2) * Math.random();
       } else {
         posArr[i + 2] += Math.sin(angle) / speed;
