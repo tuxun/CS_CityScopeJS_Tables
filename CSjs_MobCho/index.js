@@ -35,8 +35,12 @@ import "./scripts/Storage";
 var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
 import { Maptastic } from "./scripts/maptastic";
 import { getCityIO, makeGrid, update } from "./scripts/modules";
+import { threeInit } from "./scripts/ThreeJS/initThree";
 
-async function setup() {
+//start applet
+window.onload = init();
+
+async function init() {
   //GET CITYIO
   var tableName = window.location.search.substring(1);
   if (tableName == "") {
@@ -51,6 +55,11 @@ async function setup() {
 
   //call server once at start, just to init the grid
   const cityIOjson = await getCityIO(cityIOtableURL);
+  //save to storage
+  Storage.cityIOdata = cityIOjson;
+  //init the threejs module
+  threeInit(cityIOjson);
+
   // get grid size
   var gridSizeCols = cityIOjson.header.spatial.ncols;
   var gridSizeRows = cityIOjson.header.spatial.nrows;
@@ -76,8 +85,11 @@ async function setup() {
   //make the baseline grid before update kick in
   makeGrid(gridDIV, gridSizeCols, gridSizeRows);
 
+  //ONLY WAY TO M/S THREE.JS
+  let THREEcanvas = document.querySelector("#THREEcanvas");
+
   //maptastic the div
-  Maptastic("tableDIV");
+  Maptastic("tableDIV", THREEcanvas);
 
   //run the update
   window.setInterval(update, interval);
@@ -97,6 +109,3 @@ async function setup() {
   document.body.appendChild(infoDiv);
   Storage.map = map;
 }
-
-//start applet
-window.onload = setup();

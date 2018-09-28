@@ -55,6 +55,7 @@ export async function update() {
   let cityIOtableURL = Storage.cityIOurl;
   const cityIOjson = await getCityIO(cityIOtableURL);
   renderUpdate(cityIOjson);
+  threeUpdate(cityIOjson);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

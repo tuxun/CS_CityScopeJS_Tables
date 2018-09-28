@@ -29,6 +29,14 @@ class Storage {
   set map(value) {
     this._map = value;
   }
+
+  //cityIO data
+  get cityIOdata() {
+    return this._cityIOdata;
+  }
+  set cityIOdata(value) {
+    this._cityIOdata = value;
+  }
 }
 
 export default new Storage();
