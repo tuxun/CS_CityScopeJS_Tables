@@ -193,6 +193,16 @@ export function threeGridProp() {
     textHolder.children[i].text = cityIOdata.grid[i] + "_" + i;
     //cell edit
     let thisCell = grid.children[i];
+
+    //add this cell loc to arr for agents spwaning
+    if (cityIOdata.grid[i] !== 0 && cityIOdata.grid[i] !== -1) {
+      agentSpawnArr.push({
+        type: cityIOdata.grid[i],
+        x: thisCell.position.x,
+        z: thisCell.position.z
+      });
+    }
+
     thisCell.material.color.set(colors[cityIOdata.grid[i]]);
     thisCell.scale.y = cityIOdata.grid[i] + 0.1;
     thisCell.position.y = [cityIOdata.grid[i] + 0.1] / 2;
@@ -201,14 +211,6 @@ export function threeGridProp() {
       thisCell.material.opacity = 0.1;
     } else {
       thisCell.material.opacity = 0.9;
-      //add this cell loc to arr for agents spwaning
-      if (cityIOdata.grid[i] != -1) {
-        agentSpawnArr.push({
-          type: cityIOdata.grid[i],
-          x: thisCell.position.x,
-          z: thisCell.position.z
-        });
-      }
     }
 
     // slider visuals
