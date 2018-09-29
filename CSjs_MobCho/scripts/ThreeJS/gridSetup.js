@@ -177,6 +177,8 @@ export function threeGridProp() {
   let cityIOdata = Storage.cityIOdata;
   let grid = Storage.threeGrid;
   let textHolder = Storage.threeText;
+  //array for spwaning agents from
+  let agentSpawnArr = [];
 
   var colors = [
     "rgb(50,50,50)",
@@ -187,9 +189,9 @@ export function threeGridProp() {
   ];
 
   for (let i = 0; i < grid.children.length; i++) {
+    //text edit
     textHolder.children[i].text = cityIOdata.grid[i] + "_" + i;
-
-    //if exist, cleanup peds at state reset
+    //cell edit
     let thisCell = grid.children[i];
     thisCell.material.color.set(colors[cityIOdata.grid[i]]);
     thisCell.scale.y = cityIOdata.grid[i] + 0.1;
@@ -199,6 +201,14 @@ export function threeGridProp() {
       thisCell.material.opacity = 0.1;
     } else {
       thisCell.material.opacity = 0.9;
+      //add this cell loc to arr for agents spwaning
+      if (cityIOdata.grid[i] != -1) {
+        agentSpawnArr.push({
+          type: cityIOdata.grid[i],
+          x: thisCell.position.x,
+          z: thisCell.position.z
+        });
+      }
     }
 
     // slider visuals
@@ -224,4 +234,6 @@ export function threeGridProp() {
         break;
     }
   }
+
+  Storage.agentSpawnArr = agentSpawnArr;
 }

@@ -53,6 +53,14 @@ class Storage {
   set threeText(value) {
     this._threeText = value;
   }
+
+  //agentSpawnArr
+  get agentSpawnArr() {
+    return this._agentSpawnArr;
+  }
+  set agentSpawnArr(value) {
+    this._agentSpawnArr = value;
+  }
 }
 
 export default new Storage();

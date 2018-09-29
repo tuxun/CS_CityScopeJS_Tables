@@ -3,7 +3,7 @@ import * as texPath from "../ThreeJS/ball.png";
 
 export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 10000, 2.5, 200);
+  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 2000, 4, 200);
   scene.add(agents);
 }
 function makeAgents(
@@ -18,15 +18,18 @@ function makeAgents(
 
   var agents;
   var geometry = new THREE.BufferGeometry();
-  var positions = [];
+  var posArr = [];
   var colArr = [];
+  var typesArr = [];
   var texture = new THREE.TextureLoader().load(texPath.default);
   //ratio of particles to num of neighbors
   var particles = maxparticles;
 
   for (var i = 0; i < particles; i++) {
+    let colListRnd = Math.floor(Math.random() * colors.length);
+    typesArr.push(colListRnd);
     //colors from array
-    let rndCol = colors[Math.floor(Math.random() * colors.length)];
+    let rndCol = colors[colListRnd];
     //MUST BE REMAPPED to 0-1 range!!
     let colR = rndCol[0] / 255;
     let colG = rndCol[1] / 255;
@@ -36,16 +39,16 @@ function makeAgents(
     // positions
     var x = Math.random() * sizeX;
     var z = Math.random() * sizeY;
-    positions.push(x, 0.5, z);
+    posArr.push(x, 0.5, z);
   }
   //
-  let posBuffer = new THREE.Float32BufferAttribute(positions, 3).setDynamic(
-    true
-  );
+  let posBuffer = new THREE.Float32BufferAttribute(posArr, 3).setDynamic(true);
   let colBuffer = new THREE.Float32BufferAttribute(colArr, 3).setDynamic(true);
+  let typesBuffer = new THREE.Float32BufferAttribute(typesArr, 1);
   //
   geometry.addAttribute("position", posBuffer);
   geometry.addAttribute("color", colBuffer);
+  geometry.addAttribute("type", typesBuffer);
   //
   var material = new THREE.PointsMaterial({
     size: particleSize,
@@ -64,6 +67,7 @@ function makeAgents(
   //grab the agents pos array for animation
   var posArr = posBuffer.array;
   var colBufferArr = colBuffer.array;
+  var typesBufferArr = typesBuffer.array;
 
   //call anim looper
   animate();
@@ -80,7 +84,7 @@ function makeAgents(
   ////////////////////////////////////////
 
   function updateAgentsPositions() {
-    let slider = Storage.slider;
+    // let slider = Storage.slider;
 
     let angle = 0;
     //run through location array [x,y,z,x,y,z..]
@@ -92,9 +96,15 @@ function makeAgents(
       // colBufferArr[i + 2] = slider.type / 2;
       // //
 
+      typesBufferArr[i / 3];
+
       //set X
       if (posArr[i] >= sizeX + 2 || posArr[i] <= -2) {
-        posArr[i] = (sizeX / 2) * Math.random();
+        //renew pos
+        posArr[i] =
+          Storage.agentSpawnArr[
+            Math.floor(Math.random() * Storage.agentSpawnArr.length)
+          ].x;
       } else {
         //speed and dir of move
         posArr[i] += Math.cos(angle) / speed;
@@ -102,7 +112,11 @@ function makeAgents(
 
       //set Z
       if (posArr[i + 2] >= sizeY + 2 || posArr[i + 2] <= -2) {
-        posArr[i + 2] = (sizeY / 2) * Math.random();
+        //renew pos
+        posArr[i + 2] =
+          Storage.agentSpawnArr[
+            Math.floor(Math.random() * Storage.agentSpawnArr.length)
+          ].z;
       } else {
         posArr[i + 2] += Math.sin(angle) / speed;
       }
