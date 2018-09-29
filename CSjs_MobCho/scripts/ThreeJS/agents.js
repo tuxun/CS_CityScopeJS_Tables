@@ -3,7 +3,7 @@ import * as texPath from "../ThreeJS/ball.png";
 
 export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 2000, 4, 20);
+  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 20000, 3, 3);
   scene.add(agents);
 }
 function makeAgents(
@@ -12,7 +12,7 @@ function makeAgents(
   colorRatioArr,
   maxparticles,
   particleSize,
-  speed
+  buffer
 ) {
   var colors = [[50, 150, 255], [0, 50, 170], [124, 252, 0], [255, 0, 150]];
 
@@ -84,53 +84,30 @@ function makeAgents(
   ////////////////////////////////////////
 
   function updateAgentsPositions() {
-    // let slider = Storage.slider;
-
+    let slider = Storage.slider;
     let angle = 0;
     //run through location array [x,y,z,x,y,z..]
     //of all agents in this cell
     for (let i = 0; i < posArr.length; i = i + 3) {
+      // find random pos to spawn out of active cells array
       let rndPos = Math.floor(Math.random() * Storage.agentSpawnArr.length);
-
-      //set X
+      //set bounderies
       if (
-        posArr[i] >= sizeX + 2 ||
-        posArr[i] <= -2 ||
-        posArr[i + 2] >= sizeY + 2 ||
-        posArr[i + 2] <= -2
+        posArr[i] >= sizeX + buffer ||
+        posArr[i] <= -buffer ||
+        posArr[i + 2] >= sizeY + buffer ||
+        posArr[i + 2] <= -buffer
       ) {
-        //renew pos
+        //renew position after spwan
         posArr[i] = Storage.agentSpawnArr[rndPos].x;
         posArr[i + 2] = Storage.agentSpawnArr[rndPos].z;
       } else {
         //speed and dir of move
-        posArr[i] += Math.cos(angle) / speed;
-        posArr[i + 2] += Math.sin(angle) / speed;
+        posArr[i] += Math.cos(angle) / slider.position;
+        posArr[i + 2] += Math.sin(angle) / slider.position;
       }
 
-      /*
-      //set X
-      if (posArr[i] >= sizeX + 2 || posArr[i] <= -2) {
-        //renew pos
-        posArr[i] = Storage.agentSpawnArr[rndPos].x;
-      } else {
-        //speed and dir of move
-        posArr[i] += 0.1;
-
-        // Math.cos(angle) / speed;
-      }
-      //set Z
-      if (posArr[i + 2] >= sizeY + 2 || posArr[i + 2] <= -2) {
-        //renew pos
-        posArr[i + 2] = Storage.agentSpawnArr[rndPos].z;
-      } else {
-        posArr[i + 2] += 0.1;
-        // Math.sin(angle) / speed;
-      }
-
-      */
-
-      if (angle < 360) {
+      if (angle < 90) {
         angle++;
       } else {
         angle = 0;
