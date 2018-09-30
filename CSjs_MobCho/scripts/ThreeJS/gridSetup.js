@@ -178,7 +178,7 @@ export function threeGridProp() {
   let grid = Storage.threeGrid;
   let textHolder = Storage.threeText;
   //array for spwaning agents from
-  let agentSpawnArr = [];
+  let agentSpawnArr = [[], [], [], []];
 
   var colors = [
     "rgb(50,50,50)",
@@ -194,9 +194,11 @@ export function threeGridProp() {
     //cell edit
     let thisCell = grid.children[i];
 
-    //add this cell loc to arr for agents spwaning
+    //add this cell location to arr for
+    // agents spwaning later
+    //1 to fix type [-1]
     if (cityIOdata.grid[i] !== 0 && cityIOdata.grid[i] !== -1) {
-      agentSpawnArr.push({
+      agentSpawnArr[cityIOdata.grid[i] - 1].push({
         type: cityIOdata.grid[i],
         x: thisCell.position.x,
         z: thisCell.position.z
@@ -237,5 +239,8 @@ export function threeGridProp() {
     }
   }
 
+  //add arr for agents spwaning
   Storage.agentSpawnArr = agentSpawnArr;
+
+  // console.log(agentSpawnArr);
 }

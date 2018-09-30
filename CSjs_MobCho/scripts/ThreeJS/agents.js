@@ -3,7 +3,7 @@ import * as texPath from "../ThreeJS/ball.png";
 
 export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 20000, 3, 3);
+  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 5000, 3, 3, 200);
   scene.add(agents);
 }
 function makeAgents(
@@ -12,7 +12,8 @@ function makeAgents(
   colorRatioArr,
   maxparticles,
   particleSize,
-  buffer
+  buffer,
+  speed
 ) {
   var colors = [[50, 150, 255], [0, 50, 170], [124, 252, 0], [255, 0, 150]];
 
@@ -27,6 +28,7 @@ function makeAgents(
 
   for (var i = 0; i < particles; i++) {
     let colListRnd = Math.floor(Math.random() * colors.length);
+    //push color number to array as flag for agent type
     typesArr.push(colListRnd);
     //colors from array
     let rndCol = colors[colListRnd];
@@ -90,7 +92,12 @@ function makeAgents(
     //of all agents in this cell
     for (let i = 0; i < posArr.length; i = i + 3) {
       // find random pos to spawn out of active cells array
-      let rndPos = Math.floor(Math.random() * Storage.agentSpawnArr.length);
+
+      let rndPos =
+        // Math.floor(Math.random() * Storage.agentSpawnArr.length);
+
+        Storage.agentSpawnArr[typesBufferArr[i / 3]][0];
+
       //set bounderies
       if (
         posArr[i] >= sizeX + buffer ||
@@ -99,15 +106,15 @@ function makeAgents(
         posArr[i + 2] <= -buffer
       ) {
         //renew position after spwan
-        posArr[i] = Storage.agentSpawnArr[rndPos].x;
-        posArr[i + 2] = Storage.agentSpawnArr[rndPos].z;
+        posArr[i] = rndPos.x;
+        posArr[i + 2] = rndPos.z;
       } else {
         //speed and dir of move
-        posArr[i] += Math.cos(angle) / slider.position;
-        posArr[i + 2] += Math.sin(angle) / slider.position;
+        posArr[i] += Math.cos(angle) / speed;
+        posArr[i + 2] += Math.sin(angle) / speed;
       }
 
-      if (angle < 90) {
+      if (angle < 360) {
         angle++;
       } else {
         angle = 0;
