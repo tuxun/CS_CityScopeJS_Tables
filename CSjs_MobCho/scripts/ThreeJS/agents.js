@@ -3,7 +3,7 @@ import * as texPath from "../ThreeJS/ball.png";
 
 export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 5000, 3, 3, 200);
+  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 5000, 3, 3, 20);
   scene.add(agents);
 }
 function makeAgents(
@@ -15,7 +15,7 @@ function makeAgents(
   buffer,
   speed
 ) {
-  var colors = [[50, 150, 255], [0, 50, 170], [124, 252, 0], [255, 0, 150]];
+  var colors = [[0, 50, 170], [124, 252, 0], [255, 0, 150], [50, 150, 255]];
 
   var agents;
   var geometry = new THREE.BufferGeometry();
@@ -57,7 +57,7 @@ function makeAgents(
     transparent: true,
     opacity: 0.8,
     blending: THREE.AdditiveBlending,
-    sizeAttenuation: false,
+    sizeAttenuation: true,
     map: texture,
     // depthTest: false,
     vertexColors: THREE.VertexColors
@@ -92,11 +92,8 @@ function makeAgents(
     //of all agents in this cell
     for (let i = 0; i < posArr.length; i = i + 3) {
       // find random pos to spawn out of active cells array
-
-      let rndPos =
-        // Math.floor(Math.random() * Storage.agentSpawnArr.length);
-
-        Storage.agentSpawnArr[typesBufferArr[i / 3]][0];
+      let agentType = Storage.agentSpawnArr[typesBufferArr[i / 3]];
+      let rndPosObj = agentType[Math.floor(Math.random() * agentType.length)];
 
       //set bounderies
       if (
@@ -106,15 +103,15 @@ function makeAgents(
         posArr[i + 2] <= -buffer
       ) {
         //renew position after spwan
-        posArr[i] = rndPos.x;
-        posArr[i + 2] = rndPos.z;
+        posArr[i] = rndPosObj.x;
+        posArr[i + 2] = rndPosObj.z;
       } else {
         //speed and dir of move
-        posArr[i] += Math.cos(angle) / speed;
-        posArr[i + 2] += Math.sin(angle) / speed;
+        posArr[i] += Math.cos(angle) / speed / (typesBufferArr[i / 3] + 1);
+        posArr[i + 2] += Math.sin(angle) / speed / (typesBufferArr[i / 3] + 1);
       }
 
-      if (angle < 360) {
+      if (angle < 20) {
         angle++;
       } else {
         angle = 0;
