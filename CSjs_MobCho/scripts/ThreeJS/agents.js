@@ -3,7 +3,7 @@ import * as texPath from "../ThreeJS/ball.png";
 
 export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 5000, 3, 3, 20);
+  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 5000, 3, 3, 200);
   scene.add(agents);
 }
 function makeAgents(
@@ -15,7 +15,7 @@ function makeAgents(
   buffer,
   speed
 ) {
-  var colors = [[0, 50, 170], [124, 252, 0], [255, 0, 150], [50, 150, 255]];
+  var colors = [[124, 252, 0], [255, 0, 150], [50, 150, 255], [0, 50, 170]];
 
   var agents;
   var geometry = new THREE.BufferGeometry();

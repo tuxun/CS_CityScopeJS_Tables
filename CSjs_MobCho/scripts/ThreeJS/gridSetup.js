@@ -80,7 +80,7 @@ export function threeInit() {
   scene.add(hemiLight);
   // var hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
   // scene.add(hemiLightHelper);
-  var dirLight = new THREE.DirectionalLight("rgb(255,255,255)", 0.7);
+  var dirLight = new THREE.DirectionalLight("rgb(255,255,255)", 0.5);
   dirLight.color.setHSL(1, 1, 0.95);
   dirLight.position.set(gridX / 2, 20, -gridY / 2);
   // dirLight.position.multiplyScalar(3);
@@ -181,7 +181,7 @@ export function threeGridProp() {
   let agentSpawnArr = [[], [], [], []];
 
   var colors = [
-    "rgb(50,50,50)",
+    "rgb(255,255,255)",
     "rgb(50,150,255)",
     "rgb(0, 50, 170)",
     "rgb(244,0,255)",
@@ -210,7 +210,7 @@ export function threeGridProp() {
     thisCell.position.y = [cityIOdata.grid[i] + 0.1] / 2;
 
     if (cityIOdata.grid[i] == 0) {
-      thisCell.material.opacity = 0.1;
+      thisCell.material.opacity = 1;
     } else {
       thisCell.material.opacity = 0.9;
     }
@@ -229,7 +229,7 @@ export function threeGridProp() {
           thisCell.material.color.set("rgb(255, 255, 0)");
           thisCell.scale.set(1, 1, 1);
           textHolder.children[i].text = "slider" + cityIOdata.grid[i];
-          thisCell.material.opacity = 1;
+          thisCell.material.opacity = 0.5;
         } else {
           thisCell.material.opacity = 0.1;
           thisCell.scale.set(0.1, 0.1, 0.1);
