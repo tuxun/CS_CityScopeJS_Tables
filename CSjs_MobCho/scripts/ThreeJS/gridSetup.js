@@ -149,9 +149,9 @@ function makeGrid(sizeX, sizeY) {
       grid.add(mesh);
 
       // // // make text over cell
-      let text = textMaker("null", "black");
+      let text = textMaker("null", "white");
       text.name = "text";
-      text.scale.set(0.003, 0.003, 0.003);
+      text.scale.set(0.005, 0.005, 0.005);
       text.position.set(x * cellSize, 6, y * cellSize - 0.2);
       textHolder.add(text);
     }
@@ -181,7 +181,7 @@ export function threeGridProp() {
   let agentSpawnArr = [[], [], [], []];
 
   var colors = [
-    "rgb(255,255,255)",
+    "rgb(0,0,0)",
     "rgb(50,150,255)",
     "rgb(0, 50, 170)",
     "rgb(244,0,255)",
@@ -189,15 +189,15 @@ export function threeGridProp() {
   ];
 
   for (let i = 0; i < grid.children.length; i++) {
-    //text edit
-    textHolder.children[i].text = cityIOdata.grid[i] + "_" + i;
     //cell edit
     let thisCell = grid.children[i];
 
-    //add this cell location to arr for
-    // agents spwaning later
-    //1 to fix type [-1]
     if (cityIOdata.grid[i] !== 0 && cityIOdata.grid[i] !== -1) {
+      //text edit
+      textHolder.children[i].text = cityIOdata.grid[i] + "_" + i;
+      //add this cell location to arr for
+      // agents spwaning later
+      //1 to fix type [-1]
       agentSpawnArr[cityIOdata.grid[i] - 1].push({
         type: cityIOdata.grid[i],
         x: thisCell.position.x,
@@ -209,8 +209,8 @@ export function threeGridProp() {
     thisCell.scale.y = cityIOdata.grid[i] + 0.1;
     thisCell.position.y = [cityIOdata.grid[i] + 0.1] / 2;
 
-    if (cityIOdata.grid[i] == 0) {
-      thisCell.material.opacity = 1;
+    if (cityIOdata.grid[i] === 0) {
+      thisCell.material.opacity = 0;
     } else {
       thisCell.material.opacity = 0.9;
     }
