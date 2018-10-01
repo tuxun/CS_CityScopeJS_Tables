@@ -46,7 +46,7 @@ export function threeInit() {
   threeDiv.appendChild(renderer.domElement);
   /////////////// CAMERA ///////////////////////
   if (camera === undefined) {
-    var frustumSize = 150;
+    var frustumSize = 125;
     var aspect = CANVAS_WIDTH / CANVAS_HEIGHT;
     var zoomFactor = 12;
     camera = new THREE.OrthographicCamera(
@@ -139,7 +139,7 @@ function makeGrid(sizeX, sizeY) {
       );
       //make material for each cell
       material = new THREE.MeshPhongMaterial({
-        color: "gray"
+        color: "black"
       });
       //make mesh for cell
       mesh = new THREE.Mesh(geometry, material);
@@ -192,9 +192,11 @@ export function threeGridProp() {
     //cell edit
     let thisCell = grid.children[i];
 
+    textHolder.children[i].text = " ";
+
     if (cityIOdata.grid[i] !== 0 && cityIOdata.grid[i] !== -1) {
       //text edit
-      textHolder.children[i].text = cityIOdata.grid[i] + "_" + i;
+      textHolder.children[i].text = cityIOdata.grid[i];
       //add this cell location to arr for
       // agents spwaning later
       //1 to fix type [-1]

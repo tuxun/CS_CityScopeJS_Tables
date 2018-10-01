@@ -19,7 +19,7 @@ export function makeMap() {
     style: "mapbox://styles/relnox/cjlu6w5sc1dy12rmn4kl2zljn",
     center: [-71.085202, 42.36479],
     bearing: 30,
-    zoom: 17.5
+    zoom: 17
   });
   Storage.map = map;
 }

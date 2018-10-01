@@ -74,6 +74,8 @@ function makeAgents(
   //call anim looper
   animate();
   // return agents for adding to scene
+  console.log(agents);
+
   return agents;
   // animate
   function animate() {
