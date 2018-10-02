@@ -42,6 +42,7 @@ export function threeInit() {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.setSize(CANVAS_WIDTH, CANVAS_HEIGHT);
   renderer.domElement.id = "THREEcanvas";
+
   //put to div
   threeDiv.appendChild(renderer.domElement);
   /////////////// CAMERA ///////////////////////
@@ -178,12 +179,15 @@ export function threeGridProp() {
   let grid = Storage.threeGrid;
   let textHolder = Storage.threeText;
   //array for spwaning agents from
-  let agentSpawnArr = [[], [], [], []];
+  let agentSpawnArr = [];
 
   var colors = [
+    //empty
     "rgb(0,0,0)",
+    //live
     "rgb(50,150,255)",
     "rgb(0, 50, 170)",
+    //work
     "rgb(244,0,255)",
     "rgb(255,0,150)"
   ];
@@ -197,14 +201,18 @@ export function threeGridProp() {
     if (cityIOdata.grid[i] !== 0 && cityIOdata.grid[i] !== -1) {
       //text edit
       textHolder.children[i].text = cityIOdata.grid[i];
-      //add this cell location to arr for
-      // agents spwaning later
-      //1 to fix type [-1]
-      agentSpawnArr[cityIOdata.grid[i] - 1].push({
-        type: cityIOdata.grid[i],
-        x: thisCell.position.x,
-        z: thisCell.position.z
-      });
+
+      if (cityIOdata.grid[i] == 1 || cityIOdata.grid[i] == 2) {
+        //add this cell location to arr for
+        // agents spwaning later
+        //1 to fix type [-1]
+
+        agentSpawnArr.push({
+          type: cityIOdata.grid[i],
+          x: thisCell.position.x,
+          z: thisCell.position.z
+        });
+      }
     }
 
     thisCell.material.color.set(colors[cityIOdata.grid[i]]);
@@ -243,6 +251,4 @@ export function threeGridProp() {
 
   //add arr for agents spwaning
   Storage.agentSpawnArr = agentSpawnArr;
-
-  // console.log(agentSpawnArr);
 }

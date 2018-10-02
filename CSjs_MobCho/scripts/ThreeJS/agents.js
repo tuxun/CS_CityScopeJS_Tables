@@ -1,9 +1,9 @@
 import * as THREE from "three";
-import * as texPath from "../ThreeJS/ball.png";
+import * as texPath from "../ThreeJS/flare.png";
 
 export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 10000, 5, 3, 100);
+  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 1000, 100, 5, 50);
   scene.add(agents);
 }
 function makeAgents(
@@ -15,13 +15,14 @@ function makeAgents(
   buffer,
   speed
 ) {
-  var colors = [[255, 0, 150], [50, 150, 255], [0, 50, 170], [124, 252, 0]];
+  var colors = [[255, 0, 150], [50, 150, 255], [0, 50, 170], [50, 200, 0]];
 
   var agents;
   var geometry = new THREE.BufferGeometry();
   var posArr = [];
   var colArr = [];
   var typesArr = [];
+  var distanceArr = [];
   var texture = new THREE.TextureLoader().load(texPath.default);
   //ratio of particles to num of neighbors
   var particles = maxparticles;
@@ -36,7 +37,7 @@ function makeAgents(
     let colR = rndCol[0] / 255;
     let colG = rndCol[1] / 255;
     let colB = rndCol[2] / 255;
-
+    distanceArr.push(0);
     colArr.push(colR, colG, colB);
     // positions
     var x = Math.random() * sizeX;
@@ -47,17 +48,19 @@ function makeAgents(
   let posBuffer = new THREE.Float32BufferAttribute(posArr, 3).setDynamic(true);
   let colBuffer = new THREE.Float32BufferAttribute(colArr, 3).setDynamic(true);
   let typesBuffer = new THREE.Float32BufferAttribute(typesArr, 1);
+
   //
   geometry.addAttribute("position", posBuffer);
   geometry.addAttribute("color", colBuffer);
   geometry.addAttribute("type", typesBuffer);
+
   //
   var material = new THREE.PointsMaterial({
     size: particleSize,
     transparent: true,
-    opacity: 0.9,
+    opacity: 0.5,
     blending: THREE.AdditiveBlending,
-    sizeAttenuation: true,
+    sizeAttenuation: false,
     map: texture,
     depthTest: true,
     vertexColors: THREE.VertexColors
@@ -68,14 +71,14 @@ function makeAgents(
 
   //grab the agents pos array for animation
   var posArr = posBuffer.array;
-  var colBufferArr = colBuffer.array;
   var typesBufferArr = typesBuffer.array;
 
   //call anim looper
   animate();
-  // return agents for adding to scene
+
   console.log(agents);
 
+  // return agents for adding to scene
   return agents;
   // animate
   function animate() {
@@ -94,8 +97,10 @@ function makeAgents(
     //of all agents in this cell
     for (let i = 0; i < posArr.length; i = i + 3) {
       // find random pos to spawn out of active cells array
-      let agentType = Storage.agentSpawnArr[typesBufferArr[i / 3]];
-      let rndPosObj = agentType[Math.floor(Math.random() * agentType.length)];
+      let rndPosObj =
+        Storage.agentSpawnArr[
+          Math.floor(Math.random() * Storage.agentSpawnArr.length)
+        ];
 
       //set bounderies
       if (
