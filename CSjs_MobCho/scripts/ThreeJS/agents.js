@@ -3,7 +3,7 @@ import * as texPath from "../ThreeJS/flare.png";
 
 export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 1000, 100, 5, 50);
+  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 1000, 20, 5, 50);
   scene.add(agents);
 }
 function makeAgents(
