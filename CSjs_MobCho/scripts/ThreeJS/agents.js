@@ -42,6 +42,7 @@ function makeAgents(
     // positions
     var x = Math.random() * sizeX;
     var z = Math.random() * sizeY;
+
     posArr.push(x, 0.5, z);
   }
   //
@@ -93,6 +94,9 @@ function makeAgents(
   function updateAgentsPositions() {
     let slider = Storage.slider;
     let angle = 0;
+
+    let p1 = Storage.agentSpawnArr[1];
+
     //run through location array [x,y,z,x,y,z..]
     //of all agents in this cell
     for (let i = 0; i < posArr.length; i = i + 3) {
@@ -110,12 +114,24 @@ function makeAgents(
         posArr[i + 2] <= -buffer
       ) {
         //renew position after spwan
-        posArr[i] = rndPosObj.x;
-        posArr[i + 2] = rndPosObj.z;
+        // posArr[i] = rndPosObj.x;
+        // posArr[i + 2] = rndPosObj.z;
+
+        posArr[i] = Math.random() * sizeX;
+        posArr[i + 2] = Math.random() * sizeY;
       } else {
         //speed and dir of move
-        posArr[i] += Math.cos(angle) / speed / (typesBufferArr[i / 3] + 1);
-        posArr[i + 2] += Math.sin(angle) / speed / (typesBufferArr[i / 3] + 1);
+        // posArr[i] += Math.cos(angle) / speed / (typesBufferArr[i / 3] + 1);
+        // posArr[i + 2] += Math.sin(angle) / speed / (typesBufferArr[i / 3] + 1);
+
+        // var angleDeg =
+        //   (Math.atan2(posArr[i + 2] - p1.z, posArr[i].x - p1.x) * 180) /
+        //   Math.PI;
+        // console.log((Math.atan2(p1.z - posArr[i + 2], p1.x) * 180) / Math.PI);
+        let a =
+          (Math.atan2(p1.z - posArr[i + 2], p1.x - -posArr[i]) * 180) / Math.PI;
+        posArr[i] += Math.sin(a) / 10;
+        posArr[i + 2] += Math.cos(a) / 10;
       }
 
       if (angle < 20) {
