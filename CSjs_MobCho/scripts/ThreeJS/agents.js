@@ -3,15 +3,7 @@ import * as texPath from "../ThreeJS/flare.png";
 
 export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(
-    sizeX,
-    sizeY,
-    [0.2, 0.5, 0.1, 0.2],
-    10000,
-    15,
-    1,
-    100
-  );
+  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 5000, 15, 1, 100);
   scene.add(agents);
 }
 function makeAgents(
@@ -23,7 +15,7 @@ function makeAgents(
   buffer,
   speed
 ) {
-  var colors = [[255, 0, 150], [50, 150, 255], [0, 50, 190], [50, 200, 0]];
+  var colors = [[50, 150, 255], [50, 200, 0], [0, 50, 190], [255, 0, 150]];
 
   var agents;
   var geometry = new THREE.BufferGeometry();
@@ -85,8 +77,6 @@ function makeAgents(
   //call anim looper
   animate();
 
-  console.log(Storage.agentSpawnArr);
-
   // return agents for adding to scene
   return agents;
   // animate
@@ -102,8 +92,17 @@ function makeAgents(
 
   function updateAgentsPositions() {
     // let slider = Storage.slider;
+
+    let rndStPntArr = [
+      [0, Math.random() * sizeY],
+      [Math.random() * sizeX, 0],
+      [Math.random() * sizeX, sizeY],
+      [sizeX, Math.random() * sizeY]
+    ];
+
     let counter = 0;
     let destPnt;
+
     //run through location array [x,y,z,x,y,z..]
     //of all agents in this cell
     for (let i = 0; i < posArr.length; i = i + 3) {
@@ -117,8 +116,12 @@ function makeAgents(
         posArr[i + 2] >= destPnt.z - buffer
       ) {
         //renew position after spwan
-        posArr[i] = 0;
-        posArr[i + 2] = Math.random() * sizeY;
+
+        let rndStPnt =
+          rndStPntArr[Math.floor(Math.random() * rndStPntArr.length)];
+
+        posArr[i] = rndStPnt[0];
+        posArr[i + 2] = rndStPnt[1];
       } else {
         //speed and dir of move
         let angleDeg =
