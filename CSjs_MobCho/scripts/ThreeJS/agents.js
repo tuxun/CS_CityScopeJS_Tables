@@ -3,7 +3,7 @@ import * as texPath from "../ThreeJS/flare.png";
 
 export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 5000, 15, 1, 100);
+  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 5000, 7, 1, 300);
   scene.add(agents);
 }
 function makeAgents(
@@ -15,7 +15,7 @@ function makeAgents(
   buffer,
   speed
 ) {
-  var colors = [[50, 150, 255], [50, 200, 0], [0, 50, 190], [255, 0, 150]];
+  var colors = [[50, 200, 0], [50, 150, 255], [255, 0, 150], [0, 50, 190]];
 
   var agents;
   var geometry = new THREE.BufferGeometry();
@@ -40,7 +40,7 @@ function makeAgents(
     distanceArr.push(0);
     colArr.push(colR, colG, colB);
     // positions
-    var x = 0;
+    var x = Math.random() * sizeX;
     var z = Math.random() * sizeY;
 
     posArr.push(x, 0.5, z);
@@ -59,7 +59,7 @@ function makeAgents(
   var material = new THREE.PointsMaterial({
     size: particleSize,
     transparent: true,
-    opacity: 0.7,
+    opacity: 0.9,
     blending: THREE.AdditiveBlending,
     sizeAttenuation: true,
     map: texture,

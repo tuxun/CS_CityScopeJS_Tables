@@ -72,12 +72,12 @@ export function threeInit() {
 
   ///////
 
-  var size = 10;
-  var divisions = 10;
-  var gridHelper = new THREE.GridHelper(size, divisions);
-  scene.add(gridHelper);
-  var axesHelper = new THREE.AxesHelper(5);
-  scene.add(axesHelper);
+  // var size = 10;
+  // var divisions = 10;
+  // var gridHelper = new THREE.GridHelper(size, divisions);
+  // scene.add(gridHelper);
+  // var axesHelper = new THREE.AxesHelper(5);
+  // scene.add(axesHelper);
 
   /////////////// LIGHTS ///////////////////////
   var hemiLight = new THREE.HemisphereLight(
@@ -133,7 +133,7 @@ export function threeInit() {
 /////////////// GEOMETRY  ///////////////////////
 function makeGrid(sizeX, sizeY) {
   var cellSize = 1;
-  var cellScale = 0.99;
+  var cellScale = 0.95;
   var mesh = null;
   var grid = new THREE.Object3D();
   var textHolder = new THREE.Object3D();
@@ -190,16 +190,27 @@ export function threeGridProp() {
   let textHolder = Storage.threeText;
   //array for spwaning agents from
   let agentSpawnArr = [];
-
-  var colors = [
-    //empty
-    "rgb(0,0,0)",
-    //live
-    "rgb(50,150,255)",
-    "rgb(0, 50, 170)",
-    //work
-    "rgb(244,0,255)",
-    "rgb(255,0,150)"
+  var typesArr = [
+    {
+      type: "empty",
+      color: "rgb(0,0,0)"
+    },
+    {
+      type: "live 1",
+      color: "rgb(50,150,255)"
+    },
+    {
+      type: "live 2",
+      color: "rgb(0, 50, 170)"
+    },
+    {
+      type: "work 1",
+      color: "rgb(244,0,255)"
+    },
+    {
+      type: "Work 2",
+      color: "rgb(255,0,150)"
+    }
   ];
 
   for (let i = 0; i < grid.children.length; i++) {
@@ -208,43 +219,41 @@ export function threeGridProp() {
     //clear the text obj
     textHolder.children[i].text = " ";
 
-    if (cityIOdata.grid[i] !== 0 && cityIOdata.grid[i] !== -1) {
-      //text edit
-      textHolder.children[i].text = cityIOdata.grid[i];
-      // slider visuals
-      switch (i) {
-        case 191:
-        case 207:
-        case 223:
-        case 239:
-        case 255:
-          //set storgae with slider location
-          Storage.slider = { position: i, type: cityIOdata.grid[i] };
-          thisCell.material.color.set("rgb(255, 255, 0)");
-          thisCell.scale.set(1, 1, 1);
-          textHolder.children[i].text = "slider" + cityIOdata.grid[i];
-          thisCell.material.opacity = 0.5;
-          break;
-      }
+    if (cityIOdata.grid[i] !== -1) {
+      if (cityIOdata.grid[i] !== 0) {
+        //text edit
+        textHolder.children[i].text = typesArr[cityIOdata.grid[i]].type;
+        // slider visuals
+        switch (i) {
+          case 191:
+          case 207:
+          case 223:
+          case 239:
+          case 255:
+            thisCell.material.color.set(typesArr[cityIOdata.grid[0]].color);
+            //set storgae with slider location
+            Storage.slider = { position: i, type: cityIOdata.grid[i] };
+            textHolder.children[i].text = "slider" + cityIOdata.grid[i];
+            break;
+        }
 
-      //add this cell location to arr for agents spwaning later
-      if (cityIOdata.grid[i] == 3 || cityIOdata.grid[i] == 4) {
+        //add this cell location to arr for agents spwaning later
         agentSpawnArr.push({
           type: cityIOdata.grid[i],
           x: thisCell.position.x,
           z: thisCell.position.z
         });
       }
-    }
 
-    thisCell.material.color.set(colors[cityIOdata.grid[i]]);
-    thisCell.scale.y = cityIOdata.grid[i] + 0.1;
-    thisCell.position.y = [cityIOdata.grid[i] + 0.1] / 2;
+      thisCell.material.color.set(typesArr[cityIOdata.grid[i]].color);
+      thisCell.scale.y = cityIOdata.grid[i] + 0.1;
+      thisCell.position.y = [cityIOdata.grid[i] + 0.1] / 2;
 
-    if (cityIOdata.grid[i] === 0) {
-      thisCell.material.opacity = 0;
-    } else {
-      thisCell.material.opacity = 0.9;
+      if (cityIOdata.grid[i] === 0) {
+        thisCell.material.opacity = 0;
+      } else {
+        thisCell.material.opacity = 0.9;
+      }
     }
   }
 
