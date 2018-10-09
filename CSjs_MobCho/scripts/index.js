@@ -41,7 +41,7 @@ window.onload = init();
 
 async function init() {
   //make the base map
-  // makeMap();
+  makeMap();
   //GET CITYIO
   var tableName = window.location.search.substring(1);
   if (tableName == "") {

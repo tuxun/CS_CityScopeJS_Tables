@@ -69,6 +69,16 @@ export function threeInit() {
   //issue with drop down-menu not responding
   controls = new OrbitControls(camera, renderer.domElement);
   controls.target.set(gridX / 2, 0, gridY / 2);
+
+  ///////
+
+  var size = 10;
+  var divisions = 10;
+  var gridHelper = new THREE.GridHelper(size, divisions);
+  scene.add(gridHelper);
+  var axesHelper = new THREE.AxesHelper(5);
+  scene.add(axesHelper);
+
   /////////////// LIGHTS ///////////////////////
   var hemiLight = new THREE.HemisphereLight(
     "rgb(255,255,255)",
@@ -195,18 +205,30 @@ export function threeGridProp() {
   for (let i = 0; i < grid.children.length; i++) {
     //cell edit
     let thisCell = grid.children[i];
-
+    //clear the text obj
     textHolder.children[i].text = " ";
 
     if (cityIOdata.grid[i] !== 0 && cityIOdata.grid[i] !== -1) {
       //text edit
       textHolder.children[i].text = cityIOdata.grid[i];
+      // slider visuals
+      switch (i) {
+        case 191:
+        case 207:
+        case 223:
+        case 239:
+        case 255:
+          //set storgae with slider location
+          Storage.slider = { position: i, type: cityIOdata.grid[i] };
+          thisCell.material.color.set("rgb(255, 255, 0)");
+          thisCell.scale.set(1, 1, 1);
+          textHolder.children[i].text = "slider" + cityIOdata.grid[i];
+          thisCell.material.opacity = 0.5;
+          break;
+      }
 
-      if (cityIOdata.grid[i] == 1 || cityIOdata.grid[i] == 2) {
-        //add this cell location to arr for
-        // agents spwaning later
-        //1 to fix type [-1]
-
+      //add this cell location to arr for agents spwaning later
+      if (cityIOdata.grid[i] == 3 || cityIOdata.grid[i] == 4) {
         agentSpawnArr.push({
           type: cityIOdata.grid[i],
           x: thisCell.position.x,
@@ -223,29 +245,6 @@ export function threeGridProp() {
       thisCell.material.opacity = 0;
     } else {
       thisCell.material.opacity = 0.9;
-    }
-
-    // slider visuals
-    switch (i) {
-      case 191:
-      case 207:
-      case 223:
-      case 239:
-      case 255:
-        if (cityIOdata.grid[i] != -1 && cityIOdata.grid[i] != 4) {
-          //set storgae with slider location
-          Storage.slider = { position: i, type: cityIOdata.grid[i] };
-
-          thisCell.material.color.set("rgb(255, 255, 0)");
-          thisCell.scale.set(1, 1, 1);
-          textHolder.children[i].text = "slider" + cityIOdata.grid[i];
-          thisCell.material.opacity = 0.5;
-        } else {
-          thisCell.material.opacity = 0.1;
-          thisCell.scale.set(0.1, 0.1, 0.1);
-          textHolder.children[i].text = " ";
-        }
-        break;
     }
   }
 

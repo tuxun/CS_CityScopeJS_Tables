@@ -3,7 +3,15 @@ import * as texPath from "../ThreeJS/flare.png";
 
 export function callAgents(scene, sizeX, sizeY) {
   //add pedestrians per grid object
-  let agents = makeAgents(sizeX, sizeY, [0.2, 0.5, 0.1, 0.2], 1000, 20, 5, 50);
+  let agents = makeAgents(
+    sizeX,
+    sizeY,
+    [0.2, 0.5, 0.1, 0.2],
+    10000,
+    15,
+    1,
+    100
+  );
   scene.add(agents);
 }
 function makeAgents(
@@ -15,7 +23,7 @@ function makeAgents(
   buffer,
   speed
 ) {
-  var colors = [[255, 0, 150], [50, 150, 255], [0, 50, 170], [50, 200, 0]];
+  var colors = [[255, 0, 150], [50, 150, 255], [0, 50, 190], [50, 200, 0]];
 
   var agents;
   var geometry = new THREE.BufferGeometry();
@@ -40,7 +48,7 @@ function makeAgents(
     distanceArr.push(0);
     colArr.push(colR, colG, colB);
     // positions
-    var x = Math.random() * sizeX;
+    var x = 0;
     var z = Math.random() * sizeY;
 
     posArr.push(x, 0.5, z);
@@ -59,9 +67,9 @@ function makeAgents(
   var material = new THREE.PointsMaterial({
     size: particleSize,
     transparent: true,
-    opacity: 0.5,
+    opacity: 0.7,
     blending: THREE.AdditiveBlending,
-    sizeAttenuation: false,
+    sizeAttenuation: true,
     map: texture,
     depthTest: true,
     vertexColors: THREE.VertexColors
@@ -77,7 +85,7 @@ function makeAgents(
   //call anim looper
   animate();
 
-  console.log(agents);
+  console.log(Storage.agentSpawnArr);
 
   // return agents for adding to scene
   return agents;
@@ -90,54 +98,41 @@ function makeAgents(
   }
 
   ////////////////////////////////////////
+  // find random pos to spawn out of active cells array
 
   function updateAgentsPositions() {
-    let slider = Storage.slider;
-    let angle = 0;
-
-    let p1 = Storage.agentSpawnArr[1];
-
+    // let slider = Storage.slider;
+    let counter = 0;
+    let destPnt;
     //run through location array [x,y,z,x,y,z..]
     //of all agents in this cell
     for (let i = 0; i < posArr.length; i = i + 3) {
-      // find random pos to spawn out of active cells array
-      let rndPosObj =
-        Storage.agentSpawnArr[
-          Math.floor(Math.random() * Storage.agentSpawnArr.length)
-        ];
+      destPnt = Storage.agentSpawnArr[counter];
 
       //set bounderies
       if (
-        posArr[i] >= sizeX + buffer ||
-        posArr[i] <= -buffer ||
-        posArr[i + 2] >= sizeY + buffer ||
-        posArr[i + 2] <= -buffer
+        posArr[i] <= destPnt.x + buffer &&
+        posArr[i] >= destPnt.x - buffer &&
+        posArr[i + 2] <= destPnt.z + buffer &&
+        posArr[i + 2] >= destPnt.z - buffer
       ) {
         //renew position after spwan
-        // posArr[i] = rndPosObj.x;
-        // posArr[i + 2] = rndPosObj.z;
-
-        posArr[i] = Math.random() * sizeX;
+        posArr[i] = 0;
         posArr[i + 2] = Math.random() * sizeY;
       } else {
         //speed and dir of move
-        // posArr[i] += Math.cos(angle) / speed / (typesBufferArr[i / 3] + 1);
-        // posArr[i + 2] += Math.sin(angle) / speed / (typesBufferArr[i / 3] + 1);
-
-        // var angleDeg =
-        //   (Math.atan2(posArr[i + 2] - p1.z, posArr[i].x - p1.x) * 180) /
-        //   Math.PI;
-        // console.log((Math.atan2(p1.z - posArr[i + 2], p1.x) * 180) / Math.PI);
-        let a =
-          (Math.atan2(p1.z - posArr[i + 2], p1.x - -posArr[i]) * 180) / Math.PI;
-        posArr[i] += Math.sin(a) / 10;
-        posArr[i + 2] += Math.cos(a) / 10;
+        let angleDeg =
+          (Math.atan2(destPnt.x - posArr[i], destPnt.z - posArr[i + 2]) * 180) /
+          Math.PI;
+        posArr[i] += (Math.sin(angleDeg) / speed) * (1 + typesBufferArr[i / 3]);
+        posArr[i + 2] +=
+          (Math.cos(angleDeg) / speed) * (1 + typesBufferArr[i / 3]);
       }
-
-      if (angle < 20) {
-        angle++;
+      //count through the Storage.agentSpawnArr for random locations
+      if (counter < Storage.agentSpawnArr.length - 1) {
+        counter++;
       } else {
-        angle = 0;
+        counter = 0;
       }
     }
   }
